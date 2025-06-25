@@ -1,6 +1,6 @@
 'use client';
 
-import BackIcon from '@/shared/components/icons/BackIcon.tsx';
+import BackIcon from '@/shared/components/icons/BackIcon';
 import XIcon from '@/shared/components/icons/XIcon';
 import Flex from '@/shared/components/layout/Flex';
 import useBack from '@/shared/hooks/useBack';

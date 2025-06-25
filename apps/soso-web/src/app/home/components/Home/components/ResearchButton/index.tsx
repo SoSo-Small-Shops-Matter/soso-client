@@ -9,7 +9,7 @@ export default function ResearchButton({ className, ...props }: ResearchButtonPr
   return (
     <button
       className={clsx(
-        'fixed left-1/2 top-85 z-sticky flex h-34 -translate-x-1/2 items-center gap-4 rounded-full bg-white px-10',
+        'z-important mx-auto mt-8 flex h-34 items-center gap-4 rounded-full bg-white px-10 shadow-button',
         className
       )}
       {...props}

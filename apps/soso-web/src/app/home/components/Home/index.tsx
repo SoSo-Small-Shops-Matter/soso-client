@@ -16,21 +16,37 @@ import { useDialog } from '@/shared/context/DialogContext';
 import { CURRENT_LOCATION_MARKER_ID } from '@/shared/constant/location';
 import Flex from '@/shared/components/layout/Flex';
 import { useSearchStore } from '@/shared/store/useSearchStore';
+import { Swiper as SwiperRef } from 'swiper/types';
+import CategoryButton from './components/CategoryButton';
+import WishViewButton from './components/WishViewButton';
+import SelectCategoryModal, { DEFAULT_CATEGORY_ID_LIST } from './components/SelectCategoryModal';
 
 const NaverMap = dynamic(() => import('../../../../shared/components/layout/NaverMap'), { ssr: false });
 
+const getIsSameArray = (a: number[], b: number[]): boolean => {
+  if (a.length !== b.length) return false;
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  return sortedA.every((value, index) => value === sortedB[index]);
+};
+
 export default function HomePage() {
-  const { lat, lng, prevLat, prevLng, prevShopId, setPrevLocation, setLocation } = useLocationStore();
+  const { lat, lng, setPrevLocation, setLocation } = useLocationStore();
   const { map, addMarker, setCenter, clearMarkers } = useMapStore();
   const [isRender, setIsRender] = useState(false);
   const { setSearchValue } = useSearchStore();
   const [isMove, setIsMove] = useState(false);
   const { openDialog } = useDialog();
+  const [categoryIdList, setCategoryIdList] = useState<number[]>(DEFAULT_CATEGORY_ID_LIST);
+  const [isWishListView, setIsWishListView] = useState<boolean>(false);
+  const [isOpenCategoryModal, setIsOpenCategoryModal] = useState<boolean>(false);
 
-  const { data: shopData } = useGetShopQuery(lat, lng);
-  const swiperRef = useRef<any>(null);
+  const { data: shopData } = useGetShopQuery(lat, lng, undefined, isWishListView, categoryIdList);
+  const swiperRef = useRef<SwiperRef>(null);
 
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
+
+  const isCategoryView = categoryIdList.length > 0 && !getIsSameArray(categoryIdList, DEFAULT_CATEGORY_ID_LIST);
 
   const handleSlideChange = (swiper: any) => {
     const activeIndex = swiper.realIndex;
@@ -50,9 +66,13 @@ export default function HomePage() {
     setIsMove(false);
   };
 
+  const hanldleClickWishList = () => {
+    setIsWishListView((prev) => !prev);
+  };
+
   const goToSlide = (shopId: number) => {
     const slideIndex = shopData?.findIndex((shop) => shop.id === shopId);
-    if (slideIndex !== -1 && swiperRef.current) {
+    if (slideIndex !== undefined && slideIndex !== -1 && swiperRef.current) {
       // swiperRef.current.slideTo(slideIndex, 300);
       swiperRef.current.slideToLoop
         ? swiperRef.current.slideToLoop(slideIndex, 300)
@@ -168,24 +188,30 @@ export default function HomePage() {
 
   return (
     <div className="relative">
-      <Link href="/search" onClick={() => setSearchValue('')} className="fixed top-0 z-sticky w-full max-w-screen p-16">
-        <div className="relative h-46 w-full">
-          <div className="absolute left-10 top-[52%] -translate-y-1/2">
-            <SearchIcon fill="#9EA4AA" />
-          </div>
-          <div
-            style={{
-              width: '100%',
-              height: '52px',
-            }}
-          >
+      <div className="fixed top-0 z-sticky flex w-full max-w-screen flex-col p-16">
+        <Link href="/search" onClick={() => setSearchValue('')}>
+          <div className="relative w-full">
+            <div className="absolute left-10 top-[52%] -translate-y-1/2">
+              <SearchIcon fill="#9EA4AA" />
+            </div>
             <div className="h-full w-full rounded-12 bg-white px-16 py-14 pl-46 text-gray-400 shadow-search-bar font-body1_m focus:outline-main">
               찾고있는 소품샵이 있나요?
             </div>
           </div>
+        </Link>
+
+        <div className="z-important mt-8 flex items-center gap-8">
+          <WishViewButton isActive={isWishListView} onClick={hanldleClickWishList} />
+          <CategoryButton
+            isActive={isCategoryView}
+            onClick={() => {
+              setIsOpenCategoryModal(true);
+            }}
+          />
         </div>
-      </Link>
-      {isMove && <ResearchButton onClick={handleClickResearch} className="fixed left-0 top-0 z-important" />}
+
+        {isMove && <ResearchButton onClick={handleClickResearch} />}
+      </div>
 
       <NaverMap
         markerEvent={(_marker, data) => {
@@ -235,6 +261,14 @@ export default function HomePage() {
           )}
         </div>
       </div>
+      <SelectCategoryModal
+        isOpen={isOpenCategoryModal}
+        onClose={() => {
+          setIsOpenCategoryModal(false);
+        }}
+        categoryIdList={categoryIdList}
+        onSubmit={setCategoryIdList}
+      />
     </div>
   );
 }
