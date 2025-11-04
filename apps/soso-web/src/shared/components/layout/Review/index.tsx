@@ -92,15 +92,21 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
 
   const handleReviewDelete = () => {
     if (!detailData?.userReviews[0].id) return
-    deleteReviewMutate(String(detailData?.userReviews[0].id), {
-      onSuccess: () => {
-        closeDialog()
-        detailRefetch()
-        openToast({
-          message: '리뷰가 삭제 되었습니다.',
-        })
+    deleteReviewMutate(
+      {
+        shopId: detailData.shop.id,
+        reviewId: detailData?.userReviews[0].id,
       },
-    })
+      {
+        onSuccess: () => {
+          closeDialog()
+          detailRefetch()
+          openToast({
+            message: '리뷰가 삭제 되었습니다.',
+          })
+        },
+      }
+    )
   }
 
   const handleOpenDeleteModal = () => {

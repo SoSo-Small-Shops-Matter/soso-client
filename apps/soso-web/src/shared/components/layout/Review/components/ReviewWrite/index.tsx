@@ -68,12 +68,15 @@ export default function ReviewWrite({ isOpen, onClose, isEdit }: ReviewWriteProp
   }, [content])
 
   const handleSubmitReview = () => {
+    if (!detailData) return
+
     if (isEdit) {
       const data: PatchReviewRequestType = {
-        reviewId: Number(detailData?.userReviews[0].id),
+        shopId: detailData.shop.id,
+        reviewId: Number(detailData.userReviews[0].id),
         content,
-        files: files,
         deleteImages: deleteFiles,
+        newImageKeys: [], //TODO: presigned image
       }
       patchReviewMutate(data, {
         onSuccess: () => {
@@ -88,7 +91,7 @@ export default function ReviewWrite({ isOpen, onClose, isEdit }: ReviewWriteProp
       const data: ReviewRequestType = {
         shopId: Number(id),
         content,
-        files: files,
+        reviewImgKeys: [], //TODO: presigned image
       }
       postReviewMutate(data, {
         onSuccess: () => {

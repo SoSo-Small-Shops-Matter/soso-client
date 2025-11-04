@@ -1,14 +1,13 @@
-import { ReviewRequestType } from '@/shared/components/layout/Review/components/ReviewWrite/types';
-import { convertToFormData } from '@/shared/utils/convertToFormData';
-import { customFetch } from '@/shared/utils/customFetch';
+import { ReviewRequestType } from '@/shared/components/layout/Review/components/ReviewWrite/types'
+import { customFetch } from '@/shared/utils/customFetch'
 
 export const postReview = async (data: ReviewRequestType) => {
-  const formData = convertToFormData(data);
+  const body = { content: data.content, reviewImgKeys: data.reviewImgKeys }
 
-  const result = await customFetch(`/review`, {
+  const result = await customFetch(`/shops/${data.shopId}/reviews`, {
     method: 'POST',
-    body: formData,
-  });
+    body,
+  })
 
-  return result;
-};
+  return result
+}
