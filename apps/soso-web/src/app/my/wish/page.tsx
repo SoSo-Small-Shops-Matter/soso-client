@@ -11,9 +11,14 @@ import { useClickOutside } from '@/shared/hooks/useClickOutside'
 import { useInView } from 'react-intersection-observer'
 import { useRef, useState, useEffect } from 'react'
 import { useGetWishRegionQuery } from '@/app/my/wish/hooks/useGetWishRegionQuery'
+import { RegionType } from './types'
 
+const DEFAULT_REGION = {
+  id: -1,
+  name: '전체 지역',
+}
 export default function MyWishPage() {
-  const [area, setArea] = useState('전체 지역')
+  const [selectedRegion, setSelectedRegion] = useState<RegionType>(DEFAULT_REGION)
   const [isFilter, setIsFilter] = useState(false)
 
   const {
@@ -23,7 +28,8 @@ export default function MyWishPage() {
     isFetchingNextPage,
     isLoading,
     refetch: wishDataRefetch,
-  } = useGetMyWishQuery(15, area === '전체 지역' ? '' : area)
+  } = useGetMyWishQuery(15, selectedRegion.id === DEFAULT_REGION.id ? undefined : selectedRegion.id)
+
   const { data: regionData } = useGetWishRegionQuery()
 
   const filterRef = useRef<HTMLDivElement>(null)
@@ -32,8 +38,8 @@ export default function MyWishPage() {
     threshold: 0.2,
   })
 
-  const handleChangeArea = (area: string) => {
-    setArea(area)
+  const handleChangeRegion = (region: RegionType) => {
+    setSelectedRegion(region)
     handleToggleFilter()
   }
 
@@ -51,7 +57,7 @@ export default function MyWishPage() {
 
   useEffect(() => {
     wishDataRefetch()
-  }, [area])
+  }, [selectedRegion])
 
   const allWishItems = myWishData?.pages.flatMap((page) => page.data) || []
 
@@ -61,7 +67,7 @@ export default function MyWishPage() {
       <Flex direction="col" align="end" gap={20} className="w-full px-16 pb-28 pt-12">
         <div className="relative">
           <button className="flex items-center gap-4" onClick={handleToggleFilter}>
-            <span className="text-gray-500 font-body2_m">{area}</span>
+            <span className="text-gray-500 font-body2_m">{selectedRegion.name}</span>
             <BottomArrowIcon />
           </button>
           {isFilter && (
@@ -70,9 +76,18 @@ export default function MyWishPage() {
                 direction="col"
                 className="absolute right-0 top-30 z-dropdown w-[126px] rounded-12 bg-white shadow-filter-select"
               >
-                <FilterSelectButton label="전체 지역" active={area === '전체 지역'} onClick={handleChangeArea} />
+                <FilterSelectButton
+                  region={DEFAULT_REGION}
+                  active={selectedRegion.id === DEFAULT_REGION.id}
+                  onClick={handleChangeRegion}
+                />
                 {regionData?.map((region) => (
-                  <FilterSelectButton key={region} label={region} active={area === region} onClick={handleChangeArea} />
+                  <FilterSelectButton
+                    key={`wish_region_filter_item_${region.id}`}
+                    region={region}
+                    active={selectedRegion === region}
+                    onClick={handleChangeRegion}
+                  />
                 ))}
               </Flex>
             </div>

@@ -10,7 +10,7 @@ export const getShop = async (
   productIds: number[] = []
 ): Promise<ShopType[]> => {
   const queryParams = { lat, lng, sorting, isWishlist, productIds }
-  const result = await customFetch(`/shop`, { queryParams })
+  const result = await customFetch('/shops', { queryParams })
 
   return result.result
 }

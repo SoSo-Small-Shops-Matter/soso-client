@@ -15,7 +15,7 @@ export const getShopSearchList = async (
     lat,
     lng,
   }
-  const result = await customFetch(`/shop/search`, {
+  const result = await customFetch('/shops/search', {
     queryParams,
   })
   return result.result
