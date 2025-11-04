@@ -1,8 +1,11 @@
 export interface UserType {
-  nickName: string
-  photoUrl: string | null
-  uuid: string
+  // nickName: string
+  // photoUrl: string | null
+  // uuid: string
+  // email: string
+  // isNew: boolean
+  // provider: 'google' | 'apple'
   email: string
-  isNew: boolean
-  provider: 'google' | 'apple'
+  profileImg: string | null
+  nickName: string
 }

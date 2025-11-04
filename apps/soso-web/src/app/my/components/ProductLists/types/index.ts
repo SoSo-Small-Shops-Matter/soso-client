@@ -2,30 +2,27 @@ import { PaginationType } from '@/shared/types/paginationType'
 import { ShopType } from '@/shared/types/shopType'
 
 export interface MyWishType {
+  id: number
+  createdAt: string
   shop: {
     id: number
     name: string
-    image: null | string
-    type: number
-    reportStatus: number
-    lat: number
-    lng: number
-    location: string
-    region: {
-      id: number
-      name: string
-    }
+    mainImage: null | string
+    // type: number
+    // reportStatus: number
+    // lat: number
+    // lng: number
+    // location: string
+    // region: {
+    //   id: number
+    //   name: string
+    // }
   }
 }
 
 export interface GetMyWishResponse {
   data: MyWishType[]
   pageInfo: PaginationType
-}
-
-export type GetMyWishResponseType = {
-  pageParams: number[]
-  pages: GetMyWishResponse
 }
 
 export interface MyReviewType {
@@ -58,13 +55,11 @@ export interface MyShopType {
   createdAt: string
   shop: {
     id: number
-    image: string | null
-    instagram: string | null
-    lat: number
-    lng: number
-    location: string
     name: string
-    type: number
+    mainImage: string | null
+    instagram: string | null
+    isVerified: boolean
+    location: string
   }
 }
 

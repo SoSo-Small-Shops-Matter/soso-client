@@ -11,7 +11,7 @@ export const getMyReview = async (
     limit,
     sort,
   }
-  const result = await customFetch(`/user/review`, {
+  const result = await customFetch('/users/me/reviews', {
     queryParams,
   })
 

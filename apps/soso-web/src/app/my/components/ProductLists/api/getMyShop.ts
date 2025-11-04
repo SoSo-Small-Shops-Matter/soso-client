@@ -7,7 +7,7 @@ export const getMyShop = async (page: number, limit: number): Promise<GetMyShopR
     limit,
   }
 
-  const result = await customFetch('/user/submit', {
+  const result = await customFetch('/users/me/shop-submissions', {
     queryParams,
   })
 
