@@ -223,6 +223,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
       {isPending && <Loading />}
 
       <ReviewReportModal
+        shopId={detailData?.shop.id}
         reviewId={data?.id}
         isReportModal={isReportModal}
         handleToggleReportModal={handleToggleReportModal}

@@ -10,26 +10,29 @@ import BottomModal from '@/shared/components/modal/BottomModal'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { ShopReportTypeValue } from './types'
 
 interface ReportModalProps {
   isReportModal: boolean
   handleToggleReportModal: () => void
 }
 export default function ReportModal({ isReportModal, handleToggleReportModal }: ReportModalProps) {
-  const [selectedId, setSelectedId] = useState<string>('')
+  const [selectedReportType, setSelectedReportType] = useState<ShopReportTypeValue | undefined>()
   const { id } = useParams()
   const { openDialog } = useDialog()
 
   const { mutate: patchReportMutate } = usePatchReportMutation()
 
-  const handleChange = (reportId: string) => {
-    setSelectedId(reportId)
+  const handleChange = (type: ShopReportTypeValue) => {
+    setSelectedReportType(type)
   }
 
   const handleSubmitReport = () => {
+    const shopId = Number(id)
+    if (!selectedReportType || isNaN(shopId)) return
     const data = {
-      shopId: Number(id),
-      status: Number(selectedId),
+      shopId: shopId,
+      type: selectedReportType,
     }
 
     patchReportMutate(data, {
@@ -46,7 +49,7 @@ export default function ReportModal({ isReportModal, handleToggleReportModal }: 
             </span>
           ),
         })
-        setSelectedId('')
+        setSelectedReportType(undefined)
       },
     })
   }
@@ -62,16 +65,16 @@ export default function ReportModal({ isReportModal, handleToggleReportModal }: 
         <Flex direction="col" gap={0} className="w-full">
           {REPORT_LIST.map((list) => (
             <ReportRadio
-              key={list.id}
+              key={`shop_report_reason_${list.type}`}
               text={list.text}
-              id={list.id}
+              id={list.type}
               name={list.name}
-              isChecked={selectedId === list.id}
-              onChange={() => handleChange(list.id)}
+              isChecked={selectedReportType === list.type}
+              onChange={() => handleChange(list.type)}
             />
           ))}
         </Flex>
-        <Button disabled={!selectedId} title="신고하기" onClick={handleSubmitReport} className="mt-16" />
+        <Button disabled={!selectedReportType} title="신고하기" onClick={handleSubmitReport} className="mt-16" />
       </Flex>
     </BottomModal>
   )

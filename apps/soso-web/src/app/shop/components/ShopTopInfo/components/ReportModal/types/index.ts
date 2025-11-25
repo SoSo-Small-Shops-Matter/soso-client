@@ -1,4 +1,6 @@
 export interface PatchReportRequestType {
-  shopId: number;
-  status: number;
+  shopId: number
+  type: ShopReportTypeValue
 }
+
+export type ShopReportTypeValue = 'close' | 'wrong_location'

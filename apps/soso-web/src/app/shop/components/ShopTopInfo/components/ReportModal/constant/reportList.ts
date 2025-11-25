@@ -1,12 +1,19 @@
-export const REPORT_LIST = [
+import { ShopReportTypeValue } from '../types'
+
+export const REPORT_LIST: ReportListItem[] = [
   {
-    id: '1',
+    type: 'close',
     text: '더 이상 운영하지 않는 가게에요.',
     name: 'report',
   },
   {
-    id: '2',
+    type: 'wrong_location',
     text: '위치가 잘못됐어요.',
     name: 'report',
   },
-];
+]
+type ReportListItem = {
+  type: ShopReportTypeValue
+  text: string
+  name: 'report'
+}

@@ -1,11 +1,6 @@
 export interface UserType {
-  // nickName: string
-  // photoUrl: string | null
-  // uuid: string
-  // email: string
-  // isNew: boolean
-  // provider: 'google' | 'apple'
+  provider: 'google' | 'apple'
   email: string
   profileImg: string | null
-  nickName: string
+  nickName: string | null // null이면 신규회원
 }

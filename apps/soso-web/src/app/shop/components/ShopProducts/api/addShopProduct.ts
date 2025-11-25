@@ -1,11 +1,14 @@
-import { AddProductRequest } from '@/app/shop/components/ShopProducts/types';
-import { customFetch } from '@/shared/utils/customFetch';
+import { AddProductRequest } from '@/app/shop/components/ShopProducts/types'
+import { customFetch } from '@/shared/utils/customFetch'
 
 export const addShopProduct = async (data: AddProductRequest) => {
-  const result = await customFetch(`/submit/products`, {
+  const body = {
+    products: data.products,
+  }
+  const result = await customFetch(`/shops/${data.shopId}/products`, {
     method: 'POST',
-    body: data,
-  });
+    body,
+  })
 
-  return result;
-};
+  return result
+}

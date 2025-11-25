@@ -6,7 +6,8 @@ export interface SearchListType {
   pageInfo: PaginationType
 }
 
-export interface SearchedShopType extends Pick<ShopType, 'id' | 'name' | 'mainImage' | 'location' | 'distance'> {}
+export interface SearchedShopType
+  extends Pick<ShopType, 'id' | 'name' | 'lng' | 'lat' | 'mainImage' | 'location' | 'distance'> {}
 
 export interface GetSearchListResponse {
   pageParams: number[]
@@ -24,5 +25,5 @@ export interface UserFindShopType {
 export type GetUserFindShopResponse = UserFindShopType[]
 
 export interface DeleteUserFindShopRequest {
-  shopName: string
+  shopId: number
 }

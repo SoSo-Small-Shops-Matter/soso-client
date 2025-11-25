@@ -1,6 +1,6 @@
-import { OperatingHourType } from '@/shared/types/shopType';
+import { OperatingHourType } from '@/shared/types/shopType'
 
 export interface ShopOperatingRequestType {
-  shopId: number;
-  operatingHours: OperatingHourType;
+  shopId: number
+  operatingHours: OperatingHourType
 }

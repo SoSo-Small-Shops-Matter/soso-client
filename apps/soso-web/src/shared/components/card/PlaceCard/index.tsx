@@ -15,7 +15,7 @@ interface PlaceCardProps {
   width?: string
   height?: string
   type?: 'default' | 'map'
-  data: ShopType
+  data: Pick<ShopType, 'id' | 'name' | 'mainImage' | 'lat' | 'lng' | 'distance'>
 }
 export default function PlaceCard({ width, height, type, data }: PlaceCardProps) {
   const [currentLat, setCurrentLat] = useState<number | null>(0)
@@ -55,7 +55,7 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
         <Flex align="center" gap={12} className="w-full">
           <div className="relative h-64 min-w-64 overflow-hidden rounded-8">
             <Image
-              src={data?.image || '/images/default_item.svg'}
+              src={data?.mainImage || '/images/default_item.svg'}
               style={{ objectFit: 'cover' }}
               fill
               alt=""
@@ -66,9 +66,7 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
             <h4 className="block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-title4_semi">
               {data.name}
             </h4>
-            <p className="text-gray-400 font-body1_m">
-            {formatDistance(data?.distance)}
-            </p>
+            <p className="text-gray-400 font-body1_m">{formatDistance(data?.distance)}</p>
           </Flex>
         </Flex>
         <div className="absolute bottom-16 right-18">
@@ -94,7 +92,7 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
         <Flex align="center" gap={12}>
           <div className="relative h-72 w-72 overflow-hidden rounded-8">
             <Image
-              src={data?.image || '/images/default_item.svg'}
+              src={data?.mainImage || '/images/default_item.svg'}
               style={{ objectFit: 'cover' }}
               fill
               alt=""
@@ -103,9 +101,7 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
           </div>
           <Flex direction="col" gap={8}>
             <h4 className="font-title4_semi">{data.name}</h4>
-            <p className="text-gray-400 font-body1_m">
-            {formatDistance(data?.distance)}
-            </p>
+            <p className="text-gray-400 font-body1_m">{formatDistance(data?.distance)}</p>
           </Flex>
         </Flex>
         <RoadFindButton
