@@ -15,7 +15,6 @@ Naver Maps API를 이용한 주변 소품샵 지도 서비스입니다
 ## 🔗 프로젝트 및 서비스 링크
 
 - [웹](https://soso-client-soso-web.vercel.app)
-- [GitHub](https://github.com/SoSo-Small-Shops-Matter/soso-client)
 - [App store](https://apps.apple.com/kr/app/%EC%86%8C%ED%92%88%EC%83%B5%EC%9D%80-%EC%86%8C%EC%A4%91%ED%95%B4/id6749072385)
 
 ---
