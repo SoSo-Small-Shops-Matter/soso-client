@@ -1,11 +1,33 @@
-# 소소 (소중한 소품샵)
+## 소품샵은 소중해
 
-## 📌 프로젝트 개요
+**감성 인테리어, 선물, 소품샵을 한 번에 찾는 방법\!**  
+ **소소에서 내 주변의 작은 행복을 발견하세요.**
+ 
+ <img alt="soso main image" width="500" src="https://github.com/user-attachments/assets/eefd1949-59ea-4bff-a65e-1d8913f34706" />  
+ 
+### 💡 소개
 
-**소소 (소중한 소품샵)**
+Naver Maps API를 이용한 주변 소품샵 지도 서비스입니다
+
+개발 기간: 2025.01 - 2025.10  
 
 ---
+## 🔗 프로젝트 및 서비스 링크
 
+- [웹](https://soso-client-soso-web.vercel.app)
+- [GitHub](https://github.com/SoSo-Small-Shops-Matter/soso-client)
+- [App store](https://apps.apple.com/kr/app/%EC%86%8C%ED%92%88%EC%83%B5%EC%9D%80-%EC%86%8C%EC%A4%91%ED%95%B4/id6749072385)
+
+---
+## ✨ 주요 기능
+
+- 내 위치 기반 소품샵 탐색
+- 소품샵 판매 상품으로 필터링된 검색
+- 소품샵 상세 정보 탐색 및 등록
+- 마음에 드는 소품샵 저장
+- 간편 소셜 로그인 (google, apple)
+
+---
 ## 🏗️ 기술 스택
 
 - **프레임워크**: Next.js 15
@@ -15,60 +37,31 @@
 - **버전 관리**: Git & Git Flow
 
 ---
-
-## 📜 코드 컨벤션
-
-일관된 코드 스타일을 유지하고 가독성을 높이기 위해 다음 규칙을 따릅니다.
-
-### ✅ 함수
-
-- **단일 책임 원칙(SRP)** 을 준수하여 작성합니다.
-- `const functionName = () => {}` 형태를 사용합니다.
-
-### ✅ Hook
-
-- 연관성이 있는 기능만 하나의 hook에서 묶어 관리합니다.
-
-### ✅ 삼항 연산자
-
-- 가독성을 높이기 위해 조건을 변수화하여 사용합니다.
-
-### ✅ 네이밍 규칙
-
-- **변수명**: `카멜케이스(camelCase)`
-- **상수명**: `대문자 스네이크케이스(UPPER_SNAKE_CASE)`
-- **함수명**: `handle + 이벤트 동작 + 명확한 이름` (예: `handleClickButton`)
-- **파일명**:
-  - **API 파일**: 동사 (예: `fetchData.ts`)
-  - **TanStack Query 관련 파일**: `use + 동사 + Query(Mutation)` (예: `useFetchDataQuery.ts`)
-
----
-
-## 🚀 Git 컨벤션
-
-버전 관리는 **Git Flow** 전략을 따르며, 다음 컨벤션을 준수합니다.
-
-### ✅ 커밋 메시지 형식
-
-Feat: 작업내용
-
-### ✅ Pull Request 규칙
-
-- PR 제목은 **마지막 커밋 메시지**를 사용합니다.
-- PR 설명에는 작업한 내용을 기술합니다.
-
----
-
 ## 🛠️ 설치 및 실행 방법
 
-# 1. 레포지토리 클론
+### 0. 환경 변수 설정
+```
+# 백엔드 API 서버의 기본 URL (백엔드 통신용)
+NEXT_PUBLIC_SERVER_URL=
+# 네이버 지도 API 인증 키
+NEXT_PUBLIC_NAVER_CLIENT_ID=
+# Google 소셜 로그인 클라이언트 ID
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=
+# 카카오 지도 API 인증 키
+NEXT_PUBLIC_KAKAO_KEY=
+# Apple 소셜 로그인 클라이언트 ID
+NEXT_PUBLIC_APPLE_CLIENT_ID=
+# Amplitude 서비스 분석용 API Key
+NEXT_PUBLIC_AMPLITUDE_API_KEY=
+```
+### 1. 레포지토리 클론
 
-# 2. 프로젝트 디렉토리 이동
+### 2. 프로젝트 디렉토리 이동
 
-# 3. 패키지 설치
+### 3. 패키지 설치
 
 yarn install or npm install
 
-# 4. 개발 서버 실행
+### 4. 개발 서버 실행
 
 yarn dev or npm run dev
