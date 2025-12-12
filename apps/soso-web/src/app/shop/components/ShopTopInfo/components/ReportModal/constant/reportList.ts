@@ -2,7 +2,7 @@ import { ShopReportTypeValue } from '../types'
 
 export const REPORT_LIST: ReportListItem[] = [
   {
-    type: 'close',
+    type: 'closed',
     text: '더 이상 운영하지 않는 가게에요.',
     name: 'report',
   },

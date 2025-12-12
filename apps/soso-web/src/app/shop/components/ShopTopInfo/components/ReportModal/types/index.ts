@@ -1,6 +1,6 @@
 export interface PatchReportRequestType {
   shopId: number
-  type: ShopReportTypeValue
+  reportType: ShopReportTypeValue
 }
 
-export type ShopReportTypeValue = 'close' | 'wrong_location'
+export type ShopReportTypeValue = 'closed' | 'wrong_location'

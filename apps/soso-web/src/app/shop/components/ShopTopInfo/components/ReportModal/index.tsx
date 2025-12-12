@@ -32,7 +32,7 @@ export default function ReportModal({ isReportModal, handleToggleReportModal }: 
     if (!selectedReportType || isNaN(shopId)) return
     const data = {
       shopId: shopId,
-      type: selectedReportType,
+      reportType: selectedReportType,
     }
 
     patchReportMutate(data, {
