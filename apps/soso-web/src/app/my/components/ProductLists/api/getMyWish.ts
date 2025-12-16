@@ -1,8 +1,15 @@
-import { GetMyWishResponse } from '@/app/my/components/ProductLists/types';
-import { customFetch } from '@/shared/utils/customFetch';
+import { GetMyWishResponse } from '@/app/my/components/ProductLists/types'
+import { customFetch } from '@/shared/utils/customFetch'
 
-export const getMyWish = async (page: number, limit: number, area?: string): Promise<GetMyWishResponse> => {
-  const result = await customFetch(`/user/wishlist?page=${page}&limit=${limit}&area=${area || ''}`);
+export const getMyWish = async (
+  page: number,
+  limit: number,
+  areaId: number | null = null
+): Promise<GetMyWishResponse> => {
+  const queryParams = { page, limit, areaId }
+  const result = await customFetch('/users/me/favorite', {
+    queryParams,
+  })
 
-  return result.result;
-};
+  return result.result
+}

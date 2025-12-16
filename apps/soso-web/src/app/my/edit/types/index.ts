@@ -1,6 +1,6 @@
 interface RequestType {
-  nickName?: string;
-  file?: File;
+  nickName?: string
+  profileImage?: File
 }
 
-export type PatchUserRequestType = RequestType | undefined;
+export type PatchUserRequestType = RequestType | undefined

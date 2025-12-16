@@ -15,7 +15,7 @@ interface MyReviewProps {
 export default function MyReview({ data }: MyReviewProps) {
   return (
     <Flex direction="col" gap={20} className="w-full px-16">
-      <ShopInfo name={data.shop.name} date={formatStringDate(data.createdAt)} imgUrl={data.shop.image || ''} />
+      <ShopInfo name={data.shop.name} date={formatStringDate(data.createdAt)} imgUrl={data.shop.mainImage || ''} />
       <MessageBox>
         <Flex direction="col" gap={16}>
           <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body2_m">

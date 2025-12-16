@@ -92,15 +92,21 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
 
   const handleReviewDelete = () => {
     if (!detailData?.userReviews[0].id) return
-    deleteReviewMutate(String(detailData?.userReviews[0].id), {
-      onSuccess: () => {
-        closeDialog()
-        detailRefetch()
-        openToast({
-          message: '리뷰가 삭제 되었습니다.',
-        })
+    deleteReviewMutate(
+      {
+        shopId: detailData.shop.id,
+        reviewId: detailData?.userReviews[0].id,
       },
-    })
+      {
+        onSuccess: () => {
+          closeDialog()
+          detailRefetch()
+          openToast({
+            message: '리뷰가 삭제 되었습니다.',
+          })
+        },
+      }
+    )
   }
 
   const handleOpenDeleteModal = () => {
@@ -132,7 +138,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
         <Flex align="center" gap={12} className="flex-1">
           <ProfileImage
             imgUrl={
-              (isMe ? getSafeImageUrl(userData?.photoUrl || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
+              (isMe ? getSafeImageUrl(userData?.profileImg || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
               '/images/default_profile.png'
             }
           />
@@ -217,6 +223,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
       {isPending && <Loading />}
 
       <ReviewReportModal
+        shopId={detailData?.shop.id}
         reviewId={data?.id}
         isReportModal={isReportModal}
         handleToggleReportModal={handleToggleReportModal}

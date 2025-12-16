@@ -1,8 +1,15 @@
-import { GetMyShopResponse } from '@/app/my/components/ProductLists/types';
-import { customFetch } from '@/shared/utils/customFetch';
+import { GetMyShopResponse } from '@/app/my/components/ProductLists/types'
+import { customFetch } from '@/shared/utils/customFetch'
 
 export const getMyShop = async (page: number, limit: number): Promise<GetMyShopResponse> => {
-  const result = await customFetch(`/user/submit?page=${page}&limit=${limit}`);
+  const queryParams = {
+    page,
+    limit,
+  }
 
-  return result.result;
-};
+  const result = await customFetch('/users/me/shop-submissions', {
+    queryParams,
+  })
+
+  return result.result
+}

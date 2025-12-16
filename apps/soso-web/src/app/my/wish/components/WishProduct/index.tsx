@@ -19,7 +19,7 @@ export default function WishProduct({ data }: WishProductProps) {
     <Link href={`/shop/${data.shop.id}`} className={clsx('flex flex-col gap-8', width)}>
       <div className="relative aspect-square w-full overflow-hidden rounded-12">
         <Image
-          src={data.shop.image || '/images/default_item.svg'}
+          src={data.shop.mainImage || '/images/default_item.svg'}
           fill
           style={{ objectFit: 'cover' }}
           alt="프로덕트 이미지"

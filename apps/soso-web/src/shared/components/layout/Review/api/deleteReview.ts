@@ -1,9 +1,9 @@
-import { customFetch } from '@/shared/utils/customFetch';
+import { customFetch } from '@/shared/utils/customFetch'
 
-export const deleteReview = async (id: string) => {
-  const result = await customFetch(`/review/${id}`, {
+export const deleteReview = async (data: { shopId: number; reviewId: number }) => {
+  const result = await customFetch(`/shops/${data.shopId}/reviews/${data.reviewId}`, {
     method: 'DELETE',
-  });
+  })
 
-  return result;
-};
+  return result
+}

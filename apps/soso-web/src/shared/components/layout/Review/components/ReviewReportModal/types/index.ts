@@ -1,5 +1,6 @@
 export interface PostReviewReportRequest {
-  reviewId: number;
-  status: number;
-  message: string;
+  shopId: number
+  reviewId: number
+  status: number
+  message: string
 }

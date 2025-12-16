@@ -9,18 +9,18 @@ import Header from '@/shared/components/layout/Header'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
 import { ChangeEvent, useState } from 'react'
+import { WithdrawalReasonCodeType } from './types'
 
 export default function UnsubscribePage() {
   const { data: userData } = useGetUserProfileQuery()
   const { mutate: deleteUserMutate } = useDeleteUserMutation()
   const { openDialog } = useDialog()
-  const [value, setValue] = useState('')
+  const [reasonCode, setReasonCode] = useState<WithdrawalReasonCodeType>()
 
   const handleDeleteUser = () => {
-    if (!userData) return
+    if (!userData || !reasonCode) return
     const data = {
-      uuid: userData?.uuid,
-      deleteType: Number(value),
+      withdrawalReasonCode: reasonCode,
     }
     deleteUserMutate(data)
   }
@@ -40,7 +40,7 @@ export default function UnsubscribePage() {
   }
 
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setReasonCode(e.target.value as WithdrawalReasonCodeType)
   }
 
   return (
@@ -63,16 +63,16 @@ export default function UnsubscribePage() {
               key={list.id}
               id={list.id}
               name="unsubScribe"
-              value={list.value}
+              value={list.id}
               label={list.label}
               onChange={handleChangeValue}
-              checked={value === list.value}
+              checked={reasonCode === list.id}
             />
           ))}
         </Flex>
       </Flex>
       <div className="fixed bottom-0 px-16 py-10 layout-center">
-        <Button disabled={!value} title="탈퇴하기" onClick={handleClickUnsubScribe} />
+        <Button disabled={!reasonCode} title="탈퇴하기" onClick={handleClickUnsubScribe} />
       </div>
     </div>
   )

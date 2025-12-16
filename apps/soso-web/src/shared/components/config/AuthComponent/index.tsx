@@ -35,7 +35,7 @@ export default function AuthComponent() {
   useEffect(() => {
     if (!userData) return
 
-    if (userData.isNew) {
+    if (userData.nickName === null && pathname !== '/login/setting') {
       router.push('/login/agree-view')
     }
   }, [userData])

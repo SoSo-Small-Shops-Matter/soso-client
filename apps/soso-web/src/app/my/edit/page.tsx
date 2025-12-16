@@ -9,14 +9,19 @@ import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
 import Loading from '@/shared/components/loading/Loading'
 import ValidationText from '@/shared/components/text/ValidationText'
+import { useToast } from '@/shared/context/ToastContext'
 import useDebounce from '@/shared/hooks/useDebounce'
 import { useSingleFileUpload } from '@/shared/hooks/useFileUpload'
 import { useGetDuplicateNicknameQuery } from '@/shared/hooks/useGetDuplicateNicknameQuery'
 import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 
 export default function ProfileEditPage() {
+  const { openToast } = useToast()
+  const router = useRouter()
+
   const [isError, setIsError] = useState({
     lengthError: true,
     patternError: true,
@@ -54,11 +59,18 @@ export default function ProfileEditPage() {
     if (file) {
       request = {
         ...request,
-        file,
+        profileImage: file,
       }
     }
 
-    patchUserMutate(request)
+    patchUserMutate(request, {
+      onSuccess: () => {
+        router.push('/my')
+        openToast({
+          message: '프로필이 변경되었습니다.',
+        })
+      },
+    })
   }
 
   useEffect(() => {
@@ -78,7 +90,7 @@ export default function ProfileEditPage() {
     <div>
       <Header title="프로필 수정" type="back" />
       <Flex direction="col" align="center" gap={50} className="w-full px-16 py-20">
-        <ProfileUpload prevImage={userData?.photoUrl || ''} preview={preview} setSingleFile={setSingleFile} />
+        <ProfileUpload prevImage={userData?.profileImg || ''} preview={preview} setSingleFile={setSingleFile} />
         <form className="w-full" onSubmit={handleSubmit(handleClick)}>
           <Flex direction="col" gap={8} className="w-full">
             <Input placeholder="닉네임을 입력해 주세요." {...register('nickName')} defaultValue={''} />

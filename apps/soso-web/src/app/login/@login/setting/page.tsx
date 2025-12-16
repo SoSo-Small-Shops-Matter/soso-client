@@ -9,9 +9,14 @@ import Header from '@/shared/components/layout/Header'
 import ValidationText from '@/shared/components/text/ValidationText'
 import { useGetDuplicateNicknameQuery } from '@/shared/hooks/useGetDuplicateNicknameQuery'
 import useDebounce from '@/shared/hooks/useDebounce'
-import { usePostSaveNicknameMutation } from '@/app/login/@login/setting/hooks/usePostSaveNicknameMutation'
+import { usePatchUserProfileMutation } from '@/app/my/edit/hooks/usePatchUserProfileMutation'
+import { useRouter } from 'next/navigation'
+import { useDialog } from '@/shared/context/DialogContext'
 
 export default function InfoSetting() {
+  const router = useRouter()
+  const { openDialog } = useDialog()
+
   const [isError, setIsError] = useState({
     lengthError: true,
     patternError: true,
@@ -25,7 +30,7 @@ export default function InfoSetting() {
   const debounceNickname = useDebounce(nickname, 200)
 
   const { data: isDuplicateNickname, isLoading } = useGetDuplicateNicknameQuery(debounceNickname)
-  const { mutate: saveNicknameMutate } = usePostSaveNicknameMutation()
+  const { mutate: patchUserMutate } = usePatchUserProfileMutation()
 
   useEffect(() => {
     const lengthError = nickname?.length < 2 || nickname?.length > 10
@@ -41,7 +46,28 @@ export default function InfoSetting() {
   const isDisabled = isError.lengthError || isError.patternError || !nickname || isDuplicateNickname || isLoading
 
   const handleClick: SubmitHandler<FieldValues> = (data) => {
-    saveNicknameMutate(data)
+    patchUserMutate(data, {
+      onSuccess: () => {
+        router.push('/')
+        openDialog({
+          type: 'alert',
+          title: '환영합니다',
+          message: (
+            <span>
+              소중한 소품샵에
+              <br /> 회원이 되신 것을 축하드립니다.
+            </span>
+          ),
+        })
+      },
+      onError: () => {
+        openDialog({
+          type: 'alert',
+          title: '가입 에러',
+          message: '잠시 후 다시 요청해주세요.',
+        })
+      },
+    })
   }
 
   return (

@@ -12,12 +12,14 @@ import { CustomError } from '@/shared/utils/customFetch'
 import { useState } from 'react'
 
 interface ReviewReportModalProps {
+  shopId?: number
   reviewId?: number
   isReportModal: boolean
   handleToggleReportModal: () => void
 }
 
 export default function ReviewReportModal({
+  shopId,
   reviewId,
   isReportModal,
   handleToggleReportModal,
@@ -36,6 +38,7 @@ export default function ReviewReportModal({
 
   const handleSubmitReviewReport = () => {
     const data = {
+      shopId: Number(shopId),
       reviewId: Number(reviewId),
       status: Number(selectedId),
       message: etcValue,

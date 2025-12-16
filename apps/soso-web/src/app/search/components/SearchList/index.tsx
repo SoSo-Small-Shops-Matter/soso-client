@@ -20,6 +20,7 @@ import Loading from '@/shared/components/loading/Loading'
 import { useGetUserFindShopQuery } from '@/app/search/components/SearchList/hooks/useGetUserFindShopQuery'
 import { useDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useDeleteUserFindShopMutation'
 import { useAllDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useAllDeleteUserFindShopMutation'
+import { SearchedShopType } from './types'
 
 interface Location {
   lat: number
@@ -52,10 +53,10 @@ export default function SearchList() {
 
   const { token } = useAuthStore()
 
-  const handleDeleteFindShop = (e: MouseEvent<HTMLButtonElement>, shopName: string) => {
+  const handleDeleteFindShop = (e: MouseEvent<HTMLButtonElement>, shopId: number) => {
     e.stopPropagation()
     e.preventDefault()
-    deleteFindShopMutate({ shopName })
+    deleteFindShopMutate({ shopId })
   }
   const handleAllDeleteFindShop = () => {
     allDeleteFindShopMutate()
@@ -156,7 +157,7 @@ export default function SearchList() {
                             id={shop.shopId}
                             label={shop.shopName}
                             onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                              handleDeleteFindShop(e, shop.shopName)
+                              handleDeleteFindShop(e, shop.shopId)
                             }}
                           />
                         </SwiperSlide>
@@ -187,7 +188,7 @@ export default function SearchList() {
             <Flex direction="col" className="w-full">
               {shopSearchData?.pages.map((page, index) => (
                 <div className="w-full" key={`page-${index}`}>
-                  {page.data.map((shop: ShopType) => (
+                  {page.data.map((shop: SearchedShopType) => (
                     <div key={shop.id} className="w-full border-b border-gray-100">
                       <PlaceCard data={shop} />
                     </div>

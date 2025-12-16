@@ -1,15 +1,16 @@
 import CheckIcon from '@/shared/components/icons/CheckIcon'
+import { RegionType } from '../../types'
 
 interface FilterSelectButtonProps {
-  label: string
+  region: RegionType
   active?: boolean
-  onClick: (area: string) => void
+  onClick: (region: RegionType) => void
 }
 
-export default function FilterSelectButton({ label, active, onClick }: FilterSelectButtonProps) {
+export default function FilterSelectButton({ region, active, onClick }: FilterSelectButtonProps) {
   return (
-    <button className="flex h-44 w-full items-center justify-between px-14 py-10" onClick={() => onClick(label)}>
-      <span className="text-black font-body2_m">{label}</span>
+    <button className="flex h-44 w-full items-center justify-between px-14 py-10" onClick={() => onClick(region)}>
+      <span className="text-black font-body2_m">{region.name}</span>
       {active && <CheckIcon />}
     </button>
   )

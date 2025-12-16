@@ -1,12 +1,13 @@
 export interface ReviewRequestType {
-  shopId: number;
-  content: string;
-  files: File[];
+  shopId: number
+  content: string
+  reviewImages: File[]
 }
 
 export interface PatchReviewRequestType {
-  reviewId: number;
-  content: string;
-  deleteImages: number[];
-  files: File[];
+  shopId: number
+  reviewId: number
+  content: string
+  deleteReviewImages: number[]
+  newReviewImages: File[]
 }

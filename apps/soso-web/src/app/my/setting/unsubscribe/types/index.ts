@@ -1,4 +1,5 @@
 export interface DeleteUserRequest {
-  uuid: string;
-  deleteType: number;
+  withdrawalReasonCode: WithdrawalReasonCodeType
 }
+
+export type WithdrawalReasonCodeType = 'not_using' | 'privacy_concern' | 'inconvenient' | 'other_account'

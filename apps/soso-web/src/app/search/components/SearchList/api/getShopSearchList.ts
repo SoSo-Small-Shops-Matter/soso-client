@@ -8,6 +8,15 @@ export const getShopSearchList = async (
   lat: number,
   lng: number
 ): Promise<SearchListType> => {
-  const result = await customFetch(`/shop/search?keyword=${shopName}&page=${page}&limit=${limit}&lat=${lat}&lng=${lng}`)
+  const queryParams = {
+    keyword: shopName,
+    page,
+    limit,
+    lat,
+    lng,
+  }
+  const result = await customFetch('/shops/search', {
+    queryParams,
+  })
   return result.result
 }

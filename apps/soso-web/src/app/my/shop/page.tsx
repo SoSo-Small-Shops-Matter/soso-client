@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useDeleteSubmitShopMutation } from '@/app/my/shop/hooks/useDeleteSubmitShopMutation'
-import { formatDate } from '@/shared/utils/formatDate'
 import { formatStringDate } from '@/shared/utils/formatStringDate'
 
 export default function MyShopPage() {
@@ -132,7 +131,7 @@ export default function MyShopPage() {
                 name={data?.shop.name}
                 date={formatStringDate(data?.createdAt)}
                 disabled={data?.type === 0}
-                imgUrl={data?.shop.image || ''}
+                imgUrl={data?.shop.mainImage || ''}
               />
             </button>
             <Flex direction="col" gap={8} className="absolute right-16 top-1/2 -translate-y-1/2">

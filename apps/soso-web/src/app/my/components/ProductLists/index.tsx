@@ -15,7 +15,7 @@ export default function ProductLists() {
     myWishData?.pages[0].data.map((wish) => {
       return {
         id: wish.shop.id || null,
-        image: wish.shop?.image || null,
+        image: wish.shop?.mainImage || null,
         name: wish.shop?.name || null,
         link: `/shop/${wish.shop?.id}` || null,
       }
@@ -25,7 +25,7 @@ export default function ProductLists() {
     myReviewData?.pages[0].data.map((review) => {
       return {
         id: review.id || null,
-        image: review.shop?.image || null,
+        image: review.shop?.mainImage || null,
         name: review.shop?.name || null,
         link: `/shop/${review.shop?.id}/review` || null,
       }
@@ -35,7 +35,7 @@ export default function ProductLists() {
     myShopData?.pages[0].data.map((shop) => {
       return {
         id: shop.shop?.id || null,
-        image: shop.shop?.image || null,
+        image: shop.shop?.mainImage || null,
         name: shop.shop?.name || null,
         link: `/shop/${shop.shop?.id}` || null,
         type: shop.type || 0,
