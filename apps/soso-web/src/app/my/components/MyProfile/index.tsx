@@ -13,7 +13,7 @@ export default function MyProfile() {
     <Flex direction="col" gap={20} className="w-full pb-16 pt-20">
       <Flex justify="between" align="center" className="w-full px-20">
         <Flex align="center" gap={12}>
-          <ProfileImage imgUrl={userData?.photoUrl || ''} />
+          <ProfileImage imgUrl={userData?.profileImg || ''} />
           <p className="text-black font-title3_bold">
             {userData?.nickName}
             <span className="font-title3_m">님</span>

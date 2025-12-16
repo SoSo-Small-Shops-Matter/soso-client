@@ -98,7 +98,7 @@ export default function ListView({
             <Flex align="center" className="border-b border-gray-100 px-18 py-16">
               <div className="relative h-72 min-w-72 overflow-hidden rounded-8">
                 <Image
-                  src={shop.image || '/images/default_item.svg'}
+                  src={shop.mainImage || '/images/default_item.svg'}
                   style={{ objectFit: 'cover' }}
                   fill
                   alt=""

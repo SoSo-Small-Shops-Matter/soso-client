@@ -59,7 +59,7 @@ export default function ProfileEditPage() {
     if (file) {
       request = {
         ...request,
-        file,
+        profileImage: file,
       }
     }
 
@@ -90,7 +90,7 @@ export default function ProfileEditPage() {
     <div>
       <Header title="프로필 수정" type="back" />
       <Flex direction="col" align="center" gap={50} className="w-full px-16 py-20">
-        <ProfileUpload prevImage={userData?.photoUrl || ''} preview={preview} setSingleFile={setSingleFile} />
+        <ProfileUpload prevImage={userData?.profileImg || ''} preview={preview} setSingleFile={setSingleFile} />
         <form className="w-full" onSubmit={handleSubmit(handleClick)}>
           <Flex direction="col" gap={8} className="w-full">
             <Input placeholder="닉네임을 입력해 주세요." {...register('nickName')} defaultValue={''} />

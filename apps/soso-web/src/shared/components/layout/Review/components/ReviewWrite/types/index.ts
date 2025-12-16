@@ -1,13 +1,13 @@
 export interface ReviewRequestType {
   shopId: number
   content: string
-  reviewImgKeys: string[] //TODO: presigned image
+  reviewImages: File[]
 }
 
 export interface PatchReviewRequestType {
   shopId: number
   reviewId: number
   content: string
-  deleteImages: number[]
-  newImageKeys: string[] //TODO: presigned image
+  deleteReviewImages: number[]
+  newReviewImages: File[]
 }

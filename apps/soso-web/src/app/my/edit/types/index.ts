@@ -1,7 +1,6 @@
 interface RequestType {
   nickName?: string
-  profileImgKey?: string //TODO: presignURL로 변경 필요
-  file?: File //deprecated
+  profileImage?: File
 }
 
 export type PatchUserRequestType = RequestType | undefined

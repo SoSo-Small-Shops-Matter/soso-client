@@ -25,7 +25,7 @@ export default function ProductLists() {
     myReviewData?.pages[0].data.map((review) => {
       return {
         id: review.id || null,
-        image: review.shop?.image || null,
+        image: review.shop?.mainImage || null,
         name: review.shop?.name || null,
         link: `/shop/${review.shop?.id}/review` || null,
       }

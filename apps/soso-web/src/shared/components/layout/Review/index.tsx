@@ -138,7 +138,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
         <Flex align="center" gap={12} className="flex-1">
           <ProfileImage
             imgUrl={
-              (isMe ? getSafeImageUrl(userData?.photoUrl || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
+              (isMe ? getSafeImageUrl(userData?.profileImg || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
               '/images/default_profile.png'
             }
           />
