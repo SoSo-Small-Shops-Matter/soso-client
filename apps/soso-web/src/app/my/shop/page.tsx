@@ -6,12 +6,12 @@ import Header from '@/shared/components/layout/Header'
 import Loading from '@/shared/components/loading/Loading'
 import ShopInfo from '@/shared/components/ui/ShopInfo'
 import { useInView } from 'react-intersection-observer'
-import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useDeleteSubmitShopMutation } from '@/app/my/shop/hooks/useDeleteSubmitShopMutation'
 import { formatStringDate } from '@/shared/utils/formatStringDate'
+import MyShopStatusBadge from './components/MyShopStatusBadge'
 
 export default function MyShopPage() {
   const router = useRouter()
@@ -45,60 +45,6 @@ export default function MyShopPage() {
     })
   }
 
-  const getStatus = (status: number) => {
-    switch (status) {
-      case 0:
-        return (
-          <>
-            최초 제보 <br /> 확인 중
-          </>
-        )
-      case 1:
-        return <>최초 제보</>
-      case 2:
-        return (
-          <>
-            최초 제보 <br />
-            거절됨
-          </>
-        )
-      case 3:
-        return (
-          <>
-            운영 정보 수정 <br />
-            확인 중
-          </>
-        )
-      case 4:
-        return <>운영 정보 수정</>
-      case 5:
-        return (
-          <>
-            운영 정보 수정 <br />
-            거절됨
-          </>
-        )
-      case 6:
-        return (
-          <>
-            판매 정보 수정 <br />
-            확인 중
-          </>
-        )
-      case 7:
-        return <>판매 정보 수정</>
-      case 8:
-        return (
-          <>
-            판매 정보 수정 <br />
-            거절됨
-          </>
-        )
-      default:
-        return <>알 수 없음</>
-    }
-  }
-
   // inView 상태가 변경될 때 다음 페이지 데이터 로드
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage && !isLoading) {
@@ -109,18 +55,11 @@ export default function MyShopPage() {
   // 모든 페이지의 데이터를 하나의 배열로 펼치기
   const allShops = myShopData?.pages.flatMap((page) => page.data) || []
 
-  const getStatusColor = (status: number) => {
-    if (status === 0 || status === 3 || status === 6) {
-      return 'bg-orange-light text-main'
-    }
-    return 'text-gray-500 bg-gray-50'
-  }
-
   return (
     <div>
       <Header title="내가 알린 소품샵" type="back" />
       <Flex direction="col" className="w-full">
-        {allShops?.map((data, index) => (
+        {allShops.map((data, index) => (
           <div key={`shop-${data?.id}-${index}`} className="relative w-full">
             <button
               onClick={() => handleLink(data?.shop.id)}
@@ -128,24 +67,16 @@ export default function MyShopPage() {
               className="flex w-full items-center justify-between border-b border-gray-100 px-16 py-18"
             >
               <ShopInfo
-                name={data?.shop.name}
+                name={data.shop.name}
                 date={formatStringDate(data?.createdAt)}
                 disabled={data?.type === 0}
                 imgUrl={data?.shop.mainImage || ''}
               />
             </button>
             <Flex direction="col" gap={8} className="absolute right-16 top-1/2 -translate-y-1/2">
-              <div
-                className={clsx(
-                  'block w-86 py-6 font-caption',
-                  'rounded-8 text-center',
-                  getStatusColor(data?.submitStatus)
-                )}
-              >
-                {getStatus(data?.submitStatus)}
-              </div>
+              <MyShopStatusBadge submitStatus={data.submitStatus} />
               <button
-                onClick={() => handleOpenDeleteModal(data?.id)}
+                onClick={() => handleOpenDeleteModal(data.id)}
                 className="h-26 w-86 rounded-8 border border-gray-100 text-gray-500 font-caption"
               >
                 삭제
