@@ -16,6 +16,7 @@ import { applefindUrl, kakaoFindUrl, naverFindUrl } from '@/shared/utils/findSho
 import { useLocationStore } from '@/shared/store/useLocationStore'
 
 interface ListViewProps {
+  isMapViewMode: boolean
   className?: string
   shopData: ShopType[]
   isWishListView: boolean
@@ -26,6 +27,7 @@ interface ListViewProps {
 }
 
 export default function ListView({
+  isMapViewMode,
   className,
   shopData,
   isWishListView,
@@ -46,11 +48,10 @@ export default function ListView({
   }
 
   useEffect(() => {
-    if (headerRef.current) {
-      const offsetHeight = headerRef.current.offsetHeight
-      setHeaderHeight(offsetHeight)
+    if (!isMapViewMode && headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight)
     }
-  }, [])
+  }, [isMapViewMode])
 
   useEffect(() => {
     const setCurrentLocation = async () => {

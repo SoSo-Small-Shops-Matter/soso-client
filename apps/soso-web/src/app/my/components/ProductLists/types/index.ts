@@ -8,15 +8,6 @@ export interface MyWishType {
     id: number
     name: string
     mainImage: null | string
-    // type: number
-    // reportStatus: number
-    // lat: number
-    // lng: number
-    // location: string
-    // region: {
-    //   id: number
-    //   name: string
-    // }
   }
 }
 
@@ -51,7 +42,7 @@ export interface MyShopType {
   type: number
   status: number
   rejectMessage: string | null
-  submitStatus: number
+  submitStatus: MyShopSubmitStatus
   createdAt: string
   shop: {
     id: number
@@ -62,6 +53,25 @@ export interface MyShopType {
     location: string
   }
 }
+
+export const MY_SHOP_SUBMIT_STATUS = {
+  // 최초 제보
+  NEW_SHOP_PENDING: 'new_shop_pending',
+  NEW_SHOP_APPROVED: 'new_shop_approved',
+  NEW_SHOP_REJECTED: 'new_shop_rejected',
+
+  // 운영 정보 수정
+  NEW_OPERATING_PENDING: 'new_operating_pending',
+  NEW_OPERATING_APPROVED: 'new_operating_approved',
+  NEW_OPERATING_REJECTED: 'new_operating_rejected',
+
+  // 판매 정보 수정
+  NEW_PRODUCT_PENDING: 'new_product_pending',
+  NEW_PRODUCT_APPROVED: 'new_product_approved',
+  NEW_PRODUCT_REJECTED: 'new_product_rejected',
+} as const
+
+export type MyShopSubmitStatus = (typeof MY_SHOP_SUBMIT_STATUS)[keyof typeof MY_SHOP_SUBMIT_STATUS]
 
 export interface GetMyShopResponse {
   data: MyShopType[]

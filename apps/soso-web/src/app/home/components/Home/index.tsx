@@ -74,6 +74,7 @@ export default function HomePage() {
         openCategoryModal={() => setIsOpenCategoryModal(true)}
       />
       <ListView
+        isMapViewMode={isMapViewMode}
         className={!isMapViewMode ? 'block' : 'hidden'}
         shopData={shopData ?? []}
         toggleMapViewMode={toggleMapViewMode}
