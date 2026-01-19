@@ -1,16 +1,41 @@
 import { useState } from "react";
 import type { LoginFormData } from "@/shared/types/auth";
+import { useAdminLogin } from "@/shared/api/auth/queries";
+import { AdminLoginRequestSchema } from "@/shared/api/auth/types";
 
 function LoginPage() {
   const [formData, setFormData] = useState<LoginFormData>({
     username: "",
     password: "",
   });
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
+
+  const loginMutation = useAdminLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic
-    console.log("Login attempt:", formData);
+    setValidationErrors({});
+
+    // Validate with Zod
+    const result = AdminLoginRequestSchema.safeParse({
+      email: formData.username,
+      password: formData.password,
+    });
+
+    if (!result.success) {
+      const errors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          errors[err.path[0] as string] = err.message;
+        }
+      });
+      setValidationErrors(errors);
+      return;
+    }
+
+    loginMutation.mutate(result.data);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,16 +69,22 @@ function LoginPage() {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-16 py-12 border border-gray-200 rounded-8 font-body2_m focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent"
-                placeholder="아이디를 입력하세요"
+                className={`w-full px-16 py-14 border ${validationErrors.email ? "border-red-500" : "border-gray-300"} rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
+                placeholder="이메일을 입력하세요"
                 required
               />
+              {validationErrors.email && (
+                <p className="mt-4 text-sm text-red-500">
+                  {validationErrors.email}
+                </p>
+              )}
             </div>
 
-            <div>
+            {/* Password Input */}
+            <div className="mb-24">
               <label
                 htmlFor="password"
-                className="block font-body1_m text-gray-800 mb-8"
+                className="block mb-8 text-body2_bold text-gray-700"
               >
                 비밀번호
               </label>
@@ -63,18 +94,36 @@ function LoginPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-16 py-12 border border-gray-200 rounded-8 font-body2_m focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent"
+                className={`w-full px-16 py-14 border ${validationErrors.password ? "border-red-500" : "border-gray-300"} rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
                 placeholder="비밀번호를 입력하세요"
                 required
               />
+              {validationErrors.password && (
+                <p className="mt-4 text-sm text-red-500">
+                  {validationErrors.password}
+                </p>
+              )}
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-body1_bold py-14 rounded-8 transition-colors duration-200"
-            >
-              로그인
-            </button>
+            {/* Error Message */}
+            {loginMutation.isError && (
+              <div className="mb-16 p-12 bg-red-50 border border-red-200 rounded-8">
+                <p className="text-sm text-red-600">
+                  로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.
+                </p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="mb-24">
+              <button
+                type="submit"
+                disabled={loginMutation.isPending}
+                className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-body1_bold py-14 rounded-8 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loginMutation.isPending ? "로그인 중..." : "로그인"}
+              </button>
+            </div>
           </form>
         </div>
       </div>
