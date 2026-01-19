@@ -1,10 +1,10 @@
 import { customFetch } from "@/shared/utils/customFetch";
-import { ShopReportSchema, type ToggleShopHiddenRequest } from "./types";
+import { ShopReportSchema, type ToggleShopHiddenRequest, type ShopReport } from "./types";
 
 export const shopReportsApi = {
   getAll: async () => {
-    const response = await customFetch("/admin/shop-reports");
-    return ShopReportSchema.array().parse(response);
+    const response = await customFetch<ShopReport[]>("/admin/shop-reports");
+    return ShopReportSchema.array().parse(response.result || response);
   },
 
   toggleHidden: async (shopId: number, data: ToggleShopHiddenRequest) => {

@@ -11,14 +11,12 @@ export const authKeys = {
 
 export const useAdminLogin = () => {
   const navigate = useNavigate();
-  const { setToken, setRefreshToken, setUser } = useAuthStore();
+  const { setToken } = useAuthStore();
 
   return useMutation({
     mutationFn: (data: AdminLoginRequest) => authApi.login(data),
     onSuccess: (data) => {
-      setToken(data.result.accessToken);
-      setRefreshToken(data.result.refreshToken);
-      setUser({ email: "" }); // Extract from token if needed
+      setToken(data.result);
       navigate("/");
     },
     onError: (error) => {

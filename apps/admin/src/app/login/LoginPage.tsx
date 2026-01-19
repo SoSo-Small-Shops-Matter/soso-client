@@ -1,28 +1,31 @@
-import { useState } from "react";
-import type { LoginFormData } from "@/shared/types/auth";
+import { useState, FormEvent, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/shared/store/useAuthStore";
 import { useAdminLogin } from "@/shared/api/auth/queries";
 import { AdminLoginRequestSchema } from "@/shared/api/auth/types";
 
-function LoginPage() {
-  const [formData, setFormData] = useState<LoginFormData>({
-    username: "",
-    password: "",
-  });
+export function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
 
+  const { token } = useAuthStore();
+  const navigate = useNavigate();
   const loginMutation = useAdminLogin();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (token) {
+      navigate("/admin/users", { replace: true });
+    }
+  }, [token, navigate]);
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setValidationErrors({});
 
-    // Validate with Zod
-    const result = AdminLoginRequestSchema.safeParse({
-      email: formData.username,
-      password: formData.password,
-    });
+    const result = AdminLoginRequestSchema.safeParse({ email, password });
 
     if (!result.success) {
       const errors: Record<string, string> = {};
@@ -38,39 +41,37 @@ function LoginPage() {
     loginMutation.mutate(result.data);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-20">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-16 shadow-button p-32">
+        <div className="bg-white rounded-12 shadow-lg p-32">
+          {/* Title */}
           <div className="text-center mb-32">
-            <h1 className="font-header1 text-black mb-8">SoSo Admin</h1>
-            <p className="font-body2_m text-gray-500">관리자 로그인</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-8">
+              SOSO Admin
+            </h1>
+            <p className="text-sm text-gray-600">관리자 로그인</p>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-20">
+            {/* Email Input */}
             <div>
               <label
-                htmlFor="username"
-                className="block font-body1_m text-gray-800 mb-8"
+                htmlFor="email"
+                className="block mb-8 text-sm font-medium text-gray-700"
               >
-                아이디
+                이메일
               </label>
               <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className={`w-full px-16 py-14 border ${validationErrors.email ? "border-red-500" : "border-gray-300"} rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
-                placeholder="이메일을 입력하세요"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`w-full px-16 py-12 border ${
+                  validationErrors.email ? "border-red-500" : "border-gray-300"
+                } rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
+                placeholder="admin@example.com"
                 required
               />
               {validationErrors.email && (
@@ -81,20 +82,23 @@ function LoginPage() {
             </div>
 
             {/* Password Input */}
-            <div className="mb-24">
+            <div>
               <label
                 htmlFor="password"
-                className="block mb-8 text-body2_bold text-gray-700"
+                className="block mb-8 text-sm font-medium text-gray-700"
               >
                 비밀번호
               </label>
               <input
                 type="password"
                 id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`w-full px-16 py-14 border ${validationErrors.password ? "border-red-500" : "border-gray-300"} rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={`w-full px-16 py-12 border ${
+                  validationErrors.password
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
                 placeholder="비밀번호를 입력하세요"
                 required
               />
@@ -107,7 +111,7 @@ function LoginPage() {
 
             {/* Error Message */}
             {loginMutation.isError && (
-              <div className="mb-16 p-12 bg-red-50 border border-red-200 rounded-8">
+              <div className="p-12 bg-red-50 border border-red-200 rounded-8">
                 <p className="text-sm text-red-600">
                   로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.
                 </p>
@@ -115,20 +119,16 @@ function LoginPage() {
             )}
 
             {/* Submit Button */}
-            <div className="mb-24">
-              <button
-                type="submit"
-                disabled={loginMutation.isPending}
-                className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-body1_bold py-14 rounded-8 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loginMutation.isPending ? "로그인 중..." : "로그인"}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loginMutation.isPending}
+              className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-medium py-12 rounded-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loginMutation.isPending ? "로그인 중..." : "로그인"}
+            </button>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
-export default LoginPage;

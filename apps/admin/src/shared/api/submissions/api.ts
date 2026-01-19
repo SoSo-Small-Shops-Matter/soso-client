@@ -1,10 +1,10 @@
 import { customFetch } from "@/shared/utils/customFetch";
-import { GetAllSubmissionsResponseSchema, type RejectSubmissionRequest } from "./types";
+import { GetAllSubmissionsResponseSchema, type RejectSubmissionRequest, type GetAllSubmissionsResponse } from "./types";
 
 export const submissionsApi = {
   getAll: async () => {
-    const response = await customFetch("/admin/submission");
-    return GetAllSubmissionsResponseSchema.parse(response);
+    const response = await customFetch<GetAllSubmissionsResponse>("/admin/submission");
+    return GetAllSubmissionsResponseSchema.parse(response.result || response);
   },
 
   // Product submissions

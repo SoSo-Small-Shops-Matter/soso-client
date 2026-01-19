@@ -3,7 +3,8 @@ import { GetAllUsersResponseSchema } from "./types";
 
 export const usersApi = {
   getAll: async () => {
-    const response = await customFetch("/admin/users");
-    return GetAllUsersResponseSchema.parse(response);
+    const response = await customFetch<typeof GetAllUsersResponseSchema>("/admin/users");
+    // API returns { message, status, result: { activityUsers, withdrawalUsers } }
+    return GetAllUsersResponseSchema.parse(response.result);
   },
 };

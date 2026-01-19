@@ -2,6 +2,7 @@
 
 import qs from "qs";
 import { useAuthStore } from "../store/useAuthStore";
+import { GenericResponse } from "../api";
 
 interface CustomFetchOptions extends RequestInit {
   body?: any;
@@ -21,11 +22,12 @@ export class CustomError extends Error {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export const customFetch = async (
+// T indicates the type of the 'result' field in GenericResponse
+export const customFetch = async <T = any>(
   endPoint: string,
   options: CustomFetchOptions = {}
-): Promise<any> => {
-  const { token, refreshToken, setToken, setRefreshToken, clearAuth } = useAuthStore.getState();
+): Promise<GenericResponse<T>> => {
+  const { token, setToken, clearAuth } = useAuthStore.getState();
 
   const isFormData = options.body instanceof FormData;
 
@@ -52,36 +54,7 @@ export const customFetch = async (
     );
 
     // Handle 401 Unauthorized - attempt token refresh
-    if (response.status === 401 && refreshToken) {
-      try {
-        const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ refreshToken }),
-        });
-
-        if (refreshResponse.ok) {
-          const data = await refreshResponse.json();
-          const newToken = data.result?.accessToken;
-          const newRefreshToken = data.result?.refreshToken;
-
-          if (newToken) {
-            setToken(newToken);
-            if (newRefreshToken) {
-              setRefreshToken(newRefreshToken);
-            }
-
-            // Retry original request with new token
-            return customFetch(endPoint, options);
-          }
-        }
-      } catch (refreshError) {
-        clearAuth();
-        throw new CustomError("토큰 갱신 실패: 다시 로그인해주세요.", 401);
-      }
-
+    if (response.status === 401) {
       clearAuth();
       throw new CustomError("인증이 만료되었습니다. 다시 로그인해주세요.", 401);
     }

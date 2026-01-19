@@ -11,8 +11,8 @@ export const ActivityUserSchema = z.object({
 
 export const WithdrawalUserSchema = z.object({
   num: z.number(),
-  email: z.string(),
-  nickName: z.string(),
+  email: z.nullable(z.string().email()),
+  nickName: z.nullable(z.string()),
   createdAt: z.string(),
   withdrawalReason: z.string(),
 });

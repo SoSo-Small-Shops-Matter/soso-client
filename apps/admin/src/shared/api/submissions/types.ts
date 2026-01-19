@@ -20,7 +20,7 @@ export const SubmissionProductSchema = z.object({
 
 export const SubmissionShopProductMappingSchema = z.object({
   id: z.number(),
-  isVerified: z.boolean(),
+  isVerified: z.coerce.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
   product: SubmissionProductSchema,
@@ -28,9 +28,9 @@ export const SubmissionShopProductMappingSchema = z.object({
 
 export const SubmissionShopOperatingHourSchema = z.object({
   id: z.number(),
-  isVerified: z.boolean(),
+  isVerified: z.coerce.boolean(),
   phoneNumber: z.string().nullable(),
-  daysOfWeek: z.array(z.array(z.any())),
+  daysOfWeek: z.array(z.array(z.any())).nullable(),
   startTime: z.string(),
   endTime: z.string(),
 });
@@ -39,10 +39,10 @@ export const SubmissionShopSchema = z.object({
   id: z.number(),
   name: z.string(),
   mainImage: z.string().nullable(),
-  isVerified: z.boolean(),
+  isVerified: z.coerce.boolean(),
   instagram: z.string().nullable(),
-  lat: z.number(),
-  lng: z.number(),
+  lat: z.coerce.number(),
+  lng: z.coerce.number(),
   location: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
