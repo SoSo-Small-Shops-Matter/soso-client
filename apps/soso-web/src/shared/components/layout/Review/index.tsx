@@ -13,7 +13,6 @@ import { useToast } from '@/shared/context/ToastContext'
 import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import { ReviewType } from '@/shared/types/shopType'
-import { formatStringDate } from '@/shared/utils/formatStringDate'
 import { getSafeImageUrl } from '@/shared/utils/getSafeImageUrl'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
@@ -21,6 +20,7 @@ import { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, FreeMode } from 'swiper/modules'
 import ReviewReportModal from '@/shared/components/layout/Review/components/ReviewReportModal'
+import { getFormatDateString } from '@repo/utils/formatDateString'
 
 interface ReviewProps {
   isMe?: boolean
@@ -144,7 +144,9 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
           />
           <Flex direction="col" className="flex-1">
             <p className="text-gray-800 font-body2_m">{data?.user?.nickName || isMe ? data?.user?.nickName : '익명'}</p>
-            <p className="text-gray-400 font-caption">{formatStringDate(data?.createdAt)}</p>
+            {data?.createdAt && (
+              <p className="text-gray-400 font-caption">{getFormatDateString(data.createdAt, 'yyyy.MM.dd')}</p>
+            )}
           </Flex>
         </Flex>
         {isMe && isWrite && (
