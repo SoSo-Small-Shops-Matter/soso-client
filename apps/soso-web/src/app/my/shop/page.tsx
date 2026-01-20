@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useDeleteSubmitShopMutation } from '@/app/my/shop/hooks/useDeleteSubmitShopMutation'
-import { formatStringDate } from '@/shared/utils/formatStringDate'
 import MyShopStatusBadge from './components/MyShopStatusBadge'
+import { getFormatDateString } from '@repo/utils/formatDateString'
 
 export default function MyShopPage() {
   const router = useRouter()
@@ -68,7 +68,7 @@ export default function MyShopPage() {
             >
               <ShopInfo
                 name={data.shop.name}
-                date={formatStringDate(data?.createdAt)}
+                date={getFormatDateString(data?.createdAt, 'yyyy.MM.dd')}
                 disabled={data?.type === 0}
                 imgUrl={data?.shop.mainImage || ''}
               />

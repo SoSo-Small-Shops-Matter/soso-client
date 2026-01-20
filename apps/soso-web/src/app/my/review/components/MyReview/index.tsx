@@ -2,7 +2,7 @@ import { MyReviewType } from '@/app/my/components/ProductLists/types'
 import Flex from '@/shared/components/layout/Flex'
 import MessageBox from '@/shared/components/layout/Review/components/MessageBox'
 import ShopInfo from '@/shared/components/ui/ShopInfo'
-import { formatStringDate } from '@/shared/utils/formatStringDate'
+import { getFormatDateString } from '@repo/utils'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, FreeMode } from 'swiper/modules'
 import Image from 'next/image'
@@ -15,7 +15,11 @@ interface MyReviewProps {
 export default function MyReview({ data }: MyReviewProps) {
   return (
     <Flex direction="col" gap={20} className="w-full px-16">
-      <ShopInfo name={data.shop.name} date={formatStringDate(data.createdAt)} imgUrl={data.shop.mainImage || ''} />
+      <ShopInfo
+        name={data.shop.name}
+        date={getFormatDateString(data.createdAt, 'yyyy.MM.dd')}
+        imgUrl={data.shop.mainImage || ''}
+      />
       <MessageBox>
         <Flex direction="col" gap={16}>
           <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body2_m">

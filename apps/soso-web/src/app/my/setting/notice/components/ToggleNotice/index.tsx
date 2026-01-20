@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ToggleIcon from '@/app/my/setting/notice/components/ToggleNotice/components/ToggleIcon'
 import Flex from '@/shared/components/layout/Flex'
-import { formatStringDate } from '@/shared/utils/formatStringDate'
+import { getFormatDateString } from '@repo/utils/formatDateString'
 
 interface ToggleNoticeProps {
   title: string
@@ -34,7 +34,7 @@ export default function ToggleNotice({
             </motion.div>
           </div>
         </Flex>
-        <p className="text-gray-400 font-caption">{formatStringDate(date)}</p>
+        <p className="text-gray-400 font-caption">{getFormatDateString(date, 'yyyy.MM.dd')}</p>
       </button>
 
       <AnimatePresence>
