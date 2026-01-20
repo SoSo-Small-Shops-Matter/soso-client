@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useGetReviewReports } from "@/shared/api/review-reports/queries";
 import { Table } from "@/shared/components/Table";
 import { Modal } from "@/shared/components/Modal";
@@ -13,16 +13,12 @@ export function ReviewReportsPage() {
   );
   const { data, isLoading } = useGetReviewReports();
 
-  const paginatedData = useMemo(() => {
-    if (!data) return [];
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [data, currentPage]);
+  if (!data) return null; // or empty state handling elsewhere
 
-  const totalPages = useMemo(() => {
-    if (!data) return 1;
-    return Math.ceil(data.length / ITEMS_PER_PAGE);
-  }, [data]);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
 
   const columns = [
     {

@@ -27,7 +27,7 @@ export const customFetch = async <T = any>(
   endPoint: string,
   options: CustomFetchOptions = {}
 ): Promise<GenericResponse<T>> => {
-  const { token, setToken, clearAuth } = useAuthStore.getState();
+  const { token, clearAuth } = useAuthStore.getState();
 
   const isFormData = options.body instanceof FormData;
 

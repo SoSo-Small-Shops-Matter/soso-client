@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useGetAllFeedback } from "@/shared/api/feedback/queries";
 import { Table } from "@/shared/components/Table";
 import type { Feedback } from "@/shared/api/feedback/types";
@@ -9,16 +9,14 @@ export function FeedbackPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading } = useGetAllFeedback();
 
-  const paginatedData = useMemo(() => {
-    if (!data) return [];
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [data, currentPage]);
+  const paginatedData = data
+    ? data.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
+      )
+    : [];
 
-  const totalPages = useMemo(() => {
-    if (!data) return 1;
-    return Math.ceil(data.length / ITEMS_PER_PAGE);
-  }, [data]);
+  const totalPages = data ? Math.ceil(data.length / ITEMS_PER_PAGE) : 1;
 
   const columns = [
     {

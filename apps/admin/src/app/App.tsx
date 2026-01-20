@@ -4,16 +4,16 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { AdminLayout } from "@/app/layout/AdminLayout";
-import { ProtectedRoute } from "@/app/layout/ProtectedRoute";
-import { RootRedirect } from "@/app/layout/RootRedirect";
-import { LoginPage } from "@/app/login/LoginPage";
-import { UsersPage } from "@/app/users/UsersPage";
-import { WithdrawnUsersPage } from "@/app/users/WithdrawnUsersPage";
-import { SubmissionsPage } from "@/app/submissions/SubmissionsPage";
-import { ShopReportsPage } from "@/app/shop-reports/ShopReportsPage";
-import { ReviewReportsPage } from "@/app/review-reports/ReviewReportsPage";
-import { FeedbackPage } from "@/app/feedback/FeedbackPage";
+import { AdminLayout } from "@/widgets/layout/AdminLayout";
+import { ProtectedRoute } from "@/widgets/layout/ProtectedRoute";
+import { RootRedirect } from "@/widgets/layout/RootRedirect";
+import { LoginPage } from "@/pages/login/LoginPage";
+import { UsersPage } from "@/pages/users/UsersPage";
+import { WithdrawnUsersPage } from "@/pages/users/WithdrawnUsersPage";
+import { SubmissionsPage } from "@/pages/submissions/SubmissionsPage";
+import { ShopReportsPage } from "@/pages/shop-reports/ShopReportsPage";
+import { ReviewReportsPage } from "@/pages/review-reports/ReviewReportsPage";
+import { FeedbackPage } from "@/pages/feedback/FeedbackPage";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

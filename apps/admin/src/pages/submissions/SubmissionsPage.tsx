@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useGetAllSubmissions } from "@/shared/api/submissions/queries";
 import { Table } from "@/shared/components/Table";
@@ -27,87 +27,85 @@ export function SubmissionsPage() {
     useState<AllSubmissions | null>(null);
   const { data, isLoading } = useGetAllSubmissions();
 
-  const allSubmissions: AllSubmissions[] = useMemo(() => {
-    if (!data) return [];
-    return [
-      ...data.newShopSubmissions.map((s) => ({ ...s, category: "새 소품샵" })),
-      ...data.newProductSubmissions.map((s) => ({
-        ...s,
-        category: "상품 추가",
-      })),
-      ...data.newOperatingSubmissions.map((s) => ({
-        ...s,
-        category: "운영시간",
-      })),
-    ].sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    );
-  }, [data]);
+  const allSubmissions: AllSubmissions[] = data
+    ? [
+        ...data.newShopSubmissions.map((s) => ({
+          ...s,
+          category: "새 소품샵",
+        })),
+        ...data.newProductSubmissions.map((s) => ({
+          ...s,
+          category: "상품 추가",
+        })),
+        ...data.newOperatingSubmissions.map((s) => ({
+          ...s,
+          category: "운영시간",
+        })),
+      ].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      )
+    : [];
 
-  const filteredData = useMemo(() => {
-    if (statusFilter === "all") return allSubmissions;
-    return allSubmissions.filter((s) => s.status === statusFilter);
-  }, [allSubmissions, statusFilter]);
+  const filteredData =
+    statusFilter === "all"
+      ? allSubmissions
+      : allSubmissions.filter((s) => s.status === statusFilter);
 
-  const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [filteredData, currentPage]);
-
-  const totalPages = useMemo(() => {
-    return Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-  }, [filteredData]);
-
-  const columns = useMemo<ColumnDef<AllSubmissions>[]>(
-    () => [
-      {
-        accessorKey: "id",
-        header: "ID",
-        size: 80,
-      },
-      {
-        accessorKey: "category",
-        header: "카테고리",
-        size: 120,
-      },
-      {
-        id: "email",
-        header: "이메일",
-        accessorFn: (row) => row.user.email,
-      },
-      {
-        id: "shopName",
-        header: "장소명",
-        accessorFn: (row) => row.shop.name,
-      },
-      {
-        id: "location",
-        header: "주소",
-        accessorFn: (row) => row.shop.location,
-      },
-      {
-        accessorKey: "createdAt",
-        header: "등록 날짜",
-        cell: ({ getValue }) =>
-          new Date(getValue<string>()).toLocaleDateString("ko-KR"),
-      },
-      {
-        accessorKey: "status",
-        header: "상태",
-        size: 100,
-        cell: ({ getValue }) => {
-          const statusMap = {
-            pending: "대기중",
-            approved: "승인됨",
-            rejected: "반려됨",
-          };
-          return statusMap[getValue<"pending" | "approved" | "rejected">()];
-        },
-      },
-    ],
-    [],
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = filteredData.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
   );
+
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+
+  const columns: ColumnDef<AllSubmissions>[] = [
+    {
+      accessorKey: "id",
+      header: "ID",
+      size: 80,
+    },
+    {
+      accessorKey: "category",
+      header: "카테고리",
+      size: 120,
+    },
+    {
+      id: "email",
+      header: "이메일",
+      accessorFn: (row) => row.user.email,
+    },
+    {
+      id: "shopName",
+      header: "장소명",
+      accessorFn: (row) => row.shop.name,
+    },
+    {
+      id: "location",
+      header: "주소",
+      accessorFn: (row) => row.shop.location,
+    },
+    {
+      accessorKey: "createdAt",
+      header: "등록 날짜",
+      cell: ({ getValue }) =>
+        new Date(getValue<string>()).toLocaleDateString("ko-KR"),
+    },
+    {
+      accessorKey: "status",
+      header: "상태",
+      size: 100,
+      cell: ({ getValue }) => {
+        const statusMap = {
+          pending: "대기중",
+          approved: "승인됨",
+          rejected: "반려됨",
+        };
+        return statusMap[getValue<"pending" | "approved" | "rejected">()];
+      },
+    },
+  ];
 
   const tabs = [
     { label: "전체", value: "all" },
