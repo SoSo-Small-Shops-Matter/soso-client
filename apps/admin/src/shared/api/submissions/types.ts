@@ -92,8 +92,11 @@ export const RejectSubmissionRequestSchema = z.object({
   rejectMessage: z.string().optional(),
 });
 
+export type SubmissionType = z.infer<typeof SubmissionTypeSchema>;
+export type SubmissionStatus = z.infer<typeof SubmissionStatusSchema>;
 export type NewShopSubmission = z.infer<typeof NewShopSubmissionSchema>;
 export type NewProductSubmission = z.infer<typeof NewProductSubmissionSchema>;
 export type NewOperatingSubmission = z.infer<typeof NewOperatingSubmissionSchema>;
+export type AllSubmission = NewShopSubmission | NewProductSubmission | NewOperatingSubmission;
 export type GetAllSubmissionsResponse = z.infer<typeof GetAllSubmissionsResponseSchema>;
 export type RejectSubmissionRequest = z.infer<typeof RejectSubmissionRequestSchema>;

@@ -1,45 +1,31 @@
-import { useState } from "react";
 import { useGetAllFeedback } from "@/shared/api/feedback/queries";
+import { Feedback } from "@/shared/api/feedback/types";
 import { Table } from "@/shared/components/Table";
-import type { Feedback } from "@/shared/api/feedback/types";
-
-const ITEMS_PER_PAGE = 20;
+import { getFormatDateString } from "@repo/utils/formatDateString";
+import { ColumnDef } from "@tanstack/react-table";
 
 export function FeedbackPage() {
-  const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading } = useGetAllFeedback();
 
-  const paginatedData = data
-    ? data.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
-      )
-    : [];
-
-  const totalPages = data ? Math.ceil(data.length / ITEMS_PER_PAGE) : 1;
-
-  const columns = [
+  const columns: ColumnDef<Feedback>[] = [
     {
-      key: "num",
+      accessorKey: "num",
       header: "ID",
-      render: (feedback: Feedback) => feedback.num,
-      width: "80px",
+      size: 20,
     },
     {
-      key: "email",
+      accessorKey: "email",
       header: "이메일",
-      render: (feedback: Feedback) => feedback.email,
     },
     {
-      key: "feedback",
+      accessorKey: "feedback",
       header: "피드백 및 문의 내용",
-      render: (feedback: Feedback) => feedback.feedback,
     },
     {
-      key: "createdAt",
+      accessorKey: "createdAt",
       header: "등록 날짜",
-      render: (feedback: Feedback) =>
-        new Date(feedback.createdAt).toLocaleDateString("ko-KR"),
+      cell: ({ getValue }) =>
+        getFormatDateString(getValue<string>(), "yyyy.MM.dd"),
     },
   ];
 
@@ -48,11 +34,8 @@ export function FeedbackPage() {
       <h1 className="text-2xl font-bold text-gray-900 mb-24">문의 및 피드백</h1>
 
       <Table
-        data={paginatedData}
+        data={data || []}
         columns={columns}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
         isLoading={isLoading}
         emptyMessage="피드백이 없습니다."
       />

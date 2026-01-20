@@ -8,9 +8,6 @@ import {
 interface TableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
   onRowClick?: (item: T) => void;
   isLoading?: boolean;
   emptyMessage?: string;
@@ -19,9 +16,6 @@ interface TableProps<T> {
 export function Table<T>({
   data,
   columns,
-  currentPage,
-  totalPages,
-  onPageChange,
   onRowClick,
   isLoading = false,
   emptyMessage = "데이터가 없습니다.",
@@ -97,41 +91,6 @@ export function Table<T>({
           </tbody>
         </table>
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-8">
-          <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-12 py-8 text-sm border border-gray-300 rounded-4 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            이전
-          </button>
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={`px-12 py-8 text-sm border rounded-4 ${
-                currentPage === page
-                  ? "bg-main text-white border-main"
-                  : "border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-
-          <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-12 py-8 text-sm border border-gray-300 rounded-4 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            다음
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/shared/store/useAuthStore";
 import { useAdminLogin } from "@/shared/api/auth/queries";
 import { AdminLoginRequestSchema } from "@/shared/api/auth/types";
+import { LoginFormInput } from "./components/LoginFormInput";
+import { LoginFormStatus } from "./components/LoginFormStatus";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -55,74 +57,34 @@ export function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-20">
-            {/* Email Input */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block mb-8 text-sm font-medium text-gray-700"
-              >
-                이메일
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`w-full px-16 py-12 border ${
-                  validationErrors.email ? "border-red-500" : "border-gray-300"
-                } rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
-                placeholder="admin@example.com"
-                required
-              />
-              {validationErrors.email && (
-                <p className="mt-4 text-sm text-red-500">
-                  {validationErrors.email}
-                </p>
-              )}
-            </div>
+            <LoginFormInput
+              label="이메일"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@example.com"
+              error={validationErrors.email}
+              required
+            />
 
-            {/* Password Input */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block mb-8 text-sm font-medium text-gray-700"
-              >
-                비밀번호
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`w-full px-16 py-12 border ${
-                  validationErrors.password
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-8 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent`}
-                placeholder="비밀번호를 입력하세요"
-                required
-              />
-              {validationErrors.password && (
-                <p className="mt-4 text-sm text-red-500">
-                  {validationErrors.password}
-                </p>
-              )}
-            </div>
+            <LoginFormInput
+              label="비밀번호"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="비밀번호를 입력하세요"
+              error={validationErrors.password}
+              required
+            />
 
-            {/* Error Message */}
-            {loginMutation.isError && (
-              <div className="p-12 bg-red-50 border border-red-200 rounded-8">
-                <p className="text-sm text-red-600">
-                  로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.
-                </p>
-              </div>
-            )}
+            <LoginFormStatus isError={loginMutation.isError} />
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-medium py-12 rounded-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-medium py-12 rounded-8"
             >
               {loginMutation.isPending ? "로그인 중..." : "로그인"}
             </button>

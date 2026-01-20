@@ -1,35 +1,15 @@
-import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import {
   useGetShopReports,
   useToggleShopHidden,
 } from "@/shared/api/shop-reports/queries";
 import { Table } from "@/shared/components/Table";
-import { FilterTabs } from "@/shared/components/FilterTabs";
 import type { ShopReport } from "@/shared/api/shop-reports/types";
-
-const ITEMS_PER_PAGE = 20;
+import { getFormatDateString } from "@repo/utils/formatDateString";
 
 export function ShopReportsPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [visibilityFilter, setVisibilityFilter] = useState("all");
   const { data, isLoading } = useGetShopReports();
   const toggleMutation = useToggleShopHidden();
-
-  const filteredData =
-    visibilityFilter === "all"
-      ? data || []
-      : visibilityFilter === "visible"
-        ? (data || []).filter((r) => !r.isHidden)
-        : (data || []).filter((r) => r.isHidden);
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
-
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
 
   const handleToggle = (shopId: number, currentlyHidden: boolean) => {
     toggleMutation.mutate({ shopId, data: { isHidden: !currentlyHidden } });
@@ -39,7 +19,7 @@ export function ShopReportsPage() {
     {
       accessorKey: "num",
       header: "ID",
-      size: 80,
+      size: 20,
     },
     {
       accessorKey: "userEmail",
@@ -61,7 +41,7 @@ export function ShopReportsPage() {
       accessorKey: "reportDate",
       header: "신고 날짜",
       cell: ({ getValue }) =>
-        new Date(getValue<string>()).toLocaleDateString("ko-KR"),
+        getFormatDateString(getValue<string>(), "yyyy.MM.dd"),
     },
     {
       accessorKey: "reportCount",
@@ -85,34 +65,19 @@ export function ShopReportsPage() {
               : "bg-red-100 text-red-700 hover:bg-red-200"
           } disabled:opacity-50`}
         >
-          {row.original.isHidden ? "노출" : "비노출"}
+          {row.original.isHidden ? "노출하기" : "숨기기"}
         </button>
       ),
     },
-  ];
-
-  const tabs = [
-    { label: "전체", value: "all" },
-    { label: "노출", value: "visible" },
-    { label: "비노출", value: "hidden" },
   ];
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-24">장소 신고 목록</h1>
 
-      <FilterTabs
-        tabs={tabs}
-        activeTab={visibilityFilter}
-        onChange={setVisibilityFilter}
-      />
-
       <Table
-        data={paginatedData}
+        data={data || []}
         columns={columns}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
         isLoading={isLoading}
         emptyMessage="신고된 장소가 없습니다."
       />

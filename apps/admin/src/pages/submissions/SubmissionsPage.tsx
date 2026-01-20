@@ -2,74 +2,47 @@ import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useGetAllSubmissions } from "@/shared/api/submissions/queries";
 import { Table } from "@/shared/components/Table";
-import { Modal } from "@/shared/components/Modal";
-import { FilterTabs } from "@/shared/components/FilterTabs";
 import type {
-  NewShopSubmission,
-  NewProductSubmission,
-  NewOperatingSubmission,
+  SubmissionType,
+  SubmissionStatus,
+  AllSubmission,
 } from "@/shared/api/submissions/types";
-
-const ITEMS_PER_PAGE = 20;
-
-type AllSubmissions = (
-  | NewShopSubmission
-  | NewProductSubmission
-  | NewOperatingSubmission
-) & {
-  category: string;
-};
+import { getFormatDateString } from "@repo/utils/formatDateString";
+import { SubmissionDetailModal } from "./components/SubmissionDetailModal";
 
 export function SubmissionsPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [statusFilter, setStatusFilter] = useState("all");
   const [selectedSubmission, setSelectedSubmission] =
-    useState<AllSubmissions | null>(null);
+    useState<AllSubmission | null>(null);
   const { data, isLoading } = useGetAllSubmissions();
 
-  const allSubmissions: AllSubmissions[] = data
-    ? [
-        ...data.newShopSubmissions.map((s) => ({
-          ...s,
-          category: "새 소품샵",
-        })),
-        ...data.newProductSubmissions.map((s) => ({
-          ...s,
-          category: "상품 추가",
-        })),
-        ...data.newOperatingSubmissions.map((s) => ({
-          ...s,
-          category: "운영시간",
-        })),
-      ].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      )
-    : [];
+  //TODO: API 필터링 추가되면 수정
+  const allSubmissions = data ? Object.values(data).flat() : [];
 
-  const filteredData =
-    statusFilter === "all"
-      ? allSubmissions
-      : allSubmissions.filter((s) => s.status === statusFilter);
+  const categoryMap: Record<SubmissionType, string> = {
+    new_shop: "새 소품샵",
+    new_product: "상품 추가",
+    new_operating: "운영시간",
+  };
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+  const statusMap: Record<SubmissionStatus, string> = {
+    pending: "대기중",
+    approved: "승인됨",
+    rejected: "반려됨",
+  };
 
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-
-  const columns: ColumnDef<AllSubmissions>[] = [
+  const columns: ColumnDef<AllSubmission>[] = [
     {
       accessorKey: "id",
       header: "ID",
       size: 80,
     },
     {
-      accessorKey: "category",
+      accessorKey: "type",
       header: "카테고리",
       size: 120,
+      cell: ({ getValue }) => {
+        return categoryMap[getValue<SubmissionType>()];
+      },
     },
     {
       id: "email",
@@ -90,108 +63,41 @@ export function SubmissionsPage() {
       accessorKey: "createdAt",
       header: "등록 날짜",
       cell: ({ getValue }) =>
-        new Date(getValue<string>()).toLocaleDateString("ko-KR"),
+        getFormatDateString(getValue<string>(), "yyyy.MM.dd"),
     },
     {
       accessorKey: "status",
       header: "상태",
       size: 100,
       cell: ({ getValue }) => {
-        const statusMap = {
-          pending: "대기중",
-          approved: "승인됨",
-          rejected: "반려됨",
-        };
-        return statusMap[getValue<"pending" | "approved" | "rejected">()];
+        return statusMap[getValue<SubmissionStatus>()];
       },
     },
   ];
 
-  const tabs = [
-    { label: "전체", value: "all" },
-    { label: "대기중", value: "pending" },
-    { label: "승인됨", value: "approved" },
-    { label: "반려됨", value: "rejected" },
-  ];
+  const onModalClose = () => {
+    setSelectedSubmission(null);
+  };
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-24">수정 요청 목록</h1>
 
-      <FilterTabs
-        tabs={tabs}
-        activeTab={statusFilter}
-        onChange={setStatusFilter}
-      />
-
       <Table
-        data={paginatedData}
+        data={allSubmissions || []}
         columns={columns}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
         onRowClick={setSelectedSubmission}
         isLoading={isLoading}
         emptyMessage="수정 요청이 없습니다."
       />
 
       {/* Detail Modal */}
-      <Modal
-        isOpen={!!selectedSubmission}
-        onClose={() => setSelectedSubmission(null)}
-        title="제출 상세 정보"
-      >
-        {selectedSubmission && (
-          <div className="space-y-16">
-            <div>
-              <p className="text-sm text-gray-500 mb-4">카테고리</p>
-              <p className="font-medium">{selectedSubmission.category}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 mb-4">제보자</p>
-              <p className="font-medium">{selectedSubmission.user.email}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 mb-4">장소명</p>
-              <p className="font-medium">{selectedSubmission.shop.name}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 mb-4">주소</p>
-              <p className="font-medium">{selectedSubmission.shop.location}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 mb-4">위도/경도</p>
-              <p className="font-medium">
-                {selectedSubmission.shop.lat}, {selectedSubmission.shop.lng}
-              </p>
-            </div>
-            {selectedSubmission.shop.instagram && (
-              <div>
-                <p className="text-sm text-gray-500 mb-4">인스타그램</p>
-                <p className="font-medium">
-                  {selectedSubmission.shop.instagram}
-                </p>
-              </div>
-            )}
-            <div>
-              <p className="text-sm text-gray-500 mb-4">상태</p>
-              <p className="font-medium">
-                {selectedSubmission.status === "pending" && "대기중"}
-                {selectedSubmission.status === "approved" && "승인됨"}
-                {selectedSubmission.status === "rejected" && "반려됨"}
-              </p>
-            </div>
-            {selectedSubmission.rejectMessage && (
-              <div>
-                <p className="text-sm text-gray-500 mb-4">반려 사유</p>
-                <p className="font-medium">
-                  {selectedSubmission.rejectMessage}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </Modal>
+      <SubmissionDetailModal
+        onClose={onModalClose}
+        submission={selectedSubmission}
+        categoryMap={categoryMap}
+        statusMap={statusMap}
+      />
     </div>
   );
 }
