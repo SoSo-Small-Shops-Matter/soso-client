@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@repo/utils": "*",
     "@amplitude/analytics-browser": "^2.25.4",
     "@hookform/resolvers": "^3.10.0",
     "@repo/tailwind-config": "*",
+    "@repo/utils": "*",
     "@tanstack/react-query": "^5.63.0",
+    "@tanstack/react-virtual": "^3.13.18",
     "@typescript-eslint/parser": "^8.19.1",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",

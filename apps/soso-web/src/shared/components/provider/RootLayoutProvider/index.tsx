@@ -46,18 +46,13 @@ export default function RootLayoutProvider({ children }: RootLayoutProviderProps
         <DialogProvider>
           <ToastProvider>
             <AuthComponent />
-            {pathname.includes('/soso-admin') ? (
-              <div>{children}</div>
-            ) : (
-              <div
-                ref={contentRef}
-                className={`m-auto h-screenVh w-full max-w-screen overflow-y-auto pb-60 ${pathname === '/' ? 'pt-0' : 'pt-56'} shadow-md`}
-              >
-                {children}
-                {isNavigation && <BottomNavigation />}
-              </div>
-            )}
-
+            <div
+              ref={contentRef}
+              className={`m-auto h-screenVh w-full max-w-screen overflow-y-auto pb-60 ${pathname === '/' ? 'pt-0' : 'pt-56'} shadow-md`}
+            >
+              {children}
+              {isNavigation && <BottomNavigation />}
+            </div>
             <div id="bottom-modal-root" className=""></div>
             <div id="portal-root" className=""></div>
           </ToastProvider>
