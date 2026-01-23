@@ -16,9 +16,6 @@ export default function ListViewButton({ className, totalShopCount, ...props }: 
       )}
       {...props}
     >
-      <div className="fixed -top-4 right-16 flex h-16 w-16 items-center justify-center rounded-full bg-main text-12 text-white">
-        {totalShopCount}
-      </div>
       <ListIcon fill={'#72787f'} width={'24'} height={'24'} />
     </button>
   )

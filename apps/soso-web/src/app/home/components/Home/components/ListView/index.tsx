@@ -4,16 +4,12 @@ import SearchIcon from '@/shared/components/icons/SearchIcon'
 import CategoryButton from '../CategoryButton'
 import WishViewButton from '../WishViewButton'
 import { useSearchStore } from '@/shared/store/useSearchStore'
-import Flex from '@/shared/components/layout/Flex'
-import Image from 'next/image'
 import Link from 'next/link'
-import { handleImageError } from '@/shared/utils/handleImageError'
 import { useEffect, useRef, useState } from 'react'
-import { getDistance } from '@/shared/utils/getDistance'
 import { getCurrentLocation } from '@/shared/utils/getCurrentLocation'
-import RoadFindButton from '@/shared/components/button/RoadFindButton'
-import { applefindUrl, kakaoFindUrl, naverFindUrl } from '@/shared/utils/findShop'
 import { useLocationStore } from '@/shared/store/useLocationStore'
+import { useVirtualizer } from '@tanstack/react-virtual'
+import ListViewItem from '../ListViewItem'
 
 interface ListViewProps {
   isMapViewMode: boolean
@@ -39,9 +35,28 @@ export default function ListView({
   const { setPrevShop } = useLocationStore()
   const { setSearchValue } = useSearchStore()
   const headerRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLDivElement>(null)
   const [headerHeight, setHeaderHeight] = useState<number>(122)
   const [currentLat, setCurrentLat] = useState<number | null>(0)
   const [currentLng, setCurrentLng] = useState<number | null>(0)
+  const [scrollElement, setScrollElement] = useState<Element | null>(null)
+
+  useEffect(() => {
+    if (parentRef.current) {
+      const parent = parentRef.current.closest('.overflow-y-auto')
+      if (parent) {
+        setScrollElement(parent)
+      }
+    }
+  }, [])
+
+  const virtualizer = useVirtualizer({
+    count: shopData.length,
+    getScrollElement: () => scrollElement,
+    estimateSize: () => 105,
+    overscan: 5,
+    scrollMargin: headerHeight,
+  })
 
   const handleSavePrevLocation = (lat: number, lng: number, id: number) => {
     setPrevShop({ id, lat, lng })
@@ -69,7 +84,7 @@ export default function ListView({
   }, [])
 
   return (
-    <div className={`${className} h-full`}>
+    <div ref={parentRef} className={className}>
       <div ref={headerRef} className="fixed z-sticky flex w-full max-w-screen flex-col bg-white px-18 pt-16">
         <Link href="/search" onClick={() => setSearchValue('')}>
           <div className="relative h-46 w-full">
@@ -88,41 +103,35 @@ export default function ListView({
         </div>
       </div>
 
-      <div className="h-full" style={{ paddingTop: headerHeight }}>
-        {shopData.map((shop) => (
-          <Link
-            key={`home_list_view_shop_${shop.id}`}
-            href={`/shop/${shop.id}`}
-            onClick={() => handleSavePrevLocation(shop.lat, shop.lng, shop.id)}
-            className="overflow-hidden bg-white"
-          >
-            <Flex align="center" className="border-b border-gray-100 px-18 py-16">
-              <div className="relative h-72 min-w-72 overflow-hidden rounded-8">
-                <Image
-                  src={shop.mainImage || '/images/default_item.svg'}
-                  style={{ objectFit: 'cover' }}
-                  fill
-                  alt=""
-                  onError={handleImageError}
-                />
-              </div>
-
-              <Flex className="flex-1 overflow-x-hidden" align="center">
-                <div className="flex flex-1 flex-col overflow-x-hidden px-8">
-                  <h4 className="mb-6 overflow-hidden text-ellipsis whitespace-nowrap font-title4_semi">{shop.name}</h4>
-                  <p className="text-gray-400 font-body1_m">
-                    {currentLat === 0 ? '-' : getDistance(Number(currentLat), Number(currentLng), shop.lat, shop.lng)}
-                  </p>
-                </div>
-                <RoadFindButton
-                  naverUrl={naverFindUrl(shop.name, shop.lat, shop.lng)}
-                  kakaoUrl={kakaoFindUrl(shop.name, shop.lat, shop.lng)}
-                  appleUrl={applefindUrl(shop.lat, shop.lng)}
-                />
-              </Flex>
-            </Flex>
-          </Link>
-        ))}
+      <div
+        className="relative w-full"
+        style={{
+          height: `${virtualizer.getTotalSize() + headerHeight}px`,
+        }}
+      >
+        {virtualizer.getVirtualItems().map((virtualItem) => {
+          const shop = shopData[virtualItem.index]
+          return (
+            <div
+              key={virtualItem.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualItem.size}px`,
+                transform: `translateY(${virtualItem.start}px)`,
+              }}
+            >
+              <ListViewItem
+                shop={shop}
+                currentLat={currentLat}
+                currentLng={currentLng}
+                onClick={handleSavePrevLocation}
+              />
+            </div>
+          )
+        })}
       </div>
 
       <div className="fixed bottom-76 left-1/2 flex w-full -translate-x-1/2 flex-col items-end gap-20 px-16 layout-center">
