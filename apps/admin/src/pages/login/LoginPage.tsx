@@ -19,7 +19,7 @@ export function LoginPage() {
 
   useEffect(() => {
     if (token) {
-      navigate("/admin/users", { replace: true });
+      navigate("/users", { replace: true });
     }
   }, [token, navigate]);
 

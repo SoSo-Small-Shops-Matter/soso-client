@@ -38,23 +38,25 @@ function App() {
           <Route path="/" element={<RootRedirect />} />
 
           {/* Public Routes */}
-          <Route path="/admin/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Protected Routes */}
           <Route
-            path="/admin"
+            path="/"
             element={
               <ProtectedRoute>
                 <AdminLayout />
               </ProtectedRoute>
             }
           >
+            <Route index element={<Navigate to="users" replace />} />
             <Route path="users" element={<UsersPage />} />
             <Route path="users-withdrawn" element={<WithdrawnUsersPage />} />
             <Route path="submissions" element={<SubmissionsPage />} />
             <Route path="shop-reports" element={<ShopReportsPage />} />
             <Route path="review-reports" element={<ReviewReportsPage />} />
             <Route path="feedback" element={<FeedbackPage />} />
+            <Route path="*" element={<Navigate to="users" replace />} />
           </Route>
 
           {/* Catch all - redirect to root */}

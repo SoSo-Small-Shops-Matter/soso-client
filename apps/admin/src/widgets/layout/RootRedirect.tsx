@@ -6,9 +6,9 @@ export function RootRedirect() {
 
   // If token exists, user is logged in -> redirect to users page
   if (token) {
-    return <Navigate to="/admin/users" replace />;
+    return <Navigate to="/users" replace />;
   }
 
   // No token -> redirect to login page
-  return <Navigate to="/admin/login" replace />;
+  return <Navigate to="/login" replace />;
 }

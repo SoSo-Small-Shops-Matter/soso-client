@@ -8,22 +8,22 @@ const navigation: NavSection[] = [
   {
     title: "회원 관리",
     items: [
-      { name: "회원 목록", path: "/admin/users" },
-      { name: "탈퇴 목록", path: "/admin/users-withdrawn" },
+      { name: "회원 목록", path: "/users" },
+      { name: "탈퇴 목록", path: "/users-withdrawn" },
     ],
   },
   {
     title: "소품샵 관리",
     items: [
-      { name: "수정 요청 목록", path: "/admin/submissions" },
-      { name: "장소 신고 목록", path: "/admin/shop-reports" },
+      { name: "수정 요청 목록", path: "/submissions" },
+      { name: "장소 신고 목록", path: "/shop-reports" },
     ],
   },
   {
     title: "리뷰/문의",
     items: [
-      { name: "리뷰 신고 목록", path: "/admin/review-reports" },
-      { name: "문의 및 피드백", path: "/admin/feedback" },
+      { name: "리뷰 신고 목록", path: "/review-reports" },
+      { name: "문의 및 피드백", path: "/feedback" },
     ],
   },
 ];
