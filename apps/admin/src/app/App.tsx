@@ -56,7 +56,6 @@ function App() {
             <Route path="shop-reports" element={<ShopReportsPage />} />
             <Route path="review-reports" element={<ReviewReportsPage />} />
             <Route path="feedback" element={<FeedbackPage />} />
-            <Route path="*" element={<Navigate to="users" replace />} />
           </Route>
 
           {/* Catch all - redirect to root */}
