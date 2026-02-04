@@ -52,12 +52,12 @@ export function SubmissionsPage() {
     {
       id: "shopName",
       header: "장소명",
-      accessorFn: (row) => row.shop.name,
+      accessorFn: (row) => row.shop?.name || "-",
     },
     {
       id: "location",
       header: "주소",
-      accessorFn: (row) => row.shop.location,
+      accessorFn: (row) => row.shop?.location || "-",
     },
     {
       accessorKey: "createdAt",
@@ -78,6 +78,8 @@ export function SubmissionsPage() {
   const onModalClose = () => {
     setSelectedSubmission(null);
   };
+
+  console.log(allSubmissions);
 
   return (
     <div>
