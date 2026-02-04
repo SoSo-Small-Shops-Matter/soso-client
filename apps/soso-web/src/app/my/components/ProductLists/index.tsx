@@ -5,6 +5,7 @@ import { useGetMyReviewQuery } from '@/app/my/components/ProductLists/hooks/useG
 import { useGetMyShopQuery } from '@/app/my/components/ProductLists/hooks/useGetMyShopQuery'
 import { useGetMyWishQuery } from '@/app/my/components/ProductLists/hooks/useGetMyWishQuery'
 import Flex from '@/shared/components/layout/Flex'
+import { SUBMISSION_TYPE } from './types'
 
 export default function ProductLists() {
   const { data: myWishData } = useGetMyWishQuery(10)
@@ -38,10 +39,9 @@ export default function ProductLists() {
         image: shop.shop?.mainImage || null,
         name: shop.shop?.name || null,
         link: `/shop/${shop.shop?.id}` || null,
-        type: shop.type || 0,
+        type: shop.type || SUBMISSION_TYPE.NEW_SHOP,
       }
     }) || []
-
   return (
     <Flex direction="col" gap={28} className="w-full">
       <ProductLayout

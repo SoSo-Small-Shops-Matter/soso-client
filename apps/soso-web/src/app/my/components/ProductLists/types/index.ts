@@ -39,7 +39,7 @@ export type GetMyReviewResponseType = {
 
 export interface MyShopType {
   id: number
-  type: number
+  type: SubmissionType
   status: number
   rejectMessage: string | null
   submitStatus: MyShopSubmitStatus
@@ -53,6 +53,14 @@ export interface MyShopType {
     location: string
   }
 }
+
+export const SUBMISSION_TYPE = {
+  NEW_SHOP: 'new_shop',
+  NEW_PRODUCT: 'new_product',
+  NEW_OPERATING: 'new_operating',
+} as const
+
+export type SubmissionType = (typeof SUBMISSION_TYPE)[keyof typeof SUBMISSION_TYPE]
 
 export const MY_SHOP_SUBMIT_STATUS = {
   // 최초 제보

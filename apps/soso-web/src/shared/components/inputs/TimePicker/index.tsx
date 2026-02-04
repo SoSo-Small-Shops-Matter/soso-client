@@ -63,6 +63,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             direction="vertical"
             slidesPerView={3}
             centeredSlides
+            slideToClickedSlide={true}
             onSwiper={(swiper) => (ampmSwiperRef.current = swiper)}
             onSlideChange={(swiper) => setSelectedAMPM(swiper.realIndex === 0 ? '오전' : '오후')}
             className="h-[120px] w-[40px]"
@@ -81,6 +82,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             slidesPerView={3}
             loop={false}
             centeredSlides
+            slideToClickedSlide={true}
             onSwiper={(swiper) => (hourSwiperRef.current = swiper)}
             onSlideChange={(swiper) => setSelectedHour(swiper.activeIndex + 1)}
             className="h-[120px] w-[40px]"
@@ -101,6 +103,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             slidesPerView={3}
             loop={false}
             centeredSlides
+            slideToClickedSlide={true}
             onSwiper={(swiper) => (minuteSwiperRef.current = swiper)}
             onSlideChange={(swiper) => setSelectedMinute(swiper.activeIndex * 5)}
             className="h-[120px] w-[40px]"

@@ -9,7 +9,7 @@ import Divider from '@/shared/components/divider/Divider'
 import ProposalIcon from '@/shared/components/icons/ProposalIcon'
 import Input from '@/shared/components/inputs/Input'
 import TimePicker from '@/shared/components/inputs/TimePicker'
-import YoilCheckbox from '@/shared/components/inputs/YoilCheckbox'
+import DayOfWeekCheckbox from '@/shared/components/inputs/DayOfWeekCheckbox'
 import ContentBox from '@/shared/components/layout/ContentBox'
 import Flex from '@/shared/components/layout/Flex'
 import InputContent from '@/shared/components/layout/InputContent'
@@ -20,12 +20,11 @@ import ContentSubTitle from '@/shared/components/text/ContentSubTitle'
 import ContentTitle from '@/shared/components/text/ContentTitle'
 import EmptyData from '@/shared/components/ui/EmptyData'
 import { useDialog } from '@/shared/context/DialogContext'
-import { useToast } from '@/shared/context/ToastContext'
 import useInput from '@/shared/hooks/useInput'
 import { useTimePicker } from '@/shared/hooks/useTimePicker'
 import { useAuthStore } from '@/shared/store/useAuthStore'
-import { useYoilStore } from '@/shared/store/useYoilStore'
-import { OperatingHourType } from '@/shared/types/shopType'
+import { DAYS_MAP } from '@/shared/constant/days'
+import type { DayOfWeek, OperatingHourType } from '@/shared/types/shopType'
 import { useParams, useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
@@ -36,11 +35,11 @@ interface ShopOperInfoProps {
 export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
   const [isFormChanged, setIsFormChanged] = useState(false)
   const [status, setStatus] = useState({
-    isYoilData: false,
+    isDayOfWeekData: false,
     isTimeData: false,
     isPhoneData: false,
   })
-  const { yoil, setCheckYoil, addYoil, setAddYoil, toggleAddYoil, resetAddYoil } = useYoilStore()
+  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([])
   const { token } = useAuthStore()
   const [isBottomModal, setIsBottomModal] = useState(false)
   const { id } = useParams()
@@ -66,8 +65,9 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
 
   const handleChangeCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     const { id } = e.target as HTMLInputElement
+    const dayValue = id as DayOfWeek
 
-    toggleAddYoil(id)
+    setSelectedDays((prev) => (prev.includes(dayValue) ? prev.filter((d) => d !== dayValue) : [...prev, dayValue]))
   }
 
   const confirm = () => {
@@ -95,16 +95,10 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
     const data = {
       shopId: Number(id),
       operatingHours: {
-        phoneNumber,
+        phoneNumber: phoneNumber || null,
+        daysOfWeek: selectedDays,
         startTime: openTime.split(' ')[1],
         endTime: closeTime.split(' ')[1],
-        monday: addYoil[0].checked,
-        tuesday: addYoil[1].checked,
-        wednesday: addYoil[2].checked,
-        thursday: addYoil[3].checked,
-        friday: addYoil[4].checked,
-        saturday: addYoil[5].checked,
-        sunday: addYoil[6].checked,
       },
     }
 
@@ -127,35 +121,20 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
   }
 
   useEffect(() => {
-    setCheckYoil('월', operData?.[0]?.monday || false)
-    setCheckYoil('화', operData?.[0]?.tuesday || false)
-    setCheckYoil('수', operData?.[0]?.wednesday || false)
-    setCheckYoil('목', operData?.[0]?.thursday || false)
-    setCheckYoil('금', operData?.[0]?.friday || false)
-    setCheckYoil('토', operData?.[0]?.saturday || false)
-    setCheckYoil('일', operData?.[0]?.sunday || false)
-    setAddYoil('월', operData?.[0]?.monday || false)
-    setAddYoil('화', operData?.[0]?.tuesday || false)
-    setAddYoil('수', operData?.[0]?.wednesday || false)
-    setAddYoil('목', operData?.[0]?.thursday || false)
-    setAddYoil('금', operData?.[0]?.friday || false)
-    setAddYoil('토', operData?.[0]?.saturday || false)
-    setAddYoil('일', operData?.[0]?.sunday || false)
+    const daysOfWeek = operData?.[0]?.daysOfWeek || []
+    setSelectedDays(daysOfWeek)
+
     setOpenTime(operData?.[0]?.startTime || '')
     setCloseTime(operData?.[0]?.endTime || '')
     setPhoneNumber(operData?.[0]?.phoneNumber || '')
   }, [operData, isBottomModal])
 
   useEffect(() => {
+    const originalDays = operData?.[0]?.daysOfWeek || []
+
     // 운영요일 변경 확인
-    const isYoilChanged =
-      addYoil[0].checked !== (operData?.[0]?.monday || false) ||
-      addYoil[1].checked !== (operData?.[0]?.tuesday || false) ||
-      addYoil[2].checked !== (operData?.[0]?.wednesday || false) ||
-      addYoil[3].checked !== (operData?.[0]?.thursday || false) ||
-      addYoil[4].checked !== (operData?.[0]?.friday || false) ||
-      addYoil[5].checked !== (operData?.[0]?.saturday || false) ||
-      addYoil[6].checked !== (operData?.[0]?.sunday || false)
+    const isDayOfWeekChanged =
+      selectedDays.length !== originalDays.length || selectedDays.some((day) => !originalDays.includes(day))
 
     // 운영시간 변경 확인
     const isTimeChanged = openTime !== (operData?.[0]?.startTime || '') || closeTime !== (operData?.[0]?.endTime || '')
@@ -164,21 +143,16 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
     const isPhoneChanged = phoneNumber !== (operData?.[0]?.phoneNumber || '')
 
     // 하나라도 변경되었으면 폼이 변경된 것으로 판단
-    setIsFormChanged(isYoilChanged || isTimeChanged || isPhoneChanged)
-  }, [addYoil, openTime, closeTime, phoneNumber, operData])
+    setIsFormChanged(isDayOfWeekChanged || isTimeChanged || isPhoneChanged)
+  }, [selectedDays, openTime, closeTime, phoneNumber, operData])
 
   useEffect(() => {
     if (operData && operData.length > 0) {
-      const yoilExists = Object.keys(operData[0]).some(
-        (key) =>
-          ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].includes(key) &&
-          operData[0][key as keyof OperatingHourType] === true
-      )
-
+      const dayOfWeekExists = operData[0].daysOfWeek && operData[0].daysOfWeek.length > 0
       const timeExists = !!operData[0].startTime && !!operData[0].endTime
 
       setStatus({
-        isYoilData: yoilExists,
+        isDayOfWeekData: dayOfWeekExists,
         isTimeData: timeExists,
         isPhoneData: !!operData[0]?.phoneNumber,
       })
@@ -194,10 +168,16 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
       <Flex direction="col" gap={24} className="w-full">
         <Flex direction="col" gap={8} className="w-full">
           <ContentSubTitle title="운영 요일" />
-          {status.isYoilData ? (
+          {status.isDayOfWeekData ? (
             <Flex justify="between" align="center" className="w-full max-w-[375px]">
-              {yoil.map((item) => (
-                <YoilCheckbox key={item.id} id={item.id} label={item.label} checked={item.checked} disabled />
+              {DAYS_MAP.map((item) => (
+                <DayOfWeekCheckbox
+                  key={item.value}
+                  id={`day-of-week-checkbox-item-${item.value}`}
+                  label={item.label}
+                  checked={(operData?.[0]?.daysOfWeek || []).includes(item.value)}
+                  disabled
+                />
               ))}
             </Flex>
           ) : (
@@ -241,12 +221,12 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
             <Flex direction="col" className="w-full" gap={20}>
               <InputContent label="운영 요일을 선택해주세요.">
                 <div className="flex w-full max-w-[375px] items-center justify-between">
-                  {addYoil.map((item) => (
-                    <YoilCheckbox
-                      key={item.id}
-                      id={item.id}
+                  {DAYS_MAP.map((item) => (
+                    <DayOfWeekCheckbox
+                      key={item.value}
+                      id={item.value}
                       label={item.label}
-                      checked={item.checked}
+                      checked={selectedDays.includes(item.value)}
                       onChange={handleChangeCheckBox}
                     />
                   ))}

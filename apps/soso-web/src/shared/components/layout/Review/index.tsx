@@ -91,11 +91,11 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
   }
 
   const handleReviewDelete = () => {
-    if (!detailData?.userReviews[0].id) return
+    if (!detailData || !data) return
     deleteReviewMutate(
       {
         shopId: detailData.shop.id,
-        reviewId: detailData?.userReviews[0].id,
+        reviewId: data.id,
       },
       {
         onSuccess: () => {
@@ -110,11 +110,12 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
   }
 
   const handleOpenDeleteModal = () => {
+    if (!data) return
     openDialog({
       title: '후기 삭제',
       message: (
         <>
-          닉네임 님이 등록한 후기를
+          {data.user.nickName} 님이 등록한 후기를
           <br /> 삭제하시겠습니까?
         </>
       ),
@@ -136,12 +137,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
           </button>
         )}
         <Flex align="center" gap={12} className="flex-1">
-          <ProfileImage
-            imgUrl={
-              (isMe ? getSafeImageUrl(userData?.profileImg || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
-              '/images/default_profile.png'
-            }
-          />
+          <ProfileImage imgUrl={isMe ? getSafeImageUrl(userData?.profileImg) : getSafeImageUrl(data?.user?.photoUrl)} />
           <Flex direction="col" className="flex-1">
             <p className="text-gray-800 font-body2_m">{data?.user?.nickName || isMe ? data?.user?.nickName : '익명'}</p>
             {data?.createdAt && (

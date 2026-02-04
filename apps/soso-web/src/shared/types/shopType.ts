@@ -13,18 +13,15 @@ export interface ShopType {
   reviewCount: number
 }
 
+export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
 export interface OperatingHourType {
-  id?: number
-  phoneNumber: string
-  monday: boolean
-  tuesday: boolean
-  wednesday: boolean
-  thursday: boolean
-  friday: boolean
-  saturday: boolean
-  sunday: boolean
-  startTime: string
-  endTime: string
+  id: number;
+  isVerified: number;
+  phoneNumber: string | null;
+  daysOfWeek: DayOfWeek[];
+  startTime: string;
+  endTime: string;
 }
 
 export interface ProductType {
