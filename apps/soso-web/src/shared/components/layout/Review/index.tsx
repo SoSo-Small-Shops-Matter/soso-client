@@ -91,11 +91,11 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
   }
 
   const handleReviewDelete = () => {
-    if (!detailData?.userReviews[0].id) return
+    if (!detailData || !data) return
     deleteReviewMutate(
       {
         shopId: detailData.shop.id,
-        reviewId: detailData?.userReviews[0].id,
+        reviewId: data.id,
       },
       {
         onSuccess: () => {
@@ -110,11 +110,12 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
   }
 
   const handleOpenDeleteModal = () => {
+    if (!data) return
     openDialog({
       title: '후기 삭제',
       message: (
         <>
-          닉네임 님이 등록한 후기를
+          {data.user.nickName} 님이 등록한 후기를
           <br /> 삭제하시겠습니까?
         </>
       ),
