@@ -8,13 +8,14 @@ import { Navigation, FreeMode } from 'swiper/modules'
 import EmptyData from '@/shared/components/ui/EmptyData'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
 import clsx from 'clsx'
+import { SUBMISSION_TYPE, SubmissionType } from '../ProductLists/types'
 
 interface Data {
   id: number | null
   image: string | null
   name: string | null
   link: string | null
-  type?: number | null
+  type?: SubmissionType | null
 }
 
 interface ProductLayoutProps {
@@ -22,7 +23,7 @@ interface ProductLayoutProps {
   title: string
   placeholder: string
   productLink: string
-  type?: number
+  type?: SubmissionType
   totalData?: number
 }
 
@@ -50,11 +51,18 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
           {data.map((item, index) => (
             <SwiperSlide style={{ width: '72px' }} key={index}>
               <Link
-                href={item.type === 0 ? '#' : item.link || ''}
-                className={clsx('flex w-full flex-col gap-6 truncate', item.type === 0 && 'cursor-default')}
+                href={item.type === SUBMISSION_TYPE.NEW_SHOP ? '#' : item.link || ''}
+                className={clsx(
+                  'flex w-full flex-col gap-6 truncate',
+                  item.type === SUBMISSION_TYPE.NEW_SHOP && 'cursor-default'
+                )}
               >
                 <ProductImage
-                  imgUrl={item.type === 0 ? '/images/confirm.png' : item.image || '/images/default_item.svg'}
+                  imgUrl={
+                    item.type === SUBMISSION_TYPE.NEW_SHOP
+                      ? '/images/confirm.png'
+                      : item.image || '/images/default_item.svg'
+                  }
                   size={72}
                 />
                 <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body2_m">{item.name}</span>

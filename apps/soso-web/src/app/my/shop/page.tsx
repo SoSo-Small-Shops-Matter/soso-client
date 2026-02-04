@@ -12,6 +12,7 @@ import { useDialog } from '@/shared/context/DialogContext'
 import { useDeleteSubmitShopMutation } from '@/app/my/shop/hooks/useDeleteSubmitShopMutation'
 import MyShopStatusBadge from './components/MyShopStatusBadge'
 import { getFormatDateString } from '@repo/utils/formatDateString'
+import { SUBMISSION_TYPE } from '../components/ProductLists/types'
 
 export default function MyShopPage() {
   const router = useRouter()
@@ -63,13 +64,13 @@ export default function MyShopPage() {
           <div key={`shop-${data?.id}-${index}`} className="relative w-full">
             <button
               onClick={() => handleLink(data?.shop.id)}
-              disabled={data?.type === 0}
+              disabled={data?.type === SUBMISSION_TYPE.NEW_SHOP}
               className="flex w-full items-center justify-between border-b border-gray-100 px-16 py-18"
             >
               <ShopInfo
                 name={data.shop.name}
                 date={getFormatDateString(data?.createdAt, 'yyyy.MM.dd')}
-                disabled={data?.type === 0}
+                disabled={data?.type === SUBMISSION_TYPE.NEW_SHOP}
                 imgUrl={data?.shop.mainImage || ''}
               />
             </button>
