@@ -30,7 +30,7 @@ export const SubmissionShopOperatingHourSchema = z.object({
   id: z.number(),
   isVerified: z.coerce.boolean(),
   phoneNumber: z.string().nullable(),
-  daysOfWeek: z.array(z.array(z.any())).nullable(),
+  daysOfWeek: z.array(z.string()).nullable(),
   startTime: z.string(),
   endTime: z.string(),
 });
@@ -56,7 +56,7 @@ export const NewShopSubmissionSchema = z.object({
   status: SubmissionStatusSchema,
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
-  shop: SubmissionShopSchema,
+  shop: SubmissionShopSchema.nullable(),
   user: SubmissionUserSchema,
 });
 
@@ -66,7 +66,7 @@ export const NewProductSubmissionSchema = z.object({
   status: SubmissionStatusSchema,
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
-  shop: SubmissionShopSchema,
+  shop: SubmissionShopSchema.nullable(),
   shopProducts: z.array(SubmissionShopProductMappingSchema),
   user: SubmissionUserSchema,
 });
@@ -77,7 +77,7 @@ export const NewOperatingSubmissionSchema = z.object({
   status: SubmissionStatusSchema,
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
-  shop: SubmissionShopSchema,
+  shop: SubmissionShopSchema.nullable(),
   shopOperatingHour: SubmissionShopOperatingHourSchema,
   user: SubmissionUserSchema,
 });
