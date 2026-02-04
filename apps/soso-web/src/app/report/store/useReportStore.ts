@@ -1,3 +1,4 @@
+import { OperatingHourType } from '@/shared/types/shopType';
 import { create } from 'zustand';
 
 interface Shop {
@@ -7,18 +8,10 @@ interface Shop {
   location: string;
 }
 
-interface OperatingHours {
-  phoneNumber: string;
-  monday: boolean;
-  tuesday: boolean;
-  wednesday: boolean;
-  thursday: boolean;
-  friday: boolean;
-  saturday: boolean;
-  sunday: boolean;
-  startTime: string;
-  endTime: string;
-}
+type OperatingHours = Pick<OperatingHourType, 'phoneNumber' |
+  'daysOfWeek' |
+  'startTime' |
+  'endTime'>
 
 interface Product {
   id: number;
@@ -49,14 +42,8 @@ export const useReportStore = create<ReportState>()((set) => ({
     location: '',
   },
   operatingHours: {
-    phoneNumber: '',
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-    saturday: false,
-    sunday: false,
+    phoneNumber: null,
+    daysOfWeek: [],
     startTime: '10:00',
     endTime: '20:00',
   },
@@ -74,14 +61,8 @@ export const useReportStore = create<ReportState>()((set) => ({
         location: '',
       },
       operatingHours: {
-        phoneNumber: '',
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
+        phoneNumber: null,
+        daysOfWeek: [],
         startTime: '10:00',
         endTime: '20:00',
       },

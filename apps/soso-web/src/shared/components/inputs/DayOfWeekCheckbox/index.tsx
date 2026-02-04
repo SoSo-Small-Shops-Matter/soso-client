@@ -10,7 +10,7 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
-const YoilCheckbox = ({ id, checked, onChange, size = 40, label, disabled, ...props }: CheckboxProps) => {
+const DayOfWeekCheckbox = ({ id, checked, onChange, size = 40, label, disabled, ...props }: CheckboxProps) => {
   return (
     <div className="flex items-center gap-2">
       <input
@@ -37,4 +37,4 @@ const YoilCheckbox = ({ id, checked, onChange, size = 40, label, disabled, ...pr
   )
 }
 
-export default YoilCheckbox
+export default DayOfWeekCheckbox

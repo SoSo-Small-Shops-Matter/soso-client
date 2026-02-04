@@ -7,7 +7,7 @@ import TimePickerButton from '@/shared/components/button/TimePickerButton'
 import SellProduct from '@/shared/components/card/SellProduct'
 import Input from '@/shared/components/inputs/Input'
 import TimePicker from '@/shared/components/inputs/TimePicker'
-import YoilCheckbox from '@/shared/components/inputs/YoilCheckbox'
+import DayOfWeekCheckbox from '@/shared/components/inputs/DayOfWeekCheckbox'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
 import NaverMap from '@/shared/components/layout/NaverMap'
@@ -18,8 +18,8 @@ import ModalPortal from '@/shared/components/modal/ModalPortal'
 import useInput from '@/shared/hooks/useInput'
 import { useTimePicker } from '@/shared/hooks/useTimePicker'
 import useProductListStore from '@/shared/store/useProductListStore'
-import { useYoilStore } from '@/shared/store/useYoilStore'
-import { usePathname, useRouter } from 'next/navigation'
+import { DAYS_MAP } from '@/shared/constant/days'
+import { useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
 export default function ReportWrite() {
@@ -39,19 +39,22 @@ export default function ReportWrite() {
     handleOpenTimePicker,
     handleTimePicker,
   } = useTimePicker()
-  const { productList, clearProductList } = useProductListStore()
-  const { yoil, toggleYoil, resetYoil } = useYoilStore()
+  const { productList } = useProductListStore()
   const { shop, setShop, operatingHours, setOperatingHours, products, setProduct } = useReportStore()
 
   const { mutate: postReportMutate } = usePostReportMutation()
 
   const router = useRouter()
-  const pathname = usePathname()
 
   const handleChangeCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     const { id } = e.target as HTMLInputElement
+    const dayValue = id as any
 
-    toggleYoil(id)
+    const newDays = operatingHours.daysOfWeek.includes(dayValue)
+      ? operatingHours.daysOfWeek.filter((d) => d !== dayValue)
+      : [...operatingHours.daysOfWeek, dayValue]
+
+    setOperatingHours({ ...operatingHours, daysOfWeek: newDays })
   }
 
   const handleToggleTimeSettingModal = () => {
@@ -87,16 +90,6 @@ export default function ReportWrite() {
     }
   }, [shop])
 
-  // useEffect(() => {
-  //   return () => {
-  //     clearProductList()
-  //   }
-  // }, [pathname, clearProductList])
-
-  useEffect(() => {
-    resetYoil()
-  }, [pathname])
-
   const convertTimeFormat = (timeString: string): string => {
     const [period, time] = timeString.split(' ')
     const [hour, minute] = time.split(':').map(Number)
@@ -115,14 +108,7 @@ export default function ReportWrite() {
     setShop({ ...shop, name: shopName })
     setOperatingHours({
       ...operatingHours,
-      monday: yoil[0].checked,
-      tuesday: yoil[1].checked,
-      wednesday: yoil[2].checked,
-      thursday: yoil[3].checked,
-      friday: yoil[4].checked,
-      saturday: yoil[5].checked,
-      sunday: yoil[6].checked,
-      phoneNumber,
+      phoneNumber: phoneNumber || null,
       startTime: convertTimeFormat(openTime),
       endTime: convertTimeFormat(closeTime),
     })
@@ -131,7 +117,7 @@ export default function ReportWrite() {
       return { id: el.id, name: el.name }
     })
     setProduct(customProducts)
-  }, [shopName, yoil, openTime, closeTime, phoneNumber, productList])
+  }, [shopName, openTime, closeTime, phoneNumber, productList])
 
   return (
     <form className="flex flex-col modal-page">
@@ -160,12 +146,12 @@ export default function ReportWrite() {
             <Flex direction="col" gap={8} className="w-full">
               <h5 className="text-gray-500 font-body1_m">운영 요일을 선택해주세요.</h5>
               <div className="flex w-full max-w-[375px] items-center justify-between">
-                {yoil.map((item) => (
-                  <YoilCheckbox
-                    key={item.id}
-                    id={item.id}
+                {DAYS_MAP.map((item) => (
+                  <DayOfWeekCheckbox
+                    key={item.value}
+                    id={item.value}
                     label={item.label}
-                    checked={item.checked}
+                    checked={operatingHours.daysOfWeek.includes(item.value)}
                     onChange={handleChangeCheckBox}
                   />
                 ))}
