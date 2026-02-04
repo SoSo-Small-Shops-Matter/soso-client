@@ -27,7 +27,12 @@ export default function AuthComponent() {
         title: '',
         message: '로그인이 필요한 서비스입니다.',
         rightLabel: '로그인/회원가입하기',
+        leftLabel: '홈으로',
         onConfirm: () => confirm(),
+        onCancel: () => {
+          router.replace('/')
+          closeDialog()
+        },
       })
     }
   }, [token, isHydrated, pathname])
