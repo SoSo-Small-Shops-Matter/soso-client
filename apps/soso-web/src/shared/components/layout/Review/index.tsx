@@ -137,12 +137,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
           </button>
         )}
         <Flex align="center" gap={12} className="flex-1">
-          <ProfileImage
-            imgUrl={
-              (isMe ? getSafeImageUrl(userData?.profileImg || '') : getSafeImageUrl(data?.user?.photoUrl || '')) ||
-              '/images/default_profile.png'
-            }
-          />
+          <ProfileImage imgUrl={isMe ? getSafeImageUrl(userData?.profileImg) : getSafeImageUrl(data?.user?.photoUrl)} />
           <Flex direction="col" className="flex-1">
             <p className="text-gray-800 font-body2_m">{data?.user?.nickName || isMe ? data?.user?.nickName : '익명'}</p>
             {data?.createdAt && (

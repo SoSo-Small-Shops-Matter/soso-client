@@ -1,6 +1,7 @@
 'use client'
 
 import ImageSwiperModal from '@/shared/components/modal/ImageSwiperModal'
+import { getSafeImageUrl } from '@/shared/utils/getSafeImageUrl'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -39,12 +40,12 @@ export default function ProfileImage({ imgUrl, size, className }: ProfileImage) 
           className
         )}
       >
-        <Image src={imgUrl || '/images/default_profile.png'} fill style={{ objectFit: 'cover' }} alt="프로필" />
+        <Image src={getSafeImageUrl(imgUrl)} fill style={{ objectFit: 'cover' }} alt="프로필" />
       </div>
       <ImageSwiperModal
         isOpen={isImageViewer}
         onClose={handleCloseImageViewer}
-        images={[imgUrl || '']}
+        images={[getSafeImageUrl(imgUrl)]}
         initialSlide={selectedIndex}
       />
     </>
