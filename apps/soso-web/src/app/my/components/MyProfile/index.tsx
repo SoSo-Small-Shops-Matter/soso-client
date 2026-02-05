@@ -29,7 +29,7 @@ export default function MyProfile() {
       <div className="w-full px-16">
         <Flex justify="between" align="center" className="w-full rounded-16 bg-[#F3EDE8] px-18 py-16">
           <p className="text-[#8E847C] font-body1_m">나만의 소품샵을 둘러보세요.</p>
-          <Image width={36} height={35} src="/images/my/basketIcon.svg" alt="장바구니 아이콘" />
+          <Image width={36} height={35} src="/images/my/basket_icon.svg" alt="장바구니 아이콘" />
         </Flex>
       </div>
     </Flex>

@@ -87,13 +87,15 @@ export default function ShopProducts({ productData }: ShopProductsProps) {
       </Flex>
       {productData && productData?.length > 0 ? (
         <Flex align="center" wrap gap={8} className="w-full">
-          {productData?.map((product) => <SellProduct key={product.id} product={product} />)}
+          {productData?.map((product) => (
+            <SellProduct key={product.id} product={product} />
+          ))}
         </Flex>
       ) : (
         <EmptyData text="등록된 상품이 없습니다." />
       )}
 
-      <AddProductModal isEdit onClick={handleAddProduct} isOpen={isBottomModal} onClose={handleToggleBottomModal} />
+      <AddProductModal onClick={handleAddProduct} isOpen={isBottomModal} onClose={handleToggleBottomModal} />
     </ContentBox>
   )
 }

@@ -15,11 +15,10 @@ interface AddProductModalProps {
   isOpen: boolean
   onClose: () => void
   onClick?: () => void
-  isEdit?: boolean
 }
 
-export default function AddProductModal({ isOpen, onClose, isEdit, onClick }: AddProductModalProps) {
-  const { productList, setProductList, toggleProduct, clearProductList } = useProductListStore()
+export default function AddProductModal({ isOpen, onClose, onClick }: AddProductModalProps) {
+  const { productList, setProductList, toggleProduct } = useProductListStore()
   const { id } = useParams()
   const { data: detailData } = useGetShopDetailQuery(id)
 
@@ -33,21 +32,21 @@ export default function AddProductModal({ isOpen, onClose, isEdit, onClick }: Ad
     return arr1.every((item1) => arr2.some((item2) => item1.id === item2.id && item1.name === item2.name))
   }
 
+  const handleCloseModal = () => {
+    onClose()
+  }
+
+  const handleSetProductList = () => {
+    onClick?.()
+    handleCloseModal()
+  }
+
   useEffect(() => {
     if (!isOpen) return
     if (detailData?.shop.products) {
       setProductList(detailData?.shop.products)
     }
   }, [isOpen])
-
-  const handleCloseModal = () => {
-    onClose()
-  }
-
-  const handleSetProductList = () => {
-    handleCloseModal()
-    if (onClick) onClick()
-  }
 
   return (
     <BottomModal isOpen={isOpen} onClose={handleCloseModal}>
@@ -63,7 +62,7 @@ export default function AddProductModal({ isOpen, onClose, isEdit, onClick }: Ad
                 key={product.id}
                 product={product}
                 checkbox
-                onClick={() => toggleProduct(product)}
+                onClick={toggleProduct}
                 isCheck={productList.some((p) => p.id === product.id)}
                 isModal
               />
