@@ -26,11 +26,11 @@ export default function SelectCategoryModal({
   onSubmit,
 }: SelectCategoryModalProps) {
   const [idList, setIdList] = useState<number[]>([])
-  const [isSelectedAll, setIsSelctedAll] = useState<boolean>(false)
+  const [isSelectedAll, setIsSelectedAll] = useState<boolean>(false)
 
-  const toggleCategory = (id: number) => {
-    const isProductInList = idList.some((prevId) => prevId === id)
-    const updatedList = isProductInList ? idList.filter((prevId) => prevId !== id) : [...idList, id]
+  const toggleCategory = (product: ProductType) => {
+    const isProductInList = idList.some((prevId) => prevId === product.id)
+    const updatedList = isProductInList ? idList.filter((prevId) => prevId !== product.id) : [...idList, product.id]
     setIdList(updatedList)
   }
 
@@ -52,11 +52,10 @@ export default function SelectCategoryModal({
   }
 
   useEffect(() => {
-    if (idList.length === ALL_CATEGORY_ID_LIST.length) {
-      setIsSelctedAll(true)
-    }
-    if (idList.length < ALL_CATEGORY_ID_LIST.length) {
-      setIsSelctedAll(false)
+    if (ALL_CATEGORY_ID_LIST.every((id) => idList.includes(id))) {
+      setIsSelectedAll(true)
+    } else {
+      setIsSelectedAll(false)
     }
   }, [idList])
 
@@ -92,7 +91,7 @@ export default function SelectCategoryModal({
                 key={category.id}
                 product={category}
                 checkbox
-                onClick={() => toggleCategory(category.id)}
+                onClick={toggleCategory}
                 isCheck={idList.some((id) => id === category.id)}
                 isModal
               />
