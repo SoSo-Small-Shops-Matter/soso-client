@@ -1,11 +1,27 @@
+import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useGetAllUsers } from "@/shared/api/users/queries";
+import { useGetWithdrawnUsers } from "@/shared/api/users/queries";
 import { Table } from "@/shared/components/Table";
-import type { WithdrawalUser } from "@/shared/api/users/types";
+import { SortableHeader } from "@/shared/components/SortableHeader";
+import {
+  type WithdrawalUser,
+  type SortBy,
+  type Order,
+  SortBy as SortByEnum,
+  Order as OrderEnum,
+} from "@/shared/api/users/types";
 import { getFormatDateString } from "@repo/utils/formatDateString";
 
 export function WithdrawnUsersPage() {
-  const { data, isLoading } = useGetAllUsers();
+  const [sortBy, setSortBy] = useState<SortBy>(SortByEnum.CREATED);
+  const [order, setOrder] = useState<Order>(OrderEnum.DESC);
+
+  const { data, isLoading } = useGetWithdrawnUsers({ sortBy, order });
+
+  const handleSort = (newSortBy: SortBy, newOrder: Order) => {
+    setSortBy(newSortBy);
+    setOrder(newOrder);
+  };
 
   const columns: ColumnDef<WithdrawalUser>[] = [
     {
@@ -14,12 +30,20 @@ export function WithdrawnUsersPage() {
       size: 20,
     },
     {
-      accessorKey: "email",
-      header: "이메일",
+      accessorKey: "uuid",
+      header: "UUID",
     },
     {
       accessorKey: "createdAt",
-      header: "탈퇴일",
+      header: () => (
+        <SortableHeader
+          label="탈퇴일"
+          sortKey={SortByEnum.CREATED}
+          currentSortBy={sortBy}
+          currentOrder={order}
+          onSort={handleSort}
+        />
+      ),
       cell: ({ getValue }) =>
         getFormatDateString(getValue<string>(), "yyyy.MM.dd"),
     },
@@ -33,7 +57,7 @@ export function WithdrawnUsersPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-24">탈퇴 목록</h1>
       <Table
-        data={data?.withdrawalUsers || []}
+        data={data || []}
         columns={columns}
         isLoading={isLoading}
         emptyMessage="탈퇴한 회원이 없습니다."
