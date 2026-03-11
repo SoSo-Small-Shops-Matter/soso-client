@@ -57,6 +57,8 @@ export const NewShopSubmissionSchema = z.object({
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
   shop: SubmissionShopSchema.nullable(),
+  shopProducts: z.array(SubmissionProductSchema).optional(),
+  newShopProducts: z.array(SubmissionProductSchema).optional(),
   user: SubmissionUserSchema,
 });
 
@@ -67,7 +69,7 @@ export const NewProductSubmissionSchema = z.object({
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
   shop: SubmissionShopSchema.nullable(),
-  shopProducts: z.array(SubmissionShopProductMappingSchema),
+  shopProducts: z.array(SubmissionProductSchema),
   user: SubmissionUserSchema,
 });
 
@@ -82,11 +84,9 @@ export const NewOperatingSubmissionSchema = z.object({
   user: SubmissionUserSchema,
 });
 
-export const GetAllSubmissionsResponseSchema = z.object({
-  newShopSubmissions: z.array(NewShopSubmissionSchema),
-  newProductSubmissions: z.array(NewProductSubmissionSchema),
-  newOperatingSubmissions: z.array(NewOperatingSubmissionSchema),
-});
+export const NewShopSubmissionsResponseSchema = z.array(NewShopSubmissionSchema);
+export const NewProductSubmissionsResponseSchema = z.array(NewProductSubmissionSchema);
+export const NewOperatingSubmissionsResponseSchema = z.array(NewOperatingSubmissionSchema);
 
 export const RejectSubmissionRequestSchema = z.object({
   rejectMessage: z.string().optional(),
@@ -98,5 +98,7 @@ export type NewShopSubmission = z.infer<typeof NewShopSubmissionSchema>;
 export type NewProductSubmission = z.infer<typeof NewProductSubmissionSchema>;
 export type NewOperatingSubmission = z.infer<typeof NewOperatingSubmissionSchema>;
 export type AllSubmission = NewShopSubmission | NewProductSubmission | NewOperatingSubmission;
-export type GetAllSubmissionsResponse = z.infer<typeof GetAllSubmissionsResponseSchema>;
+export type NewShopSubmissionsResponse = z.infer<typeof NewShopSubmissionsResponseSchema>;
+export type NewProductSubmissionsResponse = z.infer<typeof NewProductSubmissionsResponseSchema>;
+export type NewOperatingSubmissionsResponse = z.infer<typeof NewOperatingSubmissionsResponseSchema>;
 export type RejectSubmissionRequest = z.infer<typeof RejectSubmissionRequestSchema>;

@@ -1,22 +1,42 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useGetAllSubmissions } from "@/shared/api/submissions/queries";
-import { Table } from "@/shared/components/Table";
-import type {
-  SubmissionType,
-  SubmissionStatus,
-  AllSubmission,
+import {
+  type SubmissionType,
+  type SubmissionStatus,
+  type AllSubmission,
 } from "@/shared/api/submissions/types";
 import { getFormatDateString } from "@repo/utils/formatDateString";
 import { SubmissionDetailModal } from "./components/SubmissionDetailModal";
+import { SubmissionNewShopTable } from "./components/SubmissionNewShopTable";
+import { SubmissionNewProductTable } from "./components/SubmissionNewProductTable";
+import { SubmissionNewOperationTable } from "./components/SubmissionNewOperationTable";
+
+const filterOptions: { label: string; value: SubmissionType }[] = [
+  { label: "새 소품샵", value: "new_shop" },
+  { label: "상품 추가", value: "new_product" },
+  { label: "운영시간", value: "new_operating" },
+];
+
+export interface SubTableProps {
+  columns: ColumnDef<AllSubmission>[];
+  onSelect: (submission: AllSubmission) => void;
+}
 
 export function SubmissionsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const typeParam = searchParams.get("type") as SubmissionType | null;
+  const activeFilter =
+    typeParam && filterOptions.some((opt) => opt.value === typeParam)
+      ? typeParam
+      : "new_shop";
+
   const [selectedSubmission, setSelectedSubmission] =
     useState<AllSubmission | null>(null);
-  const { data, isLoading } = useGetAllSubmissions();
 
-  //TODO: API 필터링 추가되면 수정
-  const allSubmissions = data ? Object.values(data).flat() : [];
+  const setActiveFilter = (type: SubmissionType) => {
+    setSearchParams({ type });
+  };
 
   const categoryMap: Record<SubmissionType, string> = {
     new_shop: "새 소품샵",
@@ -79,19 +99,44 @@ export function SubmissionsPage() {
     setSelectedSubmission(null);
   };
 
-  console.log(allSubmissions);
-
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-24">수정 요청 목록</h1>
 
-      <Table
-        data={allSubmissions || []}
-        columns={columns}
-        onRowClick={setSelectedSubmission}
-        isLoading={isLoading}
-        emptyMessage="수정 요청이 없습니다."
-      />
+      <div className="flex gap-8 mb-16">
+        {filterOptions.map((option) => (
+          <button
+            key={option.value}
+            onClick={() => setActiveFilter(option.value)}
+            className={`px-16 py-8 rounded-full text-sm font-medium transition-colors ${
+              activeFilter === option.value
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+
+      {activeFilter === "new_shop" && (
+        <SubmissionNewShopTable
+          columns={columns}
+          onSelect={setSelectedSubmission}
+        />
+      )}
+      {activeFilter === "new_product" && (
+        <SubmissionNewProductTable
+          columns={columns}
+          onSelect={setSelectedSubmission}
+        />
+      )}
+      {activeFilter === "new_operating" && (
+        <SubmissionNewOperationTable
+          columns={columns}
+          onSelect={setSelectedSubmission}
+        />
+      )}
 
       {/* Detail Modal */}
       <SubmissionDetailModal
