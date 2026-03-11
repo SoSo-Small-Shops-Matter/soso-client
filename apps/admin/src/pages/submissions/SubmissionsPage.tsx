@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
 import {
@@ -7,21 +6,16 @@ import {
   type AllSubmission,
 } from "@/shared/api/submissions/types";
 import { getFormatDateString } from "@repo/utils/formatDateString";
-import { SubmissionDetailModal } from "./components/SubmissionDetailModal";
-import { SubmissionNewShopTable } from "./components/SubmissionNewShopTable";
-import { SubmissionNewProductTable } from "./components/SubmissionNewProductTable";
-import { SubmissionNewOperationTable } from "./components/SubmissionNewOperationTable";
+import { NewShopTable } from "./components/NewShop/Table";
+import { NewProductTable } from "./components/NewProduct/Table";
+import { NewOperationTable } from "./components/NewOperation/Table";
+import { categoryMap, statusMap } from "./constants";
 
 const filterOptions: { label: string; value: SubmissionType }[] = [
   { label: "새 소품샵", value: "new_shop" },
   { label: "상품 추가", value: "new_product" },
   { label: "운영시간", value: "new_operating" },
 ];
-
-export interface SubTableProps {
-  columns: ColumnDef<AllSubmission>[];
-  onSelect: (submission: AllSubmission) => void;
-}
 
 export function SubmissionsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,23 +25,8 @@ export function SubmissionsPage() {
       ? typeParam
       : "new_shop";
 
-  const [selectedSubmission, setSelectedSubmission] =
-    useState<AllSubmission | null>(null);
-
   const setActiveFilter = (type: SubmissionType) => {
     setSearchParams({ type });
-  };
-
-  const categoryMap: Record<SubmissionType, string> = {
-    new_shop: "새 소품샵",
-    new_product: "상품 추가",
-    new_operating: "운영시간",
-  };
-
-  const statusMap: Record<SubmissionStatus, string> = {
-    pending: "대기중",
-    approved: "승인됨",
-    rejected: "반려됨",
   };
 
   const columns: ColumnDef<AllSubmission>[] = [
@@ -95,10 +74,6 @@ export function SubmissionsPage() {
     },
   ];
 
-  const onModalClose = () => {
-    setSelectedSubmission(null);
-  };
-
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-24">수정 요청 목록</h1>
@@ -119,32 +94,13 @@ export function SubmissionsPage() {
         ))}
       </div>
 
-      {activeFilter === "new_shop" && (
-        <SubmissionNewShopTable
-          columns={columns}
-          onSelect={setSelectedSubmission}
-        />
-      )}
+      {activeFilter === "new_shop" && <NewShopTable columns={columns as any} />}
       {activeFilter === "new_product" && (
-        <SubmissionNewProductTable
-          columns={columns}
-          onSelect={setSelectedSubmission}
-        />
+        <NewProductTable columns={columns as any} />
       )}
       {activeFilter === "new_operating" && (
-        <SubmissionNewOperationTable
-          columns={columns}
-          onSelect={setSelectedSubmission}
-        />
+        <NewOperationTable columns={columns as any} />
       )}
-
-      {/* Detail Modal */}
-      <SubmissionDetailModal
-        onClose={onModalClose}
-        submission={selectedSubmission}
-        categoryMap={categoryMap}
-        statusMap={statusMap}
-      />
     </div>
   );
 }

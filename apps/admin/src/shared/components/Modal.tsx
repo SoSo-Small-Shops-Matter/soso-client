@@ -41,7 +41,9 @@ export function Modal({
         </div>
 
         {/* Body */}
-        <div className="px-24 py-20">{children}</div>
+        <div className="space-y-16 max-h-[70vh] overflow-y-auto px-24 py-20">
+          {children}
+        </div>
       </div>
     </div>
   );

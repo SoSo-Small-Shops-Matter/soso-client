@@ -46,41 +46,41 @@ export const SubmissionShopSchema = z.object({
   location: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  operatingHours: z.array(SubmissionShopOperatingHourSchema).optional(),
-  productMappings: z.array(SubmissionShopProductMappingSchema).optional(),
 });
 
 export const NewShopSubmissionSchema = z.object({
   id: z.number(),
-  type: SubmissionTypeSchema,
-  status: SubmissionStatusSchema,
-  rejectMessage: z.string().nullable(),
-  createdAt: z.string(),
-  shop: SubmissionShopSchema.nullable(),
-  shopProducts: z.array(SubmissionProductSchema).optional(),
-  newShopProducts: z.array(SubmissionProductSchema).optional(),
-  user: SubmissionUserSchema,
-});
-
-export const NewProductSubmissionSchema = z.object({
-  id: z.number(),
-  type: SubmissionTypeSchema,
+  type: z.literal("new_shop"),
   status: SubmissionStatusSchema,
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
   shop: SubmissionShopSchema.nullable(),
   shopProducts: z.array(SubmissionProductSchema),
+  shopOperatingHour: SubmissionShopOperatingHourSchema.nullable(),
+  user: SubmissionUserSchema,
+});
+
+export const NewProductSubmissionSchema = z.object({
+  id: z.number(),
+  type: z.literal("new_product"),
+  status: SubmissionStatusSchema,
+  rejectMessage: z.string().nullable(),
+  createdAt: z.string(),
+  shop: SubmissionShopSchema.nullable(),
+  shopProducts: z.array(SubmissionProductSchema),
+  newShopProducts: z.array(SubmissionProductSchema),
   user: SubmissionUserSchema,
 });
 
 export const NewOperatingSubmissionSchema = z.object({
   id: z.number(),
-  type: SubmissionTypeSchema,
+  type: z.literal("new_operating"),
   status: SubmissionStatusSchema,
   rejectMessage: z.string().nullable(),
   createdAt: z.string(),
   shop: SubmissionShopSchema.nullable(),
   shopOperatingHour: SubmissionShopOperatingHourSchema,
+  newShopOperatingHour: SubmissionShopOperatingHourSchema,
   user: SubmissionUserSchema,
 });
 
