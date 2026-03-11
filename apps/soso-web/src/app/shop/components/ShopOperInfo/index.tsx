@@ -24,9 +24,10 @@ import useInput from '@/shared/hooks/useInput'
 import { useTimePicker } from '@/shared/hooks/useTimePicker'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import { DAYS_MAP } from '@/shared/constant/days'
-import type { DayOfWeek, OperatingHourType } from '@/shared/types/shopType'
+import type { OperatingHourType } from '@/shared/types/shopType'
 import { useParams, useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { DayOfWeek } from '@repo/utils'
 
 interface ShopOperInfoProps {
   operData: OperatingHourType[] | undefined

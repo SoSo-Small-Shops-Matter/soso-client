@@ -1,3 +1,5 @@
+import type { DayOfWeek } from '@repo/utils';
+
 export interface ShopType {
   id: number
   name: string
@@ -12,8 +14,6 @@ export interface ShopType {
   distance: number
   reviewCount: number
 }
-
-export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 export interface OperatingHourType {
   id: number;

@@ -1,5 +1,6 @@
 import { getShopSearchList } from '@/app/search/components/SearchList/api/getShopSearchList'
 import { useLocationStore } from '@/shared/store/useLocationStore'
+import { MINUTE } from '@repo/utils/formatDateString'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 /**
@@ -29,7 +30,7 @@ export const useGetShopSearchListQuery = (shopName: string, limit: number = 10) 
 
     enabled: !!shopName,
 
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    staleTime: 5 * MINUTE,
+    gcTime: 10 * MINUTE
   })
 }

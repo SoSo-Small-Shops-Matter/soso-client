@@ -1,10 +1,23 @@
 import { customFetch } from "@/shared/utils/customFetch";
-import { GetAllUsersResponseSchema } from "./types";
+import { GetActiveUsersResponseSchema, GetWithdrawnUsersResponseSchema, type UserSortParams } from "./types";
 
 export const usersApi = {
-  getAll: async () => {
-    const response = await customFetch<typeof GetAllUsersResponseSchema>("/admin/users");
-    // API returns { message, status, result: { activityUsers, withdrawalUsers } }
-    return GetAllUsersResponseSchema.parse(response.result);
+  getActiveUsers: async (params?: UserSortParams) => {
+    const response = await customFetch<typeof GetActiveUsersResponseSchema>("/admin/users", {
+      queryParams: {
+        active: true,
+        ...params,
+      }
+    });
+    return GetActiveUsersResponseSchema.parse(response.result);
   },
+  getWithdrawnUsers: async (params?: UserSortParams) => {
+    const response = await customFetch<typeof GetWithdrawnUsersResponseSchema>("/admin/users", {
+      queryParams: {
+        active: false,
+        ...params,
+      }
+    });
+    return GetWithdrawnUsersResponseSchema.parse(response.result);
+  }
 };

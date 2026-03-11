@@ -1,4 +1,4 @@
-import type { DayOfWeek } from '@/shared/types/shopType';
+import { DayOfWeek } from "@repo/utils/days";
 
 export interface OperatingHoursRequest {
   phoneNumber: string | null;

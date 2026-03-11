@@ -1,10 +1,32 @@
 import { customFetch } from "@/shared/utils/customFetch";
-import { GetAllSubmissionsResponseSchema, type RejectSubmissionRequest, type GetAllSubmissionsResponse } from "./types";
+import { NewOperatingSubmissionsResponse, NewOperatingSubmissionsResponseSchema, NewProductSubmissionsResponse, NewProductSubmissionsResponseSchema, NewShopSubmissionsResponse, NewShopSubmissionsResponseSchema, type RejectSubmissionRequest } from "./types";
+import type { Order, SortBy } from "@/shared/api/users/types";
+
+export interface SubmissionSortParams {
+  sortBy?: SortBy;
+  order?: Order;
+}
 
 export const submissionsApi = {
-  getAll: async () => {
-    const response = await customFetch<GetAllSubmissionsResponse>("/admin/submission");
-    return GetAllSubmissionsResponseSchema.parse(response.result || response);
+  getNewShopSubmissions: async ({ sortBy, order }: SubmissionSortParams = {}) => {
+    const response = await customFetch<NewShopSubmissionsResponse>("/admin/submission", {
+      queryParams: { type: 'shop', ...(sortBy && { sortBy }), ...(order && { order }) }
+    });
+    return NewShopSubmissionsResponseSchema.parse(response.result || response);
+  },
+
+  getNewProductSubmissions: async ({ sortBy, order }: SubmissionSortParams = {}) => {
+    const response = await customFetch<NewProductSubmissionsResponse>("/admin/submission", {
+      queryParams: { type: 'product', ...(sortBy && { sortBy }), ...(order && { order }) }
+    });
+    return NewProductSubmissionsResponseSchema.parse(response.result || response);
+  },
+
+  getNewOperatingSubmissions: async ({ sortBy, order }: SubmissionSortParams = {}) => {
+    const response = await customFetch<NewOperatingSubmissionsResponse>("/admin/submission", {
+      queryParams: { type: 'operate', ...(sortBy && { sortBy }), ...(order && { order }) }
+    });
+    return NewOperatingSubmissionsResponseSchema.parse(response.result || response);
   },
 
   // Product submissions
