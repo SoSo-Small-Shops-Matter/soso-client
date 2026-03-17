@@ -1,15 +1,15 @@
 import { ShopType } from '@/shared/types/shopType'
-import MapViewButton from '../MapViewButton'
+import MapViewButton from './MapViewButton'
 import SearchIcon from '@/shared/components/icons/SearchIcon'
-import CategoryButton from '../CategoryButton'
-import WishViewButton from '../WishViewButton'
+import CategoryButton from './CategoryButton'
+import WishViewButton from './WishViewButton'
 import { useSearchStore } from '@/shared/store/useSearchStore'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { getCurrentLocation } from '@/shared/utils/getCurrentLocation'
 import { useLocationStore } from '@/shared/store/useLocationStore'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import ListViewItem from '../ListViewItem'
+import ListViewItem from './ListViewItem'
 
 interface ListViewProps {
   isMapViewMode: boolean

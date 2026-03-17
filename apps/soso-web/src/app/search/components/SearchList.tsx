@@ -20,7 +20,7 @@ import Loading from '@/shared/components/loading/Loading'
 import { useGetUserFindShopQuery } from '@/app/search/components/SearchList/hooks/useGetUserFindShopQuery'
 import { useDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useDeleteUserFindShopMutation'
 import { useAllDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useAllDeleteUserFindShopMutation'
-import { SearchedShopType } from './types'
+import { SearchedShopType } from './SearchList/types'
 
 interface Location {
   lat: number

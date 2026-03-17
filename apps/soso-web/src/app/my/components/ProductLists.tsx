@@ -5,7 +5,7 @@ import { useGetMyReviewQuery } from '@/app/my/components/ProductLists/hooks/useG
 import { useGetMyShopQuery } from '@/app/my/components/ProductLists/hooks/useGetMyShopQuery'
 import { useGetMyWishQuery } from '@/app/my/components/ProductLists/hooks/useGetMyWishQuery'
 import Flex from '@/shared/components/layout/Flex'
-import { SUBMISSION_TYPE } from './types'
+import { SUBMISSION_TYPE } from './ProductLists/types'
 
 export default function ProductLists() {
   const { data: myWishData } = useGetMyWishQuery(10)

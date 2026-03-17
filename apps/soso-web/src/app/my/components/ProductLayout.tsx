@@ -8,7 +8,7 @@ import { Navigation, FreeMode } from 'swiper/modules'
 import EmptyData from '@/shared/components/ui/EmptyData'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
 import clsx from 'clsx'
-import { SUBMISSION_TYPE, SubmissionType } from '../ProductLists/types'
+import { SubmissionType, SUBMISSION_TYPE } from './ProductLists/types'
 
 interface Data {
   id: number | null

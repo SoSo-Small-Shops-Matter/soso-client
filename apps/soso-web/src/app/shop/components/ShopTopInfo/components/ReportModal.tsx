@@ -10,7 +10,7 @@ import BottomModal from '@/shared/components/modal/BottomModal'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { ShopReportTypeValue } from './types'
+import { ShopReportTypeValue } from './ReportModal/types'
 
 interface ReportModalProps {
   isReportModal: boolean

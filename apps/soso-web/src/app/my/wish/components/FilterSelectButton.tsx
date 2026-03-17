@@ -1,5 +1,5 @@
 import CheckIcon from '@/shared/components/icons/CheckIcon'
-import { RegionType } from '../../types'
+import { RegionType } from '../types'
 
 interface FilterSelectButtonProps {
   region: RegionType

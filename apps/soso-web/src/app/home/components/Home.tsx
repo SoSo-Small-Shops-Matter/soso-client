@@ -3,12 +3,12 @@
 import { useGetShopQuery } from '@/shared/hooks/useGetShopQuery'
 import { useEffect, useState } from 'react'
 import { useLocationStore } from '@/shared/store/useLocationStore'
-import SelectCategoryModal, { DEFAULT_CATEGORY_ID_LIST } from './components/SelectCategoryModal'
 import { getIsSameArray } from '@/shared/utils/getIsSame'
-import MapView from './components/MapView'
-import ListView from './components/ListView'
 import { useIsNativeApp } from '@/shared/hooks/useIsNativeApp'
 import useLocationHandler from '@/shared/hooks/useLocationHandler'
+import ListView from './Home/components/ListView'
+import MapView from './Home/components/MapView'
+import SelectCategoryModal, { DEFAULT_CATEGORY_ID_LIST } from './Home/components/SelectCategoryModal'
 
 export default function HomePage() {
   useLocationHandler()
