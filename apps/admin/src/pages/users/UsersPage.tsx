@@ -30,10 +30,6 @@ export function UsersPage() {
       size: 20,
     },
     {
-      accessorKey: "uuid",
-      header: "UUID",
-    },
-    {
       accessorKey: "nickName",
       header: "닉네임",
     },
