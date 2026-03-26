@@ -20,7 +20,6 @@ export interface UserSortParams {
 
 export const ActivityUserSchema = z.object({
   num: z.number(),
-  uuid: z.string(),
   nickName: z.string(),
   createdAt: z.string(),
   lastActivityAt: z.string(),
