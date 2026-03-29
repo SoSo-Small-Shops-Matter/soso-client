@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetShopQuery } from '@/shared/hooks/useGetShopQuery'
+import { useGetShopsQuery } from '@/shared/api/shops/queries'
 import { useEffect, useState } from 'react'
 import { useLocationStore } from '@/shared/store/useLocationStore'
 import { getIsSameArray } from '@/shared/utils/getIsSame'
@@ -18,7 +18,7 @@ export default function HomePage() {
   const [isWishListView, setIsWishListView] = useState<boolean>(false)
   const [isOpenCategoryModal, setIsOpenCategoryModal] = useState<boolean>(false)
   const [isMapViewMode, setIsMapViewMode] = useState<boolean>(true)
-  const { data: shopData } = useGetShopQuery(lat, lng, !isMapViewMode, isWishListView, categoryIdList)
+  const { data: shopData } = useGetShopsQuery({ lat, lng, sorting: !isMapViewMode, isWishlist: isWishListView, productIds: categoryIdList })
   const totalShopCount = shopData?.length ?? 0
   const isCategoryView = categoryIdList.length > 0 && !getIsSameArray(categoryIdList, DEFAULT_CATEGORY_ID_LIST)
 

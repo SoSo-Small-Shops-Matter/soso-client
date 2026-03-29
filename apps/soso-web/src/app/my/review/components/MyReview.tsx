@@ -1,4 +1,4 @@
-import { MyReviewType } from '@/app/my/components/ProductLists/types'
+import { MyReviewType } from '@/shared/api/my/types'
 import Flex from '@/shared/components/layout/Flex'
 import MessageBox from '@/shared/components/layout/Review/components/MessageBox'
 import ShopInfo from '@/shared/components/ui/ShopInfo'

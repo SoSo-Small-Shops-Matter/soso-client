@@ -1,7 +1,7 @@
 'use client'
 
 import { useDialog } from '@/shared/context/DialogContext'
-import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useGetUserProfileQuery } from '@/shared/api/user/queries'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'

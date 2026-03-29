@@ -3,13 +3,13 @@ import Button from '@/shared/components/button/Button'
 import ModalCloseButton from '@/shared/components/button/MocalCloseButton'
 import Textarea from '@/shared/components/inputs/Textarea'
 import Flex from '@/shared/components/layout/Flex'
-import { REVIEW_REPORT_LIST } from '@/shared/components/layout/Review/components/ReviewReportModal/constants/ReviewReportList'
-import { usePostReviewReportMutation } from '@/shared/components/layout/Review/components/ReviewReportModal/hooks/usePostReviewReportMutation'
+import { usePostReviewReportMutation } from '@/shared/api/review/queries'
 import BottomModal from '@/shared/components/modal/BottomModal'
 import { useDialog } from '@/shared/context/DialogContext'
 import useInput from '@/shared/hooks/useInput'
 import { CustomError } from '@/shared/utils/customFetch'
 import { useState } from 'react'
+import { REVIEW_ETC_REPORT_ID, REVIEW_REPORT_LIST } from '@/shared/api/review/constants'
 
 interface ReviewReportModalProps {
   shopId?: number
@@ -24,13 +24,13 @@ export default function ReviewReportModal({
   isReportModal,
   handleToggleReportModal,
 }: ReviewReportModalProps) {
-  const [selectedId, setSelectedId] = useState<string>('')
+  const [selectedId, setSelectedId] = useState<number | null>(null)
   const { value: etcValue, onChange: handleChangeEtcValue, setValue: setEtcValue } = useInput('')
   const { openDialog } = useDialog()
 
   const { mutate: reviewReportMutate } = usePostReviewReportMutation()
 
-  const handleChange = (reportId: string) => {
+  const handleChange = (reportId: number) => {
     if (!reviewId) return
 
     setSelectedId(reportId)
@@ -40,7 +40,7 @@ export default function ReviewReportModal({
     const data = {
       shopId: Number(shopId),
       reviewId: Number(reviewId),
-      status: Number(selectedId),
+      status: selectedId!,
       message: etcValue,
     }
 
@@ -59,14 +59,14 @@ export default function ReviewReportModal({
             </span>
           ),
         })
-        setSelectedId('')
+        setSelectedId(null)
       },
       onError: (error: unknown) => {
         if (error instanceof CustomError) {
           const responseData = error.data
           if (responseData.status === 409) {
             handleToggleReportModal()
-            setSelectedId('')
+            setSelectedId(null)
             setEtcValue('')
             openDialog({
               title: '이미 신고한 후기입니다.',
@@ -74,7 +74,7 @@ export default function ReviewReportModal({
             })
           }
         } else {
-          console.log('알 수 없는 에러:', error)
+          console.error('알 수 없는 에러:', error)
         }
       },
     })
@@ -93,13 +93,13 @@ export default function ReviewReportModal({
             <ReportRadio
               key={list.id}
               text={list.text}
-              id={list.id}
-              name={list.name}
+              id={String(list.id)}
+              name={`reviewReport_${list.text}`}
               isChecked={selectedId === list.id}
               onChange={() => handleChange(list.id)}
             />
           ))}
-          {selectedId === '6' && (
+          {selectedId === REVIEW_ETC_REPORT_ID && (
             <Textarea
               value={etcValue}
               onChange={handleChangeEtcValue}

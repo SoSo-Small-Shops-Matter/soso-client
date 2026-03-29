@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMyShopQuery } from '@/app/my/components/ProductLists/hooks/useGetMyShopQuery'
+import { useGetMyShopQuery } from '@/shared/api/my/queries'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
 import Loading from '@/shared/components/loading/Loading'
@@ -9,10 +9,10 @@ import { useInView } from 'react-intersection-observer'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useDialog } from '@/shared/context/DialogContext'
-import { useDeleteSubmitShopMutation } from '@/app/my/shop/hooks/useDeleteSubmitShopMutation'
+import { useDeleteSubmitShopMutation } from '@/shared/api/my/queries'
 import MyShopStatusBadge from './components/MyShopStatusBadge'
 import { getFormatDateString } from '@repo/utils/formatDateString'
-import { SUBMISSION_TYPE } from '../components/ProductLists/types'
+import { SUBMISSION_TYPE } from '@/shared/api/my/types'
 
 export default function MyShopPage() {
   const router = useRouter()
@@ -33,8 +33,8 @@ export default function MyShopPage() {
     router.push(`/shop/${shopId}`)
   }
 
-  const handleDeleteShop = (shopId: string) => {
-    deleteSubmitShopMutate(String(shopId))
+  const handleDeleteShop = (shopId: number) => {
+    deleteSubmitShopMutate(shopId)
     closeDialog()
   }
 
@@ -42,7 +42,7 @@ export default function MyShopPage() {
     openDialog({
       type: 'confirm',
       title: '등록한 정보를 삭제하시겠습니까?',
-      onConfirm: () => handleDeleteShop(String(shopId)),
+      onConfirm: () => handleDeleteShop(shopId),
     })
   }
 

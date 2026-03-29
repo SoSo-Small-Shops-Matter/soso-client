@@ -2,7 +2,7 @@
 
 import Flex from '@/shared/components/layout/Flex'
 import ProfileImage from '@/shared/components/ui/ProfileImage'
-import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useGetUserProfileQuery } from '@/shared/api/user/queries'
 import Image from 'next/image'
 import Link from 'next/link'
 

@@ -3,7 +3,7 @@
 import AppleIcon from '@/shared/components/icons/AppleIcon'
 import GoogleIcon from '@/shared/components/icons/GoogleIcon'
 import Flex from '@/shared/components/layout/Flex'
-import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useGetUserProfileQuery } from '@/shared/api/user/queries'
 
 export default function LoginInfo() {
   const { data: userData } = useGetUserProfileQuery()

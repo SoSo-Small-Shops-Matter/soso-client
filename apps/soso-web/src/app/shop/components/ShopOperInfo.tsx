@@ -1,6 +1,6 @@
 'use client'
 
-import { usePostShopOperatingMutation } from '@/app/shop/components/ShopOperInfo/hooks/usePostShopOperatingMutation'
+import { usePostShopOperatingMutation } from '@/shared/api/shops/queries'
 import Button from '@/shared/components/button/Button'
 import IconButton from '@/shared/components/button/IconButton'
 import ModalCloseButton from '@/shared/components/button/MocalCloseButton'

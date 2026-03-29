@@ -8,7 +8,7 @@ import BottomModalTitle from '@/shared/components/text/BottomModalTitle'
 import { PRODUCT_LIST } from '@/shared/constant/Product'
 import useProductListStore from '@/shared/store/useProductListStore'
 import { ProductType } from '@/shared/types/shopType'
-import { useGetShopDetailQuery } from '@/app/shop/hooks/useGetShopDetailQuery'
+import { useGetShopDetailQuery } from '@/shared/api/shops/queries'
 import { useParams } from 'next/navigation'
 
 interface AddProductModalProps {

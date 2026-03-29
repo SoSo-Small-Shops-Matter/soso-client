@@ -1,15 +1,15 @@
 'use client'
 
 import { UNSUBSCRIBE_LIST } from '@/app/my/setting/unsubscribe/constants'
-import { useDeleteUserMutation } from '@/app/my/setting/unsubscribe/hooks/useDeleteUserMutation'
+import { useDeleteUserMutation } from '@/shared/api/user/queries'
 import Button from '@/shared/components/button/Button'
 import Radio from '@/shared/components/inputs/Radio'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
 import { useDialog } from '@/shared/context/DialogContext'
-import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useGetUserProfileQuery } from '@/shared/api/user/queries'
 import { ChangeEvent, useState } from 'react'
-import { WithdrawalReasonCodeType } from './types'
+import { WithdrawalReasonCodeType } from '@/shared/api/user/types'
 
 export default function UnsubscribePage() {
   const { data: userData } = useGetUserProfileQuery()

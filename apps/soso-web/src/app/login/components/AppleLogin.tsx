@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppleLoginMutation } from '@/app/login/components/AppleLogin/hooks/useAppleLoginMutation'
+import { useAppleLoginMutation } from '@/shared/api/auth/queries'
 import AppleIcon from '@/shared/components/icons/AppleIcon'
 import { useIsNativeApp } from '@/shared/hooks/useIsNativeApp'
 import amplitude from '@/shared/utils/amplitude'

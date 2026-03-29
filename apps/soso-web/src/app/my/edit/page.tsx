@@ -1,7 +1,7 @@
 'use client'
 
-import { usePatchUserProfileMutation } from '@/app/my/edit/hooks/usePatchUserProfileMutation'
-import { PatchUserRequestType } from '@/app/my/edit/types'
+import { usePatchUserProfileMutation } from '@/shared/api/user/queries'
+import { PatchUserRequestType } from '@/shared/api/user/types'
 import Button from '@/shared/components/button/Button'
 import Input from '@/shared/components/inputs/Input'
 import ProfileUpload from '@/shared/components/inputs/ProfileUpload'
@@ -12,8 +12,7 @@ import ValidationText from '@/shared/components/text/ValidationText'
 import { useToast } from '@/shared/context/ToastContext'
 import useDebounce from '@/shared/hooks/useDebounce'
 import { useSingleFileUpload } from '@/shared/hooks/useFileUpload'
-import { useGetDuplicateNicknameQuery } from '@/shared/hooks/useGetDuplicateNicknameQuery'
-import { useGetUserProfileQuery } from '@/shared/hooks/useGetUserProfileQuery'
+import { useGetDuplicateNicknameQuery, useGetUserProfileQuery } from '@/shared/api/user/queries'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -49,7 +48,7 @@ export default function ProfileEditPage() {
   }, [nickname])
 
   const handleClick: SubmitHandler<FieldValues> = (data) => {
-    let request: PatchUserRequestType
+    let request: PatchUserRequestType = undefined
     if (userData?.nickName !== data.nickName) {
       request = {
         nickName: data.nickName,

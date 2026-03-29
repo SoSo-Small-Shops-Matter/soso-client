@@ -1,7 +1,7 @@
 'use client'
 
 import ReportModal from '@/app/shop/components/ShopTopInfo/components/ReportModal'
-import { useToggleWishMutation } from '@/app/shop/hooks/useToggleWishMutation'
+import { useToggleWishMutation } from '@/shared/api/shops/queries'
 import MapButton from '@/shared/components/button/RoadFindButton/components/MapButton'
 import Divider from '@/shared/components/divider/Divider'
 import LoadFindIcon from '@/shared/components/icons/LoadFindIcon'

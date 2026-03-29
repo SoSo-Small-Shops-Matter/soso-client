@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMyWishQuery } from '@/app/my/components/ProductLists/hooks/useGetMyWishQuery'
+import { useGetMyWishQuery } from '@/shared/api/my/queries'
 import FilterSelectButton from '@/app/my/wish/components/FilterSelectButton'
 import WishProduct from '@/app/my/wish/components/WishProduct'
 import BottomArrowIcon from '@/shared/components/icons/BottomArrowIcon'
@@ -10,8 +10,8 @@ import Loading from '@/shared/components/loading/Loading'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
 import { useInView } from 'react-intersection-observer'
 import { useRef, useState, useEffect } from 'react'
-import { useGetWishRegionQuery } from '@/app/my/wish/hooks/useGetWishRegionQuery'
-import { RegionType } from './types'
+import { useGetWishRegionQuery } from '@/shared/api/my/queries'
+import { RegionType } from '@/shared/api/my/types'
 
 const DEFAULT_REGION = {
   id: -1,

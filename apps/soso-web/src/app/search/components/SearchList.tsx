@@ -1,11 +1,11 @@
 'use client'
 
 import SearchItem from '@/app/search/components/SearchList/components/SearchItem'
-import { useGetShopSearchListQuery } from '@/app/search/components/SearchList/hooks/useGetShopSearchListQuery'
+import { useGetShopSearchListQuery } from '@/shared/api/search/queries'
 import PlaceCard from '@/shared/components/card/PlaceCard'
 import Flex from '@/shared/components/layout/Flex'
 import useDebounce from '@/shared/hooks/useDebounce'
-import { useGetShopQuery } from '@/shared/hooks/useGetShopQuery'
+import { useGetShopsQuery } from '@/shared/api/shops/queries'
 import { useSearchStore } from '@/shared/store/useSearchStore'
 import { getCurrentLocation } from '@/shared/utils/getCurrentLocation'
 import Link from 'next/link'
@@ -17,10 +17,10 @@ import { useInView } from 'react-intersection-observer'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShopType } from '@/shared/types/shopType'
 import Loading from '@/shared/components/loading/Loading'
-import { useGetUserFindShopQuery } from '@/app/search/components/SearchList/hooks/useGetUserFindShopQuery'
-import { useDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useDeleteUserFindShopMutation'
-import { useAllDeleteUserFindShopMutation } from '@/app/search/components/SearchList/hooks/useAllDeleteUserFindShopMutation'
-import { SearchedShopType } from './SearchList/types'
+import { useGetUserFindShopQuery } from '@/shared/api/search/queries'
+import { useDeleteUserFindShopMutation } from '@/shared/api/search/queries'
+import { useAllDeleteUserFindShopMutation } from '@/shared/api/search/queries'
+import { SearchedShopType } from '@/shared/api/search/types'
 
 interface Location {
   lat: number
@@ -33,7 +33,7 @@ export default function SearchList() {
   const { searchValue } = useSearchStore()
   const searchDebounceValue = useDebounce(searchValue, 300)
 
-  const { data: shopSortData } = useGetShopQuery(currentLocation?.lat ?? null, currentLocation?.lng ?? null, true)
+  const { data: shopSortData } = useGetShopsQuery({ lat: currentLocation?.lat ?? null, lng: currentLocation?.lng ?? null, sorting: true })
   const {
     data: shopSearchData,
     isLoading,

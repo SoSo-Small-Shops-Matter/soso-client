@@ -1,17 +1,17 @@
 'use client'
 
-import { useGetShopDetailQuery } from '@/app/shop/hooks/useGetShopDetailQuery'
+import { useGetShopDetailQuery } from '@/shared/api/shops/queries'
 import Button from '@/shared/components/button/Button'
 import ModalCloseButton from '@/shared/components/button/MocalCloseButton'
 import Textarea from '@/shared/components/inputs/Textarea'
 import Flex from '@/shared/components/layout/Flex'
 import InputContent from '@/shared/components/layout/InputContent'
-import { usePatchReviewMutation } from '@/shared/components/layout/Review/components/ReviewWrite/hooks/usePatchReviewMutation'
-import { usePostReviewMutation } from '@/shared/components/layout/Review/components/ReviewWrite/hooks/usePostReviewMutation'
+import { usePatchReviewMutation } from '@/shared/api/review/queries'
+import { usePostReviewMutation } from '@/shared/api/review/queries'
 import {
   PatchReviewRequestType,
   ReviewRequestType,
-} from '@/shared/components/layout/Review/components/ReviewWrite/types'
+} from '@/shared/api/review/types'
 import Loading from '@/shared/components/loading/Loading'
 import BottomModal from '@/shared/components/modal/BottomModal'
 import BottomModalTitle from '@/shared/components/text/BottomModalTitle'

@@ -1,11 +1,11 @@
 'use client'
 
 import ProductLayout from '@/app/my/components/ProductLayout'
-import { useGetMyReviewQuery } from '@/app/my/components/ProductLists/hooks/useGetMyReviewQuery'
-import { useGetMyShopQuery } from '@/app/my/components/ProductLists/hooks/useGetMyShopQuery'
-import { useGetMyWishQuery } from '@/app/my/components/ProductLists/hooks/useGetMyWishQuery'
+import { useGetMyReviewQuery } from '@/shared/api/my/queries'
+import { useGetMyShopQuery } from '@/shared/api/my/queries'
+import { useGetMyWishQuery } from '@/shared/api/my/queries'
 import Flex from '@/shared/components/layout/Flex'
-import { SUBMISSION_TYPE } from './ProductLists/types'
+import { SUBMISSION_TYPE } from '@/shared/api/my/types'
 
 export default function ProductLists() {
   const { data: myWishData } = useGetMyWishQuery(10)

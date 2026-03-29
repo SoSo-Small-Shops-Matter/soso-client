@@ -1,6 +1,6 @@
 'use client'
 
-import { MyWishType } from '@/app/my/components/ProductLists/types'
+import { MyWishType } from '@/shared/api/my/types'
 import useIsMobile from '@/shared/hooks/useIsMobile'
 import { handleImageError } from '@/shared/utils/handleImageError'
 import clsx from 'clsx'

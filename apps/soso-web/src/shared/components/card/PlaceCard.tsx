@@ -4,12 +4,9 @@ import { useLocationStore } from '@/shared/store/useLocationStore'
 import { ShopType } from '@/shared/types/shopType'
 import { applefindUrl, kakaoFindUrl, naverFindUrl } from '@/shared/utils/findShop'
 import { formatDistance } from '@/shared/utils/formatDistance'
-import { getCurrentLocation } from '@/shared/utils/getCurrentLocation'
-import { getDistance } from '@/shared/utils/getDistance'
 import { handleImageError } from '@/shared/utils/handleImageError'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 interface PlaceCardProps {
   width?: string
@@ -18,24 +15,7 @@ interface PlaceCardProps {
   data: Pick<ShopType, 'id' | 'name' | 'mainImage' | 'lat' | 'lng' | 'distance'>
 }
 export default function PlaceCard({ width, height, type, data }: PlaceCardProps) {
-  const [currentLat, setCurrentLat] = useState<number | null>(0)
-  const [currentLng, setCurrentLng] = useState<number | null>(0)
   const { setPrevShop } = useLocationStore()
-
-  useEffect(() => {
-    const setCurrentLocation = async () => {
-      const currentLocation = await getCurrentLocation()
-
-      if (currentLocation === 'denied') {
-        return
-      }
-
-      setCurrentLat(Number(currentLocation.lat))
-      setCurrentLng(Number(currentLocation.lng))
-    }
-
-    setCurrentLocation()
-  }, [])
 
   const handleSavePrevLocation = (lat: number, lng: number, id: number) => {
     setPrevShop({ id, lat, lng })

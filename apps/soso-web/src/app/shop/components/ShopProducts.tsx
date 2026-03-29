@@ -1,6 +1,6 @@
 'use client'
 
-import { useAddShopProductMutation } from '@/app/shop/components/ShopProducts/hooks/useAddShopProductMutation'
+import { useAddShopProductMutation } from '@/shared/api/shops/queries'
 import IconButton from '@/shared/components/button/IconButton'
 import SellProduct from '@/shared/components/card/SellProduct'
 import ProposalIcon from '@/shared/components/icons/ProposalIcon'

@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useGetTokenMutation } from '@/app/login/callback/hooks/useGetTokenMutation'
+import { useGetTokenMutation } from '@/shared/api/auth/queries'
 import Loading from '@/shared/components/loading/Loading'
 
 const AuthCallback = () => {

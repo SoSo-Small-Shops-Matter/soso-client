@@ -1,8 +1,9 @@
 'use client'
 
 import ReportRadio from '@/app/shop/components/ShopTopInfo/components/ReportModal/components/ReportRadio'
-import { REPORT_LIST } from '@/app/shop/components/ShopTopInfo/components/ReportModal/constant/reportList'
-import { usePatchReportMutation } from '@/app/shop/components/ShopTopInfo/components/ReportModal/hooks/usePatchReportMutation'
+import { REPORT_LIST } from '@/shared/api/report/constants'
+import { usePatchReportMutation } from '@/shared/api/report/queries'
+import { ShopReportTypeValue } from '@/shared/api/report/types'
 import Button from '@/shared/components/button/Button'
 import ModalCloseButton from '@/shared/components/button/MocalCloseButton'
 import Flex from '@/shared/components/layout/Flex'
@@ -10,7 +11,6 @@ import BottomModal from '@/shared/components/modal/BottomModal'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { ShopReportTypeValue } from './ReportModal/types'
 
 interface ReportModalProps {
   isReportModal: boolean

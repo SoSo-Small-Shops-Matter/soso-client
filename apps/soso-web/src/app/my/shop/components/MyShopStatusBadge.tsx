@@ -1,6 +1,6 @@
 'use client'
 
-import { MY_SHOP_SUBMIT_STATUS, MyShopSubmitStatus } from '@/app/my/components/ProductLists/types'
+import { MY_SHOP_SUBMIT_STATUS, MyShopSubmitStatus } from '@/shared/api/my/types'
 import clsx from 'clsx'
 
 interface MyShopStatusBadgeProps {

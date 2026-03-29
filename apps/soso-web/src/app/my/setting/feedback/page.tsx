@@ -1,6 +1,6 @@
 'use client'
 
-import { usePostFeedbackMutation } from '@/app/my/setting/feedback/hooks/usePostFeedbackMutation'
+import { usePostFeedbackMutation } from '@/shared/api/feedback/queries'
 import Button from '@/shared/components/button/Button'
 import Textarea from '@/shared/components/inputs/Textarea'
 import Header from '@/shared/components/layout/Header'
