@@ -1,6 +1,6 @@
 'use client'
 
-import { usePostReportMutation } from '@/app/report/hooks/usePostReportMutation'
+import { usePostReportMutation } from '@/shared/api/report/queries'
 import { useReportStore } from '@/app/report/store/useReportStore'
 import Button from '@/shared/components/button/Button'
 import TimePickerButton from '@/shared/components/button/TimePickerButton'

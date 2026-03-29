@@ -1,7 +1,7 @@
 'use client'
 
 import ToggleNotice from '@/app/my/setting/notice/components/ToggleNotice'
-import { useGetNoticeQuery } from '@/app/my/setting/notice/hooks/useGetNoticeQuery'
+import { useGetNoticeQuery } from '@/shared/api/notice/queries'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
 

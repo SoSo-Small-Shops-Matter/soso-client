@@ -1,4 +1,4 @@
-import { getRefreshToken } from '@/shared/api/getRefreshToken'
+import { authApi } from '@/shared/api/auth/api'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import qs from 'qs'
 
@@ -45,7 +45,7 @@ export const customFetch = async (endPoint: string, options: CustomFetchOptions 
     )
 
     if (response.status === 401 && refreshToken) {
-      const newToken = await getRefreshToken(refreshToken, setToken, setRefreshToken, clearToken)
+      const newToken = await authApi.refreshToken(refreshToken, setToken, setRefreshToken, clearToken)
 
       if (newToken) {
         return customFetch(endPoint, { ...options })

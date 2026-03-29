@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMyReviewQuery } from '@/app/my/components/ProductLists/hooks/useGetMyReviewQuery'
+import { useGetMyReviewQuery } from '@/shared/api/my/queries'
 import MyReview from '@/app/my/review/components/MyReview'
 import Divider from '@/shared/components/divider/Divider'
 import Flex from '@/shared/components/layout/Flex'
