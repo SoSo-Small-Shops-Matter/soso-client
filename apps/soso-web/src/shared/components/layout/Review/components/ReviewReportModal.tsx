@@ -7,7 +7,6 @@ import { usePostReviewReportMutation } from '@/shared/api/review/queries'
 import BottomModal from '@/shared/components/modal/BottomModal'
 import { useDialog } from '@/shared/context/DialogContext'
 import useInput from '@/shared/hooks/useInput'
-import { CustomError } from '@/shared/utils/customFetch'
 import { useState } from 'react'
 import { REVIEW_ETC_REPORT_ID, REVIEW_REPORT_LIST } from '@/shared/api/review/constants'
 
@@ -60,22 +59,6 @@ export default function ReviewReportModal({
           ),
         })
         setSelectedId(null)
-      },
-      onError: (error: unknown) => {
-        if (error instanceof CustomError) {
-          const responseData = error.data
-          if (responseData.status === 409) {
-            handleToggleReportModal()
-            setSelectedId(null)
-            setEtcValue('')
-            openDialog({
-              title: '이미 신고한 후기입니다.',
-              type: 'alert',
-            })
-          }
-        } else {
-          console.error('알 수 없는 에러:', error)
-        }
       },
     })
   }
