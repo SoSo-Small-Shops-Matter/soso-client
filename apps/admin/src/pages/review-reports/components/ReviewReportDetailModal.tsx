@@ -24,6 +24,7 @@ export function ReviewReportDetailModal({
             value={getFormatDateString(report.reportDate, "yyyy.MM.dd")}
           />
           <InfoField label="누적 신고 횟수" value={report.reportCount} />
+          <InfoField label="숨김 여부" value={report.isHidden ? "숨김" : "노출 중"} />
         </div>
       )}
     </Modal>
