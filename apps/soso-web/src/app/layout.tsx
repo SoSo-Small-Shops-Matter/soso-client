@@ -11,6 +11,25 @@ export const metadata: Metadata = {
   title: '소품샵은 소중해 | 소중한 소품샵 추천 앱',
   description: '내 주변 소품샵을 찾고 기록을 남겨보세요!',
   keywords: '소품샵, 소품샵 추천, 감성 소품샵, 캐릭터샵, 빈티지샵, 서울 소품샵, 소소 앱',
+  applicationName: '소품샵은 소중해',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: '소품샵은 소중해',
+    title: '소품샵은 소중해 | 소중한 소품샵 추천 앱',
+    description: '내 주변 소품샵을 찾고 기록을 남겨보세요!',
+    url: 'https://soso-client-soso-web.vercel.app',
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary',
+    title: '소품샵은 소중해 | 소중한 소품샵 추천 앱',
+    description: '내 주변 소품샵을 찾고 기록을 남겨보세요!',
+  },
 }
 export default function RootLayout({
   children,
