@@ -1,16 +1,25 @@
 import { useState } from "react";
-import { useGetReviewReports } from "@/shared/api/review-reports/queries";
+import {
+  useGetReviewReports,
+  useToggleReviewHidden,
+} from "@/shared/api/review-reports/queries";
 import { Table } from "@/shared/components/Table";
 import type { ReviewReport } from "@/shared/api/review-reports/types";
 import { getFormatDateString } from "@repo/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ReviewReportDetailModal } from "./components/ReviewReportDetailModal";
+import { HiddenToggleButton } from "@/shared/components/HiddenToggleButton";
 
 export function ReviewReportsPage() {
   const [selectedReport, setSelectedReport] = useState<ReviewReport | null>(
     null,
   );
   const { data, isLoading } = useGetReviewReports();
+  const toggleMutation = useToggleReviewHidden();
+
+  const handleToggle = (reviewId: number, isCurrentlyHidden: boolean) => {
+    toggleMutation.mutate({ reviewId, data: { isHidden: !isCurrentlyHidden } });
+  };
 
   const columns: ColumnDef<ReviewReport>[] = [
     {
@@ -39,6 +48,22 @@ export function ReviewReportsPage() {
       header: "등록 날짜",
       cell: ({ getValue }) =>
         getFormatDateString(getValue<string>(), "yyyy.MM.dd"),
+    },
+    {
+      id: "actions",
+      header: "관리",
+      size: 120,
+      cell: ({ row }) => {
+        const { reviewId, isHidden } = row.original;
+        return (
+          <HiddenToggleButton
+            id={reviewId}
+            isHidden={isHidden}
+            isPending={toggleMutation.isPending}
+            onToggle={handleToggle}
+          />
+        );
+      },
     },
   ];
 

@@ -4,6 +4,7 @@ import {
   useToggleShopHidden,
 } from "@/shared/api/shop-reports/queries";
 import { Table } from "@/shared/components/Table";
+import { HiddenToggleButton } from "@/shared/components/HiddenToggleButton";
 import type { ShopReport } from "@/shared/api/shop-reports/types";
 import { getFormatDateString } from "@repo/utils/formatDateString";
 
@@ -53,20 +54,12 @@ export function ShopReportsPage() {
       header: "관리",
       size: 120,
       cell: ({ row }) => (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleToggle(row.original.shopId, row.original.isHidden);
-          }}
-          disabled={toggleMutation.isPending}
-          className={`px-12 py-6 text-sm rounded-6 transition-colors ${
-            row.original.isHidden
-              ? "bg-green-100 text-green-700 hover:bg-green-200"
-              : "bg-red-100 text-red-700 hover:bg-red-200"
-          } disabled:opacity-50`}
-        >
-          {row.original.isHidden ? "노출하기" : "숨기기"}
-        </button>
+        <HiddenToggleButton
+          id={row.original.shopId}
+          isHidden={row.original.isHidden}
+          isPending={toggleMutation.isPending}
+          onToggle={handleToggle}
+        />
       ),
     },
   ];
