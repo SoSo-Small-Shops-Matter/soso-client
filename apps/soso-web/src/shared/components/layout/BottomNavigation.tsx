@@ -21,10 +21,15 @@ export default function BottomNavigation() {
       icon: <SearchNaviIcon isActive={pathname.includes('/search')} />,
       href: '/search',
     },
+    // {
+    //   label: '등록',
+    //   icon: <ReportNaviIcon isActive={pathname.includes('/report')} />,
+    //   href: '/report',
+    // },
     {
-      label: '등록',
-      icon: <ReportNaviIcon isActive={pathname.includes('/report')} />,
-      href: '/report',
+      label: '코스',
+      icon: <ReportNaviIcon isActive={pathname.includes('/course')} />,
+      href: '/course',
     },
     {
       label: '마이페이지',
