@@ -36,9 +36,7 @@ const DialogModal = ({
           <Flex gap={9} className="w-full">
             {type === 'confirm' && (
               <Button
-                bgColor="#F7F8F9"
-                textColor="#72787F"
-                borderColor="none"
+                variant="tertiary"
                 onClick={onClose}
                 width="auto"
                 className="flex-1"
