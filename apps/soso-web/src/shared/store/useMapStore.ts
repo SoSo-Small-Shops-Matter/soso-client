@@ -9,6 +9,10 @@ interface Marker {
   data?: any;
   icon?: {
     content: string;
+      anchor?: {
+      x: number;
+      y: number;
+    };  
   };
   zIndex?: number;
 }
