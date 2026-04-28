@@ -6,6 +6,7 @@ import Flex from '@/shared/components/layout/Flex'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
+import CourseNaviIcon from './BottomNavigation/components/CourseNaviIcon'
 
 export default function BottomNavigation() {
   const pathname = usePathname()
@@ -28,7 +29,7 @@ export default function BottomNavigation() {
     // },
     {
       label: '코스',
-      icon: <ReportNaviIcon isActive={pathname.includes('/course')} />,
+      icon: <CourseNaviIcon isActive={pathname.includes('/course')} />,
       href: '/course',
     },
     {

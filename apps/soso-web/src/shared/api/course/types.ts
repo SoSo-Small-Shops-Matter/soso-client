@@ -1,6 +1,11 @@
 // ─── Common ────────────────────────────────────────────────────────────────
 
-export type CourseStatus = 'in_progress' | 'completed'
+export const COURSE_STATUS = {
+  IN_PROGRESS: 'in_progress',
+  COMPLETED: 'completed',
+} as const
+
+export type CourseStatus = (typeof COURSE_STATUS)[keyof typeof COURSE_STATUS]
 
 // ─── Shop summary (used inside course) ────────────────────────────────────
 
