@@ -32,8 +32,7 @@ export default function CourseDetailPage({ params }: PageProps) {
   const toggleStamp = (shopId: number) => {
     setStampedIds((prev) => {
       const next = new Set(prev)
-      if (next.has(shopId)) next.delete(shopId)
-      else next.add(shopId)
+      next.has(shopId) ? next.delete(shopId) : next.add(shopId)
       return next
     })
   }
