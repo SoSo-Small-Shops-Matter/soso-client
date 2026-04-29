@@ -76,12 +76,12 @@ export default function CourseDetailPage({ params }: PageProps) {
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>
         <div className="flex flex-col">
-          <button type="button" className="px-[4px] py-[18px] text-left text-[18px] font-bold text-[#191919]">
+          <button type="button" className="px-[4px] py-[18px] text-left text-lg font-bold text-black">
             수정
           </button>
           <button
             type="button"
-            className="px-[4px] py-[18px] text-left text-[18px] font-bold text-gray-900"
+            className="px-[4px] py-[18px] text-left text-lg font-bold text-gray-900"
             onClick={handleDeleteCourse}
           >
             삭제

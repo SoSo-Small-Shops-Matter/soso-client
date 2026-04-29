@@ -11,7 +11,7 @@ interface Props {
 
 export function CourseStopStep({ stop, index, isLast, isVisited, nextIsVisited, onSelect }: Props) {
   return (
-    <button type="button" onClick={() => onSelect(index)} className="flex w-[72px] flex-shrink-0 flex-col items-center">
+    <button type="button" onClick={() => onSelect(index)} className="flex w-[72px] flex-shrink-0 flex-col items-center gap-8">
       <div className="relative flex h-32 w-full items-center justify-center">
         {!isLast && (
           <div
@@ -23,14 +23,14 @@ export function CourseStopStep({ stop, index, isLast, isVisited, nextIsVisited, 
         {isVisited ? (
           <img src="/images/course/stampped.svg" alt="스탬프 완료" className="relative z-10 size-32" />
         ) : (
-          <div className="relative z-10 flex h-[29.5] w-[29.5] items-center justify-center rounded-full bg-gray-100 text-[12px] font-medium text-white">
+          <div className="relative z-10 flex h-[28] w-[28] items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-white">
             {index + 1}
           </div>
         )}
       </div>
       <span
-        className={`mt-1.5 w-full max-w-[51px] truncate text-center text-xs leading-tight transition-colors ${
-          isVisited ? 'font-medium text-[#FF7F50]' : 'text-gray-400'
+        className={`w-full max-w-[51px] truncate text-center text-xs leading-tight transition-colors ${
+          isVisited ? 'font-medium text-main' : 'text-gray-400'
         }`}
       >
         {stop.shop.name}

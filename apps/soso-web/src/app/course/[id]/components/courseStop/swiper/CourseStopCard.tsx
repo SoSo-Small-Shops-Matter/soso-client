@@ -74,7 +74,7 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
             className="flex w-fit items-center gap-1 text-sm text-gray-400"
           >
             <img src="/images/course/find.svg" alt="길찾기" width={12} height={12} className="mr-4" />
-            <span className="font-size-12 color-gray-500 font-medium">길찾기</span>
+            <span className="text-xs color-gray-500 font-medium">길찾기</span>
           </button>
         </div>
 
@@ -82,8 +82,8 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
           <img
             src={isStamped ? '/images/course/stampped.svg' : '/images/course/un-stampped.svg'}
             alt={isStamped ? '스탬프 완료' : '스탬프 미완료'}
-            width={40}
-            height={40}
+            width={28}
+            height={28}
           />
         </button>
       </div>
