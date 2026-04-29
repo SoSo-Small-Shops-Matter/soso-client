@@ -29,14 +29,13 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
   }
 
   const handleStamp = () => {
+    const stampConfig = isStamped
+      ? { title: '방문 도장 취소할까요?', message: '이 소품샵의 방문 기록이 해제돼요.', leftLabel: '닫기', rightLabel: '도장 취소' }
+      : { title: '방문 도장 찍을까요?', message: '이 소품샵을 방문한 곳으로 기록돼요. 이후에도 변경할 수 있어요.', leftLabel: '취소', rightLabel: '도장찍기' }
+
     openDialog({
       type: 'confirm',
-      title: isStamped ? '방문 도장 취소할까요?' : '방문 도장 찍을까요?',
-      message: isStamped
-        ? '이 소품샵의 방문 기록이 해제돼요.'
-        : '이 소품샵을 방문한 곳으로 기록돼요. 이후에도 변경할 수 있어요.',
-      leftLabel: isStamped ? '닫기' : '취소',
-      rightLabel: isStamped ? '도장 취소' : '도장찍기',
+      ...stampConfig,
       onConfirm: () => {
         onToggleStamp(stop.shopId)
         closeDialog()
