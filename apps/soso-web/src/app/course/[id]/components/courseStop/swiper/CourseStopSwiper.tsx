@@ -16,12 +16,11 @@ interface Props {
 
 export function CourseStopSwiper({ stops, selectedIndex, onSelect, stampedIds, onToggleStamp }: Props) {
   const swiperRef = useRef<SwiperType | null>(null)
-  const isSwiperReady = (swiper: typeof swiperRef.current): swiper is SwiperType =>
-    (swiper && swiper.activeIndex !== selectedIndex) as boolean
 
   useEffect(() => {
-    if (isSwiperReady(swiperRef.current)) {
-      swiperRef.current.slideTo(selectedIndex)
+    const swiper = swiperRef.current
+    if (swiper && swiper.activeIndex !== selectedIndex) {
+      swiper.slideTo(selectedIndex)
     }
   }, [selectedIndex])
 
@@ -38,11 +37,7 @@ export function CourseStopSwiper({ stops, selectedIndex, onSelect, stampedIds, o
       >
         {stops.map((stop) => (
           <SwiperSlide key={stop.shopId}>
-            <CourseStopCard
-              stop={stop}
-              isStamped={stampedIds.has(stop.shopId)}
-              onToggleStamp={onToggleStamp}
-            />
+            <CourseStopCard stop={stop} isStamped={stampedIds.has(stop.shopId)} onToggleStamp={onToggleStamp} />
           </SwiperSlide>
         ))}
       </Swiper>
