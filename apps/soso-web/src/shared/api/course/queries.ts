@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { courseApi } from './api'
 import type { CreateCourseRequest, GetCoursesParams, UpdateCourseRequest } from './types'
+import { MINUTE } from '@repo/utils'
 
 export const courseKeys = {
   all: ['courses'] as const,
@@ -15,6 +16,7 @@ export const useGetCoursesQuery = (params: GetCoursesParams = {}) =>
   useQuery({
     queryKey: courseKeys.list(params),
     queryFn: () => courseApi.getCourses(params),
+    staleTime: 10 * MINUTE,
   })
 
 export const useGetCourseDetailQuery = (courseId: number) =>

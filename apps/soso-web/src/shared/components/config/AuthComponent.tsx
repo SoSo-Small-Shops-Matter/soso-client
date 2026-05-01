@@ -21,7 +21,7 @@ export default function AuthComponent() {
 
   useEffect(() => {
     if (!isHydrated || isLoggingOut) return
-    if (!token && (pathname.includes('/my') || pathname.includes('/report'))) {
+    if (!token && (pathname.includes('/my') || pathname.includes('/report') || pathname.includes('/course'))) {
       openDialog({
         type: 'alert',
         title: '',
