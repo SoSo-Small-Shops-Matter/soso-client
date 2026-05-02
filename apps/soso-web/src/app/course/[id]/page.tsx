@@ -19,9 +19,10 @@ interface PageProps {
 
 export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
-  const { data: course, isLoading, isError } = useGetCourseDetailQuery(Number(use(params).id))
-  const { mutate: stampMutate } = useStampMutation(course?.id || 0)
-  const { mutate: unStampMutate } = useUnstampMutation(course?.id || 0)
+  const courseId = Number(use(params).id)
+  const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { mutate: stampMutate } = useStampMutation(courseId)
+  const { mutate: unStampMutate } = useUnstampMutation(courseId)
 
   const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
