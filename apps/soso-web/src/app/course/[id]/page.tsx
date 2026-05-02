@@ -26,7 +26,7 @@ interface PageProps {
 export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const courseId = Number(use(params).id)
-  const { data: course, isLoading, isError } = useGetCourseDetailQuery(2)
+  const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
   const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
