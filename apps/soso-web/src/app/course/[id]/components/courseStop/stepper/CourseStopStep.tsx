@@ -1,4 +1,5 @@
 import type { CourseStopDto } from '@/shared/api/course/types'
+import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 
 interface Props {
   stop: CourseStopDto
@@ -11,7 +12,11 @@ interface Props {
 
 export function CourseStopStep({ stop, index, isLast, isVisited, nextIsVisited, onSelect }: Props) {
   return (
-    <button type="button" onClick={() => onSelect(index)} className="flex w-[72px] flex-shrink-0 flex-col items-center gap-8">
+    <button
+      type="button"
+      onClick={() => onSelect(index)}
+      className="flex w-[72px] flex-shrink-0 flex-col items-center gap-8"
+    >
       <div className="relative flex h-32 w-full items-center justify-center">
         {!isLast && (
           <div
@@ -21,9 +26,11 @@ export function CourseStopStep({ stop, index, isLast, isVisited, nextIsVisited, 
           />
         )}
         {isVisited ? (
-          <img src="/images/course/stampped.svg" alt="스탬프 완료" className="relative z-10 size-32" />
+          <div className="absolute z-10">
+            <CheckBoxIcon checked={true} width="28" height="28" />
+          </div>
         ) : (
-          <div className="relative z-10 flex h-[28] w-[28] items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-white">
+          <div className="absolute z-10 flex h-[28] w-[28] items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-white">
             {index + 1}
           </div>
         )}
