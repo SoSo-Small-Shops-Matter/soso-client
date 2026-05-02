@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Script from 'next/script'
 import { useRouter } from 'next/navigation'
 import BottomModal from '@/shared/components/modal/BottomModal'
@@ -10,7 +10,7 @@ import { CourseDetailHeader } from './components/CourseDetailHeader'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useCourseMap } from './hooks/useCourseMap'
 import { use } from 'react'
-import { useGetCourseDetailQuery } from '@/shared/api/course/queries'
+import { useGetCourseDetailQuery, useStampMutation, useUnstampMutation } from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
 
 interface PageProps {
@@ -20,19 +20,32 @@ interface PageProps {
 export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const { data: course, isLoading, isError } = useGetCourseDetailQuery(Number(use(params).id))
+  const { mutate: stampMutate } = useStampMutation(course?.id || 0)
+  const { mutate: unStampMutate } = useUnstampMutation(course?.id || 0)
+
   const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
-  const [stampedIds, setStampedIds] = useState<Set<number>>(
-    () => new Set(course?.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId))
-  )
+  const [stampedIds, setStampedIds] = useState<Set<number>>(new Set())
+
+  useEffect(() => {
+    if (course) {
+      setStampedIds(new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId)))
+    }
+  }, [course])
 
   const toggleStamp = (shopId: number) => {
+    const prevIds = new Set(stampedIds)
+    const isStamped = prevIds.has(shopId)
     setStampedIds((prev) => {
       const next = new Set(prev)
-      next.has(shopId) ? next.delete(shopId) : next.add(shopId)
+      isStamped ? next.delete(shopId) : next.add(shopId)
       return next
+    })
+    const mutate = isStamped ? unStampMutate : stampMutate
+    mutate(shopId, {
+      onError: () => setStampedIds(prevIds),
     })
   }
 
