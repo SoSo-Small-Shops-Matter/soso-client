@@ -10,7 +10,12 @@ import { CourseDetailHeader } from './components/CourseDetailHeader'
 import { useDialog } from '@/shared/context/DialogContext'
 import { useCourseMap } from './hooks/useCourseMap'
 import { use } from 'react'
-import { useGetCourseDetailQuery, useStampMutation, useUnstampMutation } from '@/shared/api/course/queries'
+import {
+  useDeleteCourseMutation,
+  useGetCourseDetailQuery,
+  useStampMutation,
+  useUnstampMutation,
+} from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
 
 interface PageProps {
@@ -21,6 +26,7 @@ export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const courseId = Number(use(params).id)
   const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
 
@@ -63,6 +69,7 @@ export default function CourseDetailPage({ params }: PageProps) {
         </>
       ),
       onConfirm: () => {
+        deleteCourseMutate(courseId)
         closeDialog()
         router.push('/course')
       },
