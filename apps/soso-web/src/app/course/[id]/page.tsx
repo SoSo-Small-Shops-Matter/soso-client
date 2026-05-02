@@ -17,6 +17,7 @@ import {
   useUnstampMutation,
 } from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
+import { useToast } from '@/shared/context/ToastContext'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -25,10 +26,11 @@ interface PageProps {
 export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const courseId = Number(use(params).id)
-  const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { data: course, isLoading, isError } = useGetCourseDetailQuery(2)
   const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
+  const { openToast } = useToast()
 
   const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
@@ -77,13 +79,18 @@ export default function CourseDetailPage({ params }: PageProps) {
     })
   }
 
+  useEffect(() => {
+    if (isError || (!isLoading && !course)) {
+      openToast({ message: '코스를 불러오는데 실패했습니다.' })
+      router.replace('/course')
+    }
+  }, [isError, isLoading, course])
+
   if (isLoading) {
     return <Loading />
   }
 
-  if (isError || !course) {
-    return <div>코스가 없습니다.</div>
-  }
+  if (isError || !course) return <></>
 
   return (
     <>
