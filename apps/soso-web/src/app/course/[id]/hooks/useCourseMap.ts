@@ -13,7 +13,7 @@ import {
 } from '../utils/courseMapUtils'
 import type { CourseMarker } from '../utils/courseMapUtils'
 
-export function useCourseMap(courses: CourseDetailDto) {
+export function useCourseMap(course?: CourseDetailDto) {
   const { map, setMap, addMarker: updateMarker, markers, moveCenter, clearMarkers } = useMapStore()
 
   const courseMapRef = useRef<HTMLDivElement>(null)
@@ -22,10 +22,12 @@ export function useCourseMap(courses: CourseDetailDto) {
 
   const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null)
 
-  const firstCourseStop = courses?.stops[0]?.shop || { lat: 37.5665, lng: 126.978 }
-  const polylinePaths = courses?.stops?.map((stop) => stop.shop) ?? []
-
   const initCourseMapOnScriptLoad = () => {
+    const firstCourseStop = course?.stops[0].shop
+    if (!firstCourseStop) {
+      return
+    }
+
     const newMap = initCourseMap({
       mapOptions: {
         zoom: COURSE_DEFAULT_ZOOM,
@@ -46,7 +48,7 @@ export function useCourseMap(courses: CourseDetailDto) {
   }
 
   const selectCourseStop = (index: number) => {
-    const stop = courses.stops[index]
+    const stop = course?.stops[index]
     if (!stop) return
 
     const prevSelectedStop = selectedMarkerRef.current
@@ -67,24 +69,22 @@ export function useCourseMap(courses: CourseDetailDto) {
   }
 
   useEffect(() => {
-    if (window.naver?.maps) {
+    if (window.naver?.maps && course) {
       initCourseMapOnScriptLoad()
+
+      course.stops.forEach((stop, index) => {
+        updateMarker({
+          id: stop.shopId,
+          position: { lat: stop.shop.lat, lng: stop.shop.lng },
+          icon: createDefaultMarkerIcon(index + 1),
+        })
+      })
     }
+
     return () => {
       clearMarkers()
     }
-  }, [])
-
-  useEffect(() => {
-    clearMarkers()
-    courses.stops.forEach((stop, index) => {
-      updateMarker({
-        id: stop.shopId,
-        position: { lat: stop.shop.lat, lng: stop.shop.lng },
-        icon: createDefaultMarkerIcon(index + 1),
-      })
-    })
-  }, [courses])
+  }, [course])
 
   useEffect(() => {
     if (!window.naver || !map) return
@@ -98,6 +98,7 @@ export function useCourseMap(courses: CourseDetailDto) {
     })
     markerRefs.current = renderedMarkers
 
+    const polylinePaths = course?.stops.map((stop) => stop.shop) ?? []
     drawPolylines(map, polylinePaths)
 
     map.setZoom(COURSE_DEFAULT_ZOOM, true)
