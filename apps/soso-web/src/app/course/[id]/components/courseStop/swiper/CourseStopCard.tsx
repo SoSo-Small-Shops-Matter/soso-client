@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { CourseStopDto } from '@/shared/api/course/types'
 import { useDialog } from '@/shared/context/DialogContext'
@@ -11,21 +10,26 @@ import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 
 interface Props {
   stop: CourseStopDto
-  isStamped: boolean
-  onToggleStamp: (shopId: number) => void
+  isStamped?: boolean
+  onToggleStamp?: (shopId: number) => void
   isLiked?: boolean
-  onToggleLike?: (shopId: number, liked: boolean) => void
+  onToggleLike?: (shopId?: number) => void
+  showStamp?: boolean
 }
 
-export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false, onToggleLike }: Props) {
+export function CourseStopCard({
+  stop,
+  isStamped = false,
+  onToggleStamp,
+  isLiked = false,
+  onToggleLike,
+  showStamp = true,
+}: Props) {
   const router = useRouter()
   const { openDialog, closeDialog } = useDialog()
-  const [liked, setLiked] = useState(isLiked)
 
   const handleLike = () => {
-    const next = !liked
-    setLiked(next)
-    onToggleLike?.(stop.shopId, next)
+    onToggleLike?.(stop.shopId)
   }
 
   const handleNavigate = () => {
@@ -51,7 +55,7 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
       type: 'confirm',
       ...stampConfig,
       onConfirm: () => {
-        onToggleStamp(stop.shopId)
+        onToggleStamp?.(stop.shopId)
         closeDialog()
       },
       onCancel: closeDialog,
@@ -62,14 +66,14 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
     <>
       <div className="flex items-center gap-10 overflow-hidden rounded-2xl bg-white p-16 shadow-sm">
         <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-[11px] font-bold text-gray-400">
-          {stop.orderIndex + 1}
+          {stop.orderIndex}
         </div>
         <div className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
           {stop.shop.mainImage && (
             <img src={stop.shop.mainImage} alt={stop.shop.name} className="h-full w-full object-cover" />
           )}
           <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px]">
-            {liked ? <FavoriteFillIcon fill="#F94E51" /> : <FavoriteIcon />}
+            {isLiked ? <FavoriteFillIcon fill="#F94E51" /> : <FavoriteIcon />}
           </button>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -83,9 +87,11 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
             <span className="color-gray-500 ml-4 text-xs font-medium">길찾기</span>
           </button>
         </div>
-        <button type="button" onClick={handleStamp} className="flex-shrink-0">
-          <CheckBoxIcon checked={isStamped} width="28" height="28" />
-        </button>
+        {showStamp && (
+          <button type="button" onClick={handleStamp} className="flex-shrink-0">
+            <CheckBoxIcon checked={isStamped} width="28" height="28" />
+          </button>
+        )}
       </div>
     </>
   )

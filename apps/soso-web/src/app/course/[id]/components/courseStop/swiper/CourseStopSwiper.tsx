@@ -10,11 +10,23 @@ interface Props {
   stops: CourseStopDto[]
   selectedIndex: number
   onSelect: (index: number) => void
-  stampedIds: Set<number>
-  onToggleStamp: (shopId: number) => void
+  stampedIds?: Set<number>
+  onToggleStamp?: (shopId: number) => void
+  showStamp?: boolean
+  likedStopIds?: Set<number>
+  onToggleLike?: (shopId?: number) => void
 }
 
-export function CourseStopSwiper({ stops, selectedIndex, onSelect, stampedIds, onToggleStamp }: Props) {
+export function CourseStopSwiper({
+  stops,
+  selectedIndex,
+  onSelect,
+  stampedIds,
+  onToggleStamp,
+  showStamp = true,
+  likedStopIds,
+  onToggleLike,
+}: Props) {
   const swiperRef = useRef<SwiperType | null>(null)
 
   useEffect(() => {
@@ -37,7 +49,14 @@ export function CourseStopSwiper({ stops, selectedIndex, onSelect, stampedIds, o
       >
         {stops.map((stop) => (
           <SwiperSlide key={stop.shopId}>
-            <CourseStopCard stop={stop} isStamped={stampedIds.has(stop.shopId)} onToggleStamp={onToggleStamp} />
+            <CourseStopCard
+              stop={stop}
+              isStamped={stampedIds?.has(stop.shopId)}
+              onToggleStamp={onToggleStamp}
+              showStamp={showStamp}
+              isLiked={likedStopIds?.has(stop.shopId) ?? false}
+              onToggleLike={onToggleLike}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
