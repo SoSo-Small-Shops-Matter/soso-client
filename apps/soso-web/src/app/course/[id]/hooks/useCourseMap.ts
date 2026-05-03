@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CourseDetailDto, CourseShopSummary } from '@/shared/api/course/types'
+import type { CourseDetailDto, CourseShopSummary, SharedCourseDto } from '@/shared/api/course/types'
+
 import useMapStore from '@/shared/store/useMapStore'
 import {
   COURSE_DEFAULT_ZOOM,
@@ -7,13 +8,14 @@ import {
   createActiveMarkerIcon,
   createDefaultMarkerIcon,
   drawPolylines,
+  getStopShopId,
   initCourseMap,
   renderMarkers,
   zoomWithDragLock,
 } from '../utils/courseMapUtils'
 import type { CourseMarker } from '../utils/courseMapUtils'
 
-export function useCourseMap(course?: CourseDetailDto) {
+export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
   const { map, setMap, addMarker: updateMarker, markers, moveCenter, clearMarkers } = useMapStore()
 
   const courseMapRef = useRef<HTMLDivElement>(null)
@@ -23,7 +25,7 @@ export function useCourseMap(course?: CourseDetailDto) {
   const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null)
 
   const initCourseMapOnScriptLoad = () => {
-    const firstCourseStop = course?.stops[0].shop
+    const firstCourseStop = course?.stops[0].shop as CourseShopSummary
     if (!firstCourseStop) {
       return
     }
@@ -73,7 +75,7 @@ export function useCourseMap(course?: CourseDetailDto) {
       initCourseMapOnScriptLoad()
       course.stops.forEach((stop, index) => {
         updateMarker({
-          id: stop.shopId,
+          id: getStopShopId(stop),
           position: { lat: stop.shop.lat, lng: stop.shop.lng },
           icon: createDefaultMarkerIcon(index + 1),
         })

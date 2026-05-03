@@ -1,17 +1,16 @@
-import type { CourseStopDto } from '@/shared/api/course/types'
+import type { CourseStopDto, SharedStopDto } from '@/shared/api/course/types'
 import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 
 interface Props {
-  stop: CourseStopDto
+  stop: CourseStopDto | SharedStopDto
   index: number
   isLast: boolean
   isVisited?: boolean
   isSelected?: boolean
-  nextIsVisited?: boolean
   onSelect: (index: number) => void
 }
 
-export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, nextIsVisited, onSelect }: Props) {
+export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, onSelect }: Props) {
   return (
     <button
       type="button"
@@ -22,7 +21,7 @@ export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, nex
         {!isLast && (
           <div
             className={`absolute left-1/2 top-1/2 h-0.5 h-1 w-full -translate-y-1/2 ${
-              isVisited && nextIsVisited ? 'bg-[#FF7F50]' : 'bg-[#C9CDD2]'
+              isVisited ? 'bg-[#FF7F50]' : 'bg-[#C9CDD2]'
             }`}
           />
         )}

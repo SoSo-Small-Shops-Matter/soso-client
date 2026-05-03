@@ -1,15 +1,17 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import type { CourseStopDto } from '@/shared/api/course/types'
+import type { CourseStopDto, SharedStopDto } from '@/shared/api/course/types'
+
 import { useDialog } from '@/shared/context/DialogContext'
 import NavigationArrowIcon from '@/shared/components/icons/NavigationArrow'
 import FavoriteIcon from '@/shared/components/icons/FavoriteIcon'
 import FavoriteFillIcon from '@/shared/components/icons/FavoriteFillIcon'
 import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
+import { getStopShopId } from '../../../utils/courseMapUtils'
 
 interface Props {
-  stop: CourseStopDto
+  stop: CourseStopDto | SharedStopDto
   isStamped?: boolean
   onToggleStamp?: (shopId: number) => void
   isLiked?: boolean
@@ -26,10 +28,11 @@ export function CourseStopCard({
   showStamp = true,
 }: Props) {
   const router = useRouter()
+  const shopId = getStopShopId(stop)
   const { openDialog, closeDialog } = useDialog()
 
   const handleLike = () => {
-    onToggleLike?.(stop.shopId)
+    onToggleLike?.(shopId)
   }
 
   const handleNavigate = () => {
@@ -55,7 +58,7 @@ export function CourseStopCard({
       type: 'confirm',
       ...stampConfig,
       onConfirm: () => {
-        onToggleStamp?.(stop.shopId)
+        onToggleStamp?.(shopId)
         closeDialog()
       },
       onCancel: closeDialog,
