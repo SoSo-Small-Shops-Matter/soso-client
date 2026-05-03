@@ -71,7 +71,6 @@ export function useCourseMap(course?: CourseDetailDto) {
   useEffect(() => {
     if (window.naver?.maps && course) {
       initCourseMapOnScriptLoad()
-
       course.stops.forEach((stop, index) => {
         updateMarker({
           id: stop.shopId,
@@ -84,7 +83,7 @@ export function useCourseMap(course?: CourseDetailDto) {
     return () => {
       clearMarkers()
     }
-  }, [course])
+  }, [window.naver?.maps, course])
 
   useEffect(() => {
     if (!window.naver || !map) return
