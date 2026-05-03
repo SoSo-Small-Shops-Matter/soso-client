@@ -11,6 +11,7 @@ import { useDialog } from '@/shared/context/DialogContext'
 import { useCourseMap } from './hooks/useCourseMap'
 import { use } from 'react'
 import {
+  useCreateShareLinkMutation,
   useDeleteCourseMutation,
   useGetCourseDetailQuery,
   useStampMutation,
@@ -30,6 +31,7 @@ export default function CourseDetailPage({ params }: PageProps) {
   const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
+  const { mutateAsync: shareLinkMutate } = useCreateShareLinkMutation(courseId)
   const { openToast } = useToast()
 
   const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
@@ -43,6 +45,21 @@ export default function CourseDetailPage({ params }: PageProps) {
       setStampedIds(new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId)))
     }
   }, [course])
+
+  const share = async () => {
+    if (!navigator.share) return
+
+    const { shareToken } = await shareLinkMutate()
+
+    await navigator.share({
+      title: `[소품샵은 소중해] ${course?.name}`,
+      text: '소품샵은 소중해 앱에서 확인해보세요.',
+      url:
+        process.env.NODE_ENV === 'production'
+          ? `https://soso-web.vercel.app/shared/${shareToken}`
+          : `http://localhost:3000/course/shared/${shareToken}`,
+    })
+  }
 
   const toggleStamp = (shopId: number) => {
     const prevIds = new Set(stampedIds)
@@ -104,7 +121,12 @@ export default function CourseDetailPage({ params }: PageProps) {
       />
       <div className="relative h-full w-full">
         <div className="absolute left-0 right-0 top-0 z-10">
-          <CourseDetailHeader title={course.name} onBack={() => router.back()} onMore={() => setIsMoreOpen(true)} />
+          <CourseDetailHeader
+            title={course.name}
+            onBack={() => router.back()}
+            onMore={() => setIsMoreOpen(true)}
+            onShare={share}
+          />
           <CourseStopStepper stops={course.stops} onSelect={selectCourseStop} stampedIds={stampedIds} />
         </div>
 

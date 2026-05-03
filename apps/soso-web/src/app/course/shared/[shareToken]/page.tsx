@@ -7,27 +7,27 @@ import { useRouter } from 'next/navigation'
 import { useDialog } from '@/shared/context/DialogContext'
 
 import { use } from 'react'
-import { useGetCourseDetailQuery } from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
-import { useCourseMap } from '../hooks/useCourseMap'
-import { CourseStopSwiper } from '../components/courseStop/swiper/CourseStopSwiper'
-import { CourseStopStepper } from '../components/courseStop/stepper/CourseStopStepper'
+import { useCourseMap } from '../../[id]/hooks/useCourseMap'
+import { CourseStopSwiper } from '../../[id]/components/courseStop/swiper/CourseStopSwiper'
+import { CourseStopStepper } from '../../[id]/components/courseStop/stepper/CourseStopStepper'
 
-import { CourseSharedHeader } from './components/CourseSharedHeader'
+import { CourseSharedHeader } from '../components/CourseSharedHeader'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import { useGetUserProfileQuery } from '@/shared/api/user/queries'
+import { useGetSharedCourseQuery } from '@/shared/api/course/queries'
 
 interface PageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ shareToken: string }>
 }
 
 export default function CourseSharedPage({ params }: PageProps) {
   const router = useRouter()
-  const courseId = Number(use(params).id)
+  const shareToken = use(params).shareToken
   const { token } = useAuthStore()
   const { data: userData } = useGetUserProfileQuery()
-  const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { data: course, isLoading, isError } = useGetSharedCourseQuery(shareToken)
   const { openToast } = useToast()
 
   const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
