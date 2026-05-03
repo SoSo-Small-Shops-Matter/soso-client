@@ -60,12 +60,14 @@ export default function CourseDetailPage({ params }: PageProps) {
 
   const handleDeleteCourse = () => {
     setIsMoreOpen(false)
+    if (!course) return
+
     openDialog({
       type: 'confirm',
       title: '코스 삭제',
       message: (
         <>
-          {course?.name}의 코스를 삭제할까요?
+          {course.name}의 코스를 삭제할까요?
           <br />
           삭제 시 다시 복구할 수 없습니다.
         </>
