@@ -84,12 +84,7 @@ export function CourseStopCard({ stop, isStamped, onToggleStamp, isLiked = false
           </button>
         </div>
         <button type="button" onClick={handleStamp} className="flex-shrink-0">
-          <img
-            src={isStamped ? '/images/course/stampped.svg' : '/images/course/un-stampped.svg'}
-            alt={isStamped ? '스탬프 완료' : '스탬프 미완료'}
-            width={28}
-            height={28}
-          />
+          <CheckBoxIcon checked={isStamped} width="28" height="28" />
         </button>
       </div>
     </>
