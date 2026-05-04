@@ -1,22 +1,20 @@
 import { Metadata } from 'next'
+import { METADATA, SHARE_BASE_URL } from './constants'
 
 interface LayoutProps {
   params: Promise<{ shareToken: string }>
   children: React.ReactNode
 }
 
-const DEFAULT_TITLE = '소품샵은 소중해'
-const DEFAULT_DESCRIPTION = '소품샵은 소중해 앱에서 확인해보세요.'
+const FALLBACK_OG_IMAGE = `${SHARE_BASE_URL}/images/confirm.png`
 
-function buildMetadata(title: string, url?: string): Metadata {
-  const base = { title, description: DEFAULT_DESCRIPTION }
+function buildMetadata(title: string, ogImage: string, url?: string): Metadata {
+  const base = { title, description: METADATA.DESCRIPTION }
   return {
     ...base,
-    openGraph: { ...base, ...(url ? { url } : {}), type: 'website' },
+    openGraph: { ...base, ...(url ? { url } : {}), type: 'website', images: [ogImage] },
   }
 }
-
-const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_BASE_URL
 
 export async function generateMetadata({ params }: { params: Promise<{ shareToken: string }> }): Promise<Metadata> {
   const { shareToken } = await params
@@ -25,11 +23,12 @@ export async function generateMetadata({ params }: { params: Promise<{ shareToke
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/courses/shared/${shareToken}`)
     const data = await res.json()
     const courseName = data?.result?.name
-    const url = `${BASE_URL}/course/shared/${shareToken}`
+    const url = `${SHARE_BASE_URL}/course/shared/${shareToken}`
+    const ogImage = `${SHARE_BASE_URL}/course/shared/${shareToken}/api`
 
-    return buildMetadata(`[${DEFAULT_TITLE}] ${courseName}`, url)
+    return buildMetadata(`[${METADATA.TITLE}] ${courseName}`, ogImage, url)
   } catch {
-    return buildMetadata(DEFAULT_TITLE)
+    return buildMetadata(METADATA.TITLE, FALLBACK_OG_IMAGE)
   }
 }
 
