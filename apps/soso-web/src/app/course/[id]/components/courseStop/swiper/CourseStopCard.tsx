@@ -81,14 +81,16 @@ export function CourseStopCard({
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="truncate text-base font-bold text-gray-900">{stop.shop.name}</span>
-          <button
-            type="button"
-            onClick={handleNavigate}
-            className="flex w-fit items-center gap-1 text-sm text-gray-400"
-          >
-            <NavigationArrowIcon width="12.67" height="12.67" fill="rgba(126, 132, 140, 1)" rotate={90} />
-            <span className="color-gray-500 ml-4 text-xs font-medium">길찾기</span>
-          </button>
+          {showStamp && (
+            <button
+              type="button"
+              onClick={handleNavigate}
+              className="flex w-fit items-center gap-1 text-sm text-gray-400"
+            >
+              <NavigationArrowIcon width="12.67" height="12.67" fill="rgba(126, 132, 140, 1)" rotate={90} />
+              <span className="color-gray-500 ml-4 text-xs font-medium">길찾기</span>
+            </button>
+          )}
         </div>
         {showStamp && (
           <button type="button" onClick={handleStamp} className="flex-shrink-0">
