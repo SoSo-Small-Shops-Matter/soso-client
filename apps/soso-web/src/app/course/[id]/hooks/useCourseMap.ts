@@ -4,15 +4,16 @@ import type { CourseDetailDto, CourseShopSummary, SharedCourseDto } from '@/shar
 import useMapStore from '@/shared/store/useMapStore'
 import {
   COURSE_DEFAULT_ZOOM,
+  COURSE_MAP_OPTIONS,
   COURSE_MAX_ZOOM,
   createActiveMarkerIcon,
   createDefaultMarkerIcon,
   drawPolylines,
-  getStopShopId,
   initCourseMap,
   renderMarkers,
   zoomWithDragLock,
 } from '../utils/courseMapUtils'
+import { getStopShopId } from '../../utils/stopUtils'
 import type { CourseMarker } from '../utils/courseMapUtils'
 
 export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
@@ -23,30 +24,10 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
   const selectedMarkerRef = useRef<{ instance: naver.maps.Marker; originalIcon: CourseMarker['icon'] } | null>(null)
 
   const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null)
+  const [isNaverMapsReady, setIsNaverMapsReady] = useState(() => typeof window !== 'undefined' && !!window.naver?.maps)
 
-  const initCourseMapOnScriptLoad = () => {
-    const firstCourseStop = course?.stops[0].shop as CourseShopSummary
-    if (!firstCourseStop) {
-      return
-    }
-
-    const newMap = initCourseMap({
-      mapOptions: {
-        zoom: COURSE_DEFAULT_ZOOM,
-        minZoom: 1,
-        draggable: true,
-        scrollWheel: true,
-        pinchZoom: true,
-        keyboardShortcuts: true,
-        disableDoubleTapZoom: false,
-        disableDoubleClickZoom: false,
-        disableTwoFingerTapZoom: false,
-      },
-      firstCourseStop,
-      courseMapRef,
-    })
-
-    if (newMap) setMap(newMap)
+  const onNaverMapsLoad = () => {
+    setIsNaverMapsReady(true)
   }
 
   const selectCourseStop = (index: number) => {
@@ -71,21 +52,29 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
   }
 
   useEffect(() => {
-    if (window.naver?.maps && course) {
-      initCourseMapOnScriptLoad()
-      course.stops.forEach((stop, index) => {
-        updateMarker({
-          id: getStopShopId(stop),
-          position: { lat: stop.shop.lat, lng: stop.shop.lng },
-          icon: createDefaultMarkerIcon(index + 1),
-        })
+    const firstCourseStop = course?.stops[0]?.shop as CourseShopSummary
+    if (!isNaverMapsReady || !course || !firstCourseStop) return
+
+    const newMap = initCourseMap({
+      mapOptions: COURSE_MAP_OPTIONS,
+      firstCourseStop,
+      courseMapRef,
+    })
+    if (newMap) setMap(newMap)
+
+    course.stops.forEach((stop, index) => {
+      updateMarker({
+        id: getStopShopId(stop),
+        position: { lat: stop.shop.lat, lng: stop.shop.lng },
+        icon: createDefaultMarkerIcon(index + 1),
       })
-    }
+    })
 
     return () => {
       clearMarkers()
+      useMapStore.setState({ map: null })
     }
-  }, [window.naver?.maps, course])
+  }, [course, isNaverMapsReady])
 
   useEffect(() => {
     if (!window.naver || !map) return
@@ -101,10 +90,9 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
 
     const polylinePaths = course?.stops.map((stop) => stop.shop) ?? []
     drawPolylines(map, polylinePaths)
-
     map.setZoom(COURSE_DEFAULT_ZOOM, true)
     selectCourseStop(0)
   }, [map, markers])
 
-  return { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex }
+  return { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex }
 }

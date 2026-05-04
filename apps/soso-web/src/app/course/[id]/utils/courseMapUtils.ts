@@ -32,6 +32,18 @@ export const COURSE_DEFAULT_ZOOM = 16
 
 export const COURSE_MAX_ZOOM = 18
 
+export const COURSE_MAP_OPTIONS = {
+  zoom: COURSE_DEFAULT_ZOOM,
+  minZoom: 1,
+  draggable: true,
+  scrollWheel: true,
+  pinchZoom: true,
+  keyboardShortcuts: true,
+  disableDoubleTapZoom: false,
+  disableDoubleClickZoom: false,
+  disableTwoFingerTapZoom: false,
+} as const
+
 export const createDefaultMarkerIcon = (
   label: number
 ): {
