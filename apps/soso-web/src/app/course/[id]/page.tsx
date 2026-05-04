@@ -40,6 +40,7 @@ export default function CourseDetailPage({ params }: PageProps) {
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
   const [stampedIds, setStampedIds] = useState<Set<number>>(new Set())
+  const [likedStopIds, setLikedStopIds] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     if (course) {
@@ -66,6 +67,16 @@ export default function CourseDetailPage({ params }: PageProps) {
     const mutate = isStamped ? unStampMutate : stampMutate
     mutate(shopId, {
       onError: () => setStampedIds(prevIds),
+    })
+  }
+
+  const toggleLike = (shopId?: number) => {
+    if (!shopId) return
+
+    setLikedStopIds((prev) => {
+      const next = new Set(prev)
+      next.has(shopId) ? next.delete(shopId) : next.add(shopId)
+      return next
     })
   }
 
@@ -132,6 +143,8 @@ export default function CourseDetailPage({ params }: PageProps) {
           onSelect={selectCourseStop}
           stampedIds={stampedIds}
           onToggleStamp={toggleStamp}
+          onToggleLike={toggleLike}
+          likedStopIds={likedStopIds}
         />
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>

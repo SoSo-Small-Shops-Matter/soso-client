@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Script from 'next/script'
 import { useRouter } from 'next/navigation'
 import { useDialog } from '@/shared/context/DialogContext'
@@ -31,6 +31,8 @@ export default function CourseSharedPage({ params }: PageProps) {
 
   const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
+
+  const [likedStopIds, setLikedStopIds] = useState<Set<number>>(new Set())
 
   const share = async () => {
     if (!navigator.share) return
@@ -76,8 +78,17 @@ export default function CourseSharedPage({ params }: PageProps) {
     })
   }
 
-  const toggleLike = () => {
-    if (!token) requireLogin('찜은 로그인 후 이용할 수 있어요.')
+  const toggleLike = (shopId?: number) => {
+    if (!token || !shopId) {
+      requireLogin('찜은 로그인 후 이용할 수 있어요.')
+      return
+    }
+
+    setLikedStopIds((prev) => {
+      const next = new Set(prev)
+      next.has(shopId) ? next.delete(shopId) : next.add(shopId)
+      return next
+    })
   }
 
   useEffect(() => {
@@ -119,6 +130,7 @@ export default function CourseSharedPage({ params }: PageProps) {
           selectedIndex={selectedStopIndex ?? 0}
           onSelect={selectCourseStop}
           showStamp={false}
+          likedStopIds={likedStopIds}
           onToggleLike={toggleLike}
         />
       </div>
