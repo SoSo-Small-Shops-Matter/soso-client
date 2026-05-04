@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import type { CourseStopDto, SharedStopDto } from '@/shared/api/course/types'
 import { CourseStopCard } from './CourseStopCard'
-import { getStopShopId } from '../../../utils/courseMapUtils'
+import { getStopShopId } from '../../../../utils/stopUtils'
 
 interface Props {
   stops: CourseStopDto[] | SharedStopDto[]

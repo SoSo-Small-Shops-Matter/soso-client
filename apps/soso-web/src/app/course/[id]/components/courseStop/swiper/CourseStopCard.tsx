@@ -8,7 +8,7 @@ import NavigationArrowIcon from '@/shared/components/icons/NavigationArrow'
 import FavoriteIcon from '@/shared/components/icons/FavoriteIcon'
 import FavoriteFillIcon from '@/shared/components/icons/FavoriteFillIcon'
 import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
-import { getStopShopId } from '../../../utils/courseMapUtils'
+import { getStopShopId } from '../../../../utils/stopUtils'
 
 interface Props {
   stop: CourseStopDto | SharedStopDto

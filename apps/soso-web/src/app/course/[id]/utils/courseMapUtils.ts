@@ -1,4 +1,4 @@
-import type { CourseShopSummary, CourseStopDto, SharedStopDto } from '@/shared/api/course/types'
+import type { CourseShopSummary } from '@/shared/api/course/types'
 import type { RefObject } from 'react'
 
 export interface CourseMarker {
@@ -116,8 +116,4 @@ export const drawPolylines = (map: naver.maps.Map, paths: { lat: number; lng: nu
     strokeLineCap: 'round',
     strokeStyle: 'shortdash',
   })
-}
-
-export function getStopShopId(stop: CourseStopDto | SharedStopDto): number {
-  return 'shopId' in stop ? stop.shopId : stop.shop.id
 }

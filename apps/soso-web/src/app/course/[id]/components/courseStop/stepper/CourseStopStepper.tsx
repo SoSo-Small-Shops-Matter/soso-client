@@ -1,7 +1,7 @@
 import type { CourseStopDto, SharedCourseDto, SharedStopDto } from '@/shared/api/course/types'
 
 import { CourseStopStep } from './CourseStopStep'
-import { getStopShopId } from '../../../utils/courseMapUtils'
+import { getStopShopId } from '../../../../utils/stopUtils'
 
 interface Props {
   stops: CourseStopDto[] | SharedStopDto[]
