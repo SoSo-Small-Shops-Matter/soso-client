@@ -1,18 +1,17 @@
 import CopyIcon from '@/shared/components/icons/CopyIcon'
 import ShareIcon from '@/shared/components/icons/ShareIcon'
 import ProfileImage from '@/shared/components/ui/ProfileImage'
-import { UserType } from '@/shared/types/userType'
 import { getSafeImageUrl } from '@/shared/utils/getSafeImageUrl'
 
 interface Props {
   title: string
+  profileImg?: string | null
   nickname?: string | null
   onSaveCourse?: () => void
   onShare?: () => void
-  user?: UserType
 }
 
-export function CourseSharedHeader({ title, onSaveCourse, onShare, user }: Props) {
+export function CourseSharedHeader({ title, onSaveCourse, onShare, nickname, profileImg }: Props) {
   return (
     <div className="flex flex-col bg-white">
       <div className="flex h-[52px] items-center justify-between px-20 py-13">
@@ -27,9 +26,9 @@ export function CourseSharedHeader({ title, onSaveCourse, onShare, user }: Props
         </div>
       </div>
 
-      <div className="flex items-center gap-8 px-16 pb-4">
-        <ProfileImage imgUrl={getSafeImageUrl(user?.profileImg)} size={28} />
-        <span className="text-sm font-medium text-gray-700">{user?.nickName ?? '닉네임'}</span>
+      <div className="pointer-events-none flex items-center gap-8 px-16 pb-4">
+        <ProfileImage imgUrl={getSafeImageUrl(profileImg)} size={28} />
+        <span className="text-sm font-medium text-gray-700">{nickname ?? '닉네임'}</span>
       </div>
     </div>
   )
