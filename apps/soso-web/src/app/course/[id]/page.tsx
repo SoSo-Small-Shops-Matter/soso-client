@@ -19,6 +19,7 @@ import {
 } from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
+import { shareData } from '../shared/[shareToken]/constants'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -34,7 +35,7 @@ export default function CourseDetailPage({ params }: PageProps) {
   const { mutateAsync: shareLinkMutate } = useCreateShareLinkMutation(courseId)
   const { openToast } = useToast()
 
-  const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
+  const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
@@ -51,14 +52,7 @@ export default function CourseDetailPage({ params }: PageProps) {
 
     const { shareToken } = await shareLinkMutate()
 
-    await navigator.share({
-      title: `[소품샵은 소중해] ${course?.name}`,
-      text: '소품샵은 소중해 앱에서 확인해보세요.',
-      url:
-        process.env.NODE_ENV === 'production'
-          ? `https://soso-web.vercel.app/shared/${shareToken}`
-          : `http://localhost:3000/course/shared/${shareToken}`,
-    })
+    await navigator.share(shareData(course?.name, shareToken))
   }
 
   const toggleStamp = (shopId: number) => {
@@ -117,7 +111,7 @@ export default function CourseDetailPage({ params }: PageProps) {
         strategy="lazyOnload"
         type="text/javascript"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
-        onLoad={initCourseMapOnScriptLoad}
+        onLoad={onNaverMapsLoad}
       />
       <div className="relative h-full w-full">
         <div className="absolute left-0 right-0 top-0 z-10">

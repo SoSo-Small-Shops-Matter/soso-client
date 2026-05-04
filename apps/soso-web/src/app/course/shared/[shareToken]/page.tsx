@@ -3,20 +3,17 @@
 import { useEffect } from 'react'
 import Script from 'next/script'
 import { useRouter } from 'next/navigation'
-
 import { useDialog } from '@/shared/context/DialogContext'
-
 import { use } from 'react'
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
 import { useCourseMap } from '../../[id]/hooks/useCourseMap'
 import { CourseStopSwiper } from '../../[id]/components/courseStop/swiper/CourseStopSwiper'
 import { CourseStopStepper } from '../../[id]/components/courseStop/stepper/CourseStopStepper'
-
 import { CourseSharedHeader } from '../components/CourseSharedHeader'
 import { useAuthStore } from '@/shared/store/useAuthStore'
-import { useGetUserProfileQuery } from '@/shared/api/user/queries'
-import { useGetSharedCourseQuery } from '@/shared/api/course/queries'
+import { useGetSharedCourseQuery, useImportSharedCourseMutation } from '@/shared/api/course/queries'
+import { shareData } from './constants'
 
 interface PageProps {
   params: Promise<{ shareToken: string }>
@@ -26,12 +23,20 @@ export default function CourseSharedPage({ params }: PageProps) {
   const router = useRouter()
   const shareToken = use(params).shareToken
   const { token } = useAuthStore()
-  const { data: userData } = useGetUserProfileQuery()
+
   const { data: course, isLoading, isError } = useGetSharedCourseQuery(shareToken)
+  const { mutateAsync: mutateImportSharedCourse } = useImportSharedCourseMutation()
+
   const { openToast } = useToast()
 
-  const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
+  const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
+
+  const share = async () => {
+    if (!navigator.share) return
+
+    await navigator.share(shareData(course?.name, shareToken))
+  }
 
   const requireLogin = (message: string) => {
     openDialog({
@@ -60,7 +65,12 @@ export default function CourseSharedPage({ params }: PageProps) {
       rightLabel: '저장하기',
       onConfirm: () => {
         closeDialog()
-        openToast({ message: '코스가 저장되었어요.' })
+        mutateImportSharedCourse(shareToken, {
+          onSuccess: (data) => {
+            router.push(`/course/${data.courseId}`)
+          },
+        })
+        openToast({ message: '내 코스에 추가했어요.' })
       },
       onCancel: closeDialog,
     })
@@ -89,11 +99,16 @@ export default function CourseSharedPage({ params }: PageProps) {
         strategy="lazyOnload"
         type="text/javascript"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
-        onLoad={initCourseMapOnScriptLoad}
+        onLoad={onNaverMapsLoad}
       />
       <div className="relative h-full w-full">
         <div className="absolute left-0 right-0 top-0 z-10">
-          <CourseSharedHeader title={course.name} onSaveCourse={saveCourse} user={userData} />
+          <CourseSharedHeader
+            title={course.name}
+            onSaveCourse={saveCourse}
+            nickname={course.ownerNickname}
+            onShare={share}
+          />
           <CourseStopStepper stops={course.stops} onSelect={selectCourseStop} selectedStopIndex={selectedStopIndex} />
         </div>
 
