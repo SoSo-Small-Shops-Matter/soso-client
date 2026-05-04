@@ -14,6 +14,7 @@ import { CourseSharedHeader } from '../components/CourseSharedHeader'
 import { useAuthStore } from '@/shared/store/useAuthStore'
 import { useGetSharedCourseQuery, useImportSharedCourseMutation } from '@/shared/api/course/queries'
 import { shareData } from './constants'
+import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
 
 interface PageProps {
   params: Promise<{ shareToken: string }>
@@ -59,20 +60,29 @@ export default function CourseSharedPage({ params }: PageProps) {
       return
     }
 
+    const successSaveCourseToastButton = (
+      <div className="flex items-center gap-4">
+        <div>보러가기</div>
+        <ArrowRightIcon width="16" height="16" fill="white" />
+      </div>
+    )
+
     openDialog({
       type: 'confirm',
       title: '코스를 저장',
       message: `${course?.name}을 내 코스에 저장할까요?`,
       leftLabel: '취소',
       rightLabel: '저장하기',
-      onConfirm: () => {
+      onConfirm: async () => {
         closeDialog()
-        mutateImportSharedCourse(shareToken, {
-          onSuccess: (data) => {
-            router.push(`/course/${data.courseId}`)
+        const importedCourse = await mutateImportSharedCourse(shareToken)
+        openToast({
+          message: '내 코스에 추가했어요.',
+          action: {
+            content: successSaveCourseToastButton,
+            onPress: () => router.push(`/course/${importedCourse.courseId}`),
           },
         })
-        openToast({ message: '내 코스에 추가했어요.' })
       },
       onCancel: closeDialog,
     })
