@@ -15,6 +15,7 @@ import { useAuthStore } from '@/shared/store/useAuthStore'
 import { useGetSharedCourseQuery, useImportSharedCourseMutation } from '@/shared/api/course/queries'
 import { shareData } from './constants'
 import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
+import { SharedCourseDto } from '@/shared/api/course/types'
 
 interface PageProps {
   params: Promise<{ shareToken: string }>
@@ -23,13 +24,34 @@ interface PageProps {
 export default function CourseSharedPage({ params }: PageProps) {
   const router = useRouter()
   const shareToken = use(params).shareToken
-  const { token } = useAuthStore()
 
   const { data: course, isLoading, isError } = useGetSharedCourseQuery(shareToken)
-  const { mutateAsync: mutateImportSharedCourse } = useImportSharedCourseMutation()
 
   const { openToast } = useToast()
 
+  useEffect(() => {
+    if (isError || (!isLoading && !course)) {
+      openToast({ message: '코스를 불러오는데 실패했습니다.' })
+      router.replace('/course')
+    }
+  }, [isError, isLoading, course])
+
+  if (isLoading) return <Loading />
+  if (isError || !course) return <></>
+
+  return <CourseSharedContent course={course} shareToken={shareToken} />
+}
+
+interface CourseSharedContentProps {
+  course: SharedCourseDto
+  shareToken: string
+}
+
+function CourseSharedContent({ course, shareToken }: CourseSharedContentProps) {
+  const router = useRouter()
+  const { token } = useAuthStore()
+  const { mutateAsync: mutateImportSharedCourse } = useImportSharedCourseMutation()
+  const { openToast } = useToast()
   const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
 
@@ -37,8 +59,7 @@ export default function CourseSharedPage({ params }: PageProps) {
 
   const share = async () => {
     if (!navigator.share) return
-
-    await navigator.share(shareData(course?.name, shareToken))
+    await navigator.share(shareData(course.name, shareToken))
   }
 
   const requireLogin = (message: string) => {
@@ -70,7 +91,7 @@ export default function CourseSharedPage({ params }: PageProps) {
     openDialog({
       type: 'confirm',
       title: '코스를 저장',
-      message: `${course?.name}을 내 코스에 저장할까요?`,
+      message: `${course.name}을 내 코스에 저장할까요?`,
       leftLabel: '취소',
       rightLabel: '저장하기',
       onConfirm: async () => {
@@ -100,19 +121,6 @@ export default function CourseSharedPage({ params }: PageProps) {
       return next
     })
   }
-
-  useEffect(() => {
-    if (isError || (!isLoading && !course)) {
-      openToast({ message: '코스를 불러오는데 실패했습니다.' })
-      router.replace('/course')
-    }
-  }, [isError, isLoading, course])
-
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError || !course) return <></>
 
   return (
     <>

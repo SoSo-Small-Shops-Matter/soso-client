@@ -20,6 +20,7 @@ import {
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
 import { shareData } from '../shared/[shareToken]/constants'
+import { CourseDetailDto } from '@/shared/api/course/types'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -29,31 +30,46 @@ export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const courseId = Number(use(params).id)
   const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { openToast } = useToast()
+
+  useEffect(() => {
+    if (isError || (!isLoading && !course)) {
+      openToast({ message: '코스를 불러오는데 실패했습니다.' })
+      router.replace('/course')
+    }
+  }, [isError, isLoading, course])
+
+  if (isLoading) return <Loading />
+  if (isError || !course) return <></>
+
+  return <CourseDetailContent course={course} courseId={courseId} />
+}
+
+interface CourseDetailContentProps {
+  course: CourseDetailDto
+  courseId: number
+}
+
+function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
+  const router = useRouter()
   const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
   const { mutateAsync: shareLinkMutate } = useCreateShareLinkMutation(courseId)
-  const { openToast } = useToast()
-
   const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
-  const [stampedIds, setStampedIds] = useState<Set<number>>(new Set())
+  const [stampedIds, setStampedIds] = useState<Set<number>>(
+    new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId))
+  )
   const [likedStopIds, setLikedStopIds] = useState<Set<number>>(new Set())
-
-  useEffect(() => {
-    if (course) {
-      setStampedIds(new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId)))
-    }
-  }, [course])
 
   const share = async () => {
     if (!navigator.share) return
 
     const { shareToken } = await shareLinkMutate()
-
-    await navigator.share(shareData(course?.name, shareToken))
+    await navigator.share(shareData(course.name, shareToken))
   }
 
   const toggleStamp = (shopId: number) => {
@@ -82,7 +98,6 @@ export default function CourseDetailPage({ params }: PageProps) {
 
   const handleDeleteCourse = () => {
     setIsMoreOpen(false)
-    if (!course) return
 
     openDialog({
       type: 'confirm',
@@ -102,19 +117,6 @@ export default function CourseDetailPage({ params }: PageProps) {
       onCancel: closeDialog,
     })
   }
-
-  useEffect(() => {
-    if (isError || (!isLoading && !course)) {
-      openToast({ message: '코스를 불러오는데 실패했습니다.' })
-      router.replace('/course')
-    }
-  }, [isError, isLoading, course])
-
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError || !course) return <></>
 
   return (
     <>
