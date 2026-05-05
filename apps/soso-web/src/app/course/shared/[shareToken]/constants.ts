@@ -1,5 +1,4 @@
-export const SHARE_BASE_URL =
-  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASE_URL : process.env.NEXT_PUBLIC_LOCAL_FOWARDING_URL
+export const SHARE_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export const METADATA = {
   TITLE: '소품샵은 소중해',
