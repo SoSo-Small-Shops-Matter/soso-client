@@ -21,7 +21,7 @@ export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, onS
         {!isLast && (
           <div
             className={`absolute left-1/2 top-1/2 h-0.5 h-1 w-full -translate-y-1/2 ${
-              isVisited ? 'bg-[#FF7F50]' : 'bg-[#C9CDD2]'
+              isVisited ? 'bg-main' : 'bg-gray-200'
             }`}
           />
         )}
