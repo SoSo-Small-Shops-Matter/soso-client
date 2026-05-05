@@ -52,12 +52,12 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
   }
 
   useEffect(() => {
-    const firstCourseStop = course?.stops[0]?.shop as CourseShopSummary
-    if (!isNaverMapsReady || !course || !firstCourseStop) return
+    const firstStopPosition = course?.stops[0]?.shop
+    if (!isNaverMapsReady || !course || !firstStopPosition) return
 
     const newMap = initCourseMap({
       mapOptions: COURSE_MAP_OPTIONS,
-      firstCourseStop,
+      firstStopPosition,
       courseMapRef,
     })
     if (newMap) setMap(newMap)

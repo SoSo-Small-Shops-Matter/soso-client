@@ -65,17 +65,17 @@ export const createActiveMarkerIcon = (label: number): naver.maps.MarkerHtmlIcon
 export const initCourseMap = ({
   courseMapRef,
   mapOptions,
-  firstCourseStop,
+  firstStopPosition,
 }: {
   courseMapRef: RefObject<HTMLDivElement | null>
   mapOptions: Omit<CourseMapOptions, 'center'>
-  firstCourseStop: CourseShopSummary
+  firstStopPosition: { lat: number; lng: number }
 }) => {
   if (!courseMapRef.current) return
 
   return new naver.maps.Map(courseMapRef.current, {
     ...mapOptions,
-    center: new naver.maps.LatLng(firstCourseStop.lat, firstCourseStop.lng),
+    center: new naver.maps.LatLng(firstStopPosition.lat, firstStopPosition.lng),
   })
 }
 
