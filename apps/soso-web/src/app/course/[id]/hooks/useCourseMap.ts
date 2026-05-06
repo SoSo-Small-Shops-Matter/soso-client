@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CourseDetailDto, CourseShopSummary } from '@/shared/api/course/types'
+import type { CourseDetailDto, CourseShopSummary, SharedCourseDto } from '@/shared/api/course/types'
+
 import useMapStore from '@/shared/store/useMapStore'
 import {
   COURSE_DEFAULT_ZOOM,
+  COURSE_MAP_OPTIONS,
   COURSE_MAX_ZOOM,
   createActiveMarkerIcon,
   createDefaultMarkerIcon,
@@ -11,9 +13,10 @@ import {
   renderMarkers,
   zoomWithDragLock,
 } from '../utils/courseMapUtils'
+import { getStopShopId } from '../../utils/stopUtils'
 import type { CourseMarker } from '../utils/courseMapUtils'
 
-export function useCourseMap(course?: CourseDetailDto) {
+export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
   const { map, setMap, addMarker: updateMarker, markers, moveCenter, clearMarkers } = useMapStore()
 
   const courseMapRef = useRef<HTMLDivElement>(null)
@@ -21,30 +24,10 @@ export function useCourseMap(course?: CourseDetailDto) {
   const selectedMarkerRef = useRef<{ instance: naver.maps.Marker; originalIcon: CourseMarker['icon'] } | null>(null)
 
   const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null)
+  const [isNaverMapsReady, setIsNaverMapsReady] = useState(() => typeof window !== 'undefined' && !!window.naver?.maps)
 
-  const initCourseMapOnScriptLoad = () => {
-    const firstCourseStop = course?.stops[0].shop
-    if (!firstCourseStop) {
-      return
-    }
-
-    const newMap = initCourseMap({
-      mapOptions: {
-        zoom: COURSE_DEFAULT_ZOOM,
-        minZoom: 1,
-        draggable: true,
-        scrollWheel: true,
-        pinchZoom: true,
-        keyboardShortcuts: true,
-        disableDoubleTapZoom: false,
-        disableDoubleClickZoom: false,
-        disableTwoFingerTapZoom: false,
-      },
-      firstCourseStop,
-      courseMapRef,
-    })
-
-    if (newMap) setMap(newMap)
+  const onNaverMapsLoad = () => {
+    setIsNaverMapsReady(true)
   }
 
   const selectCourseStop = (index: number) => {
@@ -69,22 +52,29 @@ export function useCourseMap(course?: CourseDetailDto) {
   }
 
   useEffect(() => {
-    if (window.naver?.maps && course) {
-      initCourseMapOnScriptLoad()
+    const firstStopPosition = course?.stops[0]?.shop
+    if (!isNaverMapsReady || !course || !firstStopPosition) return
 
-      course.stops.forEach((stop, index) => {
-        updateMarker({
-          id: stop.shopId,
-          position: { lat: stop.shop.lat, lng: stop.shop.lng },
-          icon: createDefaultMarkerIcon(index + 1),
-        })
+    const newMap = initCourseMap({
+      mapOptions: COURSE_MAP_OPTIONS,
+      firstStopPosition,
+      courseMapRef,
+    })
+    if (newMap) setMap(newMap)
+
+    course.stops.forEach((stop, index) => {
+      updateMarker({
+        id: getStopShopId(stop),
+        position: { lat: stop.shop.lat, lng: stop.shop.lng },
+        icon: createDefaultMarkerIcon(index + 1),
       })
-    }
+    })
 
     return () => {
       clearMarkers()
+      useMapStore.setState({ map: null })
     }
-  }, [course])
+  }, [course, isNaverMapsReady])
 
   useEffect(() => {
     if (!window.naver || !map) return
@@ -100,10 +90,9 @@ export function useCourseMap(course?: CourseDetailDto) {
 
     const polylinePaths = course?.stops.map((stop) => stop.shop) ?? []
     drawPolylines(map, polylinePaths)
-
     map.setZoom(COURSE_DEFAULT_ZOOM, true)
     selectCourseStop(0)
   }, [map, markers])
 
-  return { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex }
+  return { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex }
 }

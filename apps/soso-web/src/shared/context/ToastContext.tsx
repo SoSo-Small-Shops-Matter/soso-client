@@ -8,6 +8,10 @@ import clsx from 'clsx'
 interface ToastOptions {
   message: string
   duration?: number
+  action?: {
+    content: ReactNode
+    onPress: () => void
+  }
 }
 
 interface ToastContextType {
@@ -40,7 +44,14 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             exit={{ opacity: 0, y: 20, x: '-50%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="w-full rounded-12 bg-gray-800 px-16 py-14 text-white font-body2_m">{toast.message}</div>
+            <div className="flex w-full items-center justify-between rounded-12 bg-gray-800 px-16 py-14 text-white font-body2_m">
+              <span>{toast.message}</span>
+              {toast.action && (
+                <div role="button" onClick={toast.action.onPress}>
+                  {toast.action.content}
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

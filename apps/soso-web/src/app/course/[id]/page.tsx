@@ -11,6 +11,7 @@ import { useDialog } from '@/shared/context/DialogContext'
 import { useCourseMap } from './hooks/useCourseMap'
 import { use } from 'react'
 import {
+  useCreateShareLinkMutation,
   useDeleteCourseMutation,
   useGetCourseDetailQuery,
   useStampMutation,
@@ -18,6 +19,8 @@ import {
 } from '@/shared/api/course/queries'
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
+import { shareData } from '../shared/[shareToken]/constants'
+import { CourseDetailDto } from '@/shared/api/course/types'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -27,22 +30,47 @@ export default function CourseDetailPage({ params }: PageProps) {
   const router = useRouter()
   const courseId = Number(use(params).id)
   const { data: course, isLoading, isError } = useGetCourseDetailQuery(courseId)
+  const { openToast } = useToast()
+
+  useEffect(() => {
+    if (isError || (!isLoading && !course)) {
+      openToast({ message: '코스를 불러오는데 실패했습니다.' })
+      router.replace('/course')
+    }
+  }, [isError, isLoading, course])
+
+  if (isLoading) return <Loading />
+  if (isError || !course) return <></>
+
+  return <CourseDetailContent course={course} courseId={courseId} />
+}
+
+interface CourseDetailContentProps {
+  course: CourseDetailDto
+  courseId: number
+}
+
+function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
+  const router = useRouter()
   const { mutate: deleteCourseMutate } = useDeleteCourseMutation()
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
-  const { openToast } = useToast()
-
-  const { courseMapRef, selectCourseStop, initCourseMapOnScriptLoad, selectedStopIndex } = useCourseMap(course)
+  const { mutateAsync: shareLinkMutate } = useCreateShareLinkMutation(courseId)
+  const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
   const { openDialog, closeDialog } = useDialog()
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
-  const [stampedIds, setStampedIds] = useState<Set<number>>(new Set())
+  const [stampedIds, setStampedIds] = useState<Set<number>>(
+    new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId))
+  )
+  const [likedStopIds, setLikedStopIds] = useState<Set<number>>(new Set())
 
-  useEffect(() => {
-    if (course) {
-      setStampedIds(new Set(course.stops.filter((s) => s.visitedAt !== null).map((s) => s.shopId)))
-    }
-  }, [course])
+  const share = async () => {
+    if (!navigator.share) return
+
+    const { shareToken } = await shareLinkMutate()
+    await navigator.share(shareData(course.name, shareToken))
+  }
 
   const toggleStamp = (shopId: number) => {
     const prevIds = new Set(stampedIds)
@@ -58,9 +86,18 @@ export default function CourseDetailPage({ params }: PageProps) {
     })
   }
 
+  const toggleLike = (shopId?: number) => {
+    if (!shopId) return
+
+    setLikedStopIds((prev) => {
+      const next = new Set(prev)
+      next.has(shopId) ? next.delete(shopId) : next.add(shopId)
+      return next
+    })
+  }
+
   const handleDeleteCourse = () => {
     setIsMoreOpen(false)
-    if (!course) return
 
     openDialog({
       type: 'confirm',
@@ -81,30 +118,22 @@ export default function CourseDetailPage({ params }: PageProps) {
     })
   }
 
-  useEffect(() => {
-    if (isError || (!isLoading && !course)) {
-      openToast({ message: '코스를 불러오는데 실패했습니다.' })
-      router.replace('/course')
-    }
-  }, [isError, isLoading, course])
-
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError || !course) return <></>
-
   return (
     <>
       <Script
         strategy="lazyOnload"
         type="text/javascript"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
-        onLoad={initCourseMapOnScriptLoad}
+        onLoad={onNaverMapsLoad}
       />
       <div className="relative h-full w-full">
         <div className="absolute left-0 right-0 top-0 z-10">
-          <CourseDetailHeader title={course.name} onBack={() => router.back()} onMore={() => setIsMoreOpen(true)} />
+          <CourseDetailHeader
+            title={course.name}
+            onBack={() => router.back()}
+            onMore={() => setIsMoreOpen(true)}
+            onShare={share}
+          />
           <CourseStopStepper stops={course.stops} onSelect={selectCourseStop} stampedIds={stampedIds} />
         </div>
 
@@ -116,6 +145,8 @@ export default function CourseDetailPage({ params }: PageProps) {
           onSelect={selectCourseStop}
           stampedIds={stampedIds}
           onToggleStamp={toggleStamp}
+          onToggleLike={toggleLike}
+          likedStopIds={likedStopIds}
         />
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>
