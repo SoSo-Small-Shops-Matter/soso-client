@@ -189,12 +189,12 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
           <ContentSubTitle title="운영 시간" />
           {status.isTimeData ? (
             <Flex justify="center" align="center" gap={40} className="w-full rounded-12 bg-gray-50 py-16">
-              <Flex align="center" gap={12} className="font-body1_m">
+              <Flex align="center" gap={12} className="font-body_m">
                 <span className="text-gray-400">open</span>
                 <span className="text-gray-800">{operData?.[0]?.startTime || '-'}</span>
               </Flex>
               <Divider width="1px" height="12px" bgColor="#C9CDD2" />
-              <Flex align="center" gap={12} className="font-body1_m">
+              <Flex align="center" gap={12} className="font-body_m">
                 <span className="text-gray-400">closed</span>
                 <span className="text-gray-800">{operData?.[0]?.endTime || '-'}</span>
               </Flex>
@@ -206,7 +206,7 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
         <Flex direction="col" gap={8} className="w-full">
           <ContentSubTitle title="전화번호" />
           {status.isPhoneData ? (
-            <p className="text-gray-800 font-body1_m">{operData?.[0]?.phoneNumber || '-'}</p>
+            <p className="text-gray-800 font-body_m">{operData?.[0]?.phoneNumber || '-'}</p>
           ) : (
             <EmptyData text="등록된 전화번호가 없습니다." />
           )}
@@ -236,11 +236,11 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
               <InputContent label="운영 시간을 선택해주세요.">
                 <Flex justify="between" align="center" className="w-full" gap={20}>
                   <Flex className="flex-1" justify="between" align="center" gap={12}>
-                    <p className="text-gray-600 font-body1_m">open</p>
+                    <p className="text-gray-600 font-body_m">open</p>
                     <TimePickerButton label={openTime} onClick={() => handleOpenTimePicker('open')} />
                   </Flex>
                   <Flex className="flex-1" justify="between" align="center" gap={12}>
-                    <p className="text-gray-600 font-body1_m">close</p>
+                    <p className="text-gray-600 font-body_m">close</p>
                     <TimePickerButton label={closeTime} onClick={() => handleOpenTimePicker('close')} />
                   </Flex>
                 </Flex>

@@ -19,7 +19,7 @@ export default function CategoryButton({ className, isActive, ...props }: Catego
     >
       <ListIcon fill={isActive ? 'var(--main-color)' : '#191919'} />
       <span
-        className={clsx('text-black font-body2_m', isActive ? 'border-main text-main' : 'border-gray-100 text-black')}
+        className={clsx('text-black font-body_s', isActive ? 'border-main text-main' : 'border-gray-100 text-black')}
       >
         카테고리
       </span>

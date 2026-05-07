@@ -20,7 +20,7 @@ export default function ResearchButton({ className, ...props }: ResearchButtonPr
         />
       </svg>
 
-      <span className="text-main font-body2_m">현재 지도에서 재검색</span>
+      <span className="text-main font-body_s">현재 지도에서 재검색</span>
     </button>
   )
 }

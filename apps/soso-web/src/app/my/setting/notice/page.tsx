@@ -17,7 +17,7 @@ export default function NoticePage() {
             <ToggleNotice key={notice.id} title={notice.title} content={notice.text} date={notice.createdAt} />
           ))
         ) : (
-          <p className="w-full pt-60 text-center text-gray-400 font-body1_m">등록된 공지사항이 없습니다.</p>
+          <p className="w-full pt-60 text-center text-gray-400 font-body_m">등록된 공지사항이 없습니다.</p>
         )}
       </Flex>
     </div>

@@ -58,7 +58,7 @@ export default function ReportModal({ isReportModal, handleToggleReportModal }: 
     <BottomModal isOpen={isReportModal} onClose={handleToggleReportModal}>
       <Flex direction="col" gap={18} className="relative w-full">
         <Flex justify="between" align="center" className="w-full">
-          <h4 className="font-title3_bold">신고 사유</h4>
+          <h4 className="font-title_s">신고 사유</h4>
           <ModalCloseButton onClick={handleToggleReportModal} />
         </Flex>
 

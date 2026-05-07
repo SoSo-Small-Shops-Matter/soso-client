@@ -47,7 +47,7 @@ export default function SellProduct({ product, checkbox, isCheck, onClick: onCli
             )}
           ></div>
         </Flex>
-        <p className={clsx('font-body2_m', isCheck ? 'text-main' : 'text-gray-500')}>{product.name}</p>
+        <p className={clsx('font-body_s', isCheck ? 'text-main' : 'text-gray-500')}>{product.name}</p>
       </Flex>
     </div>
   )

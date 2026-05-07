@@ -40,7 +40,7 @@ const Radio = ({ id, name, value, checked, onChange, label, disabled = false, cl
         >
           {checked && <div className="h-[12px] w-[12px] rounded-full bg-main"></div>}
         </div>
-        <span className="text-[16px] font-medium">{label}</span>
+        <span className="font-body_m">{label}</span>
       </label>
     </div>
   )

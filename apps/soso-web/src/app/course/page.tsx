@@ -26,7 +26,7 @@ export default function CoursePage() {
     <div className="flex flex-col">
       {/* 헤더 */}
       <div className="px-20 pb-0 pt-4">
-        <h1 className="text-gray-800 font-title1">소품샵 코스</h1>
+        <h1 className="text-gray-800 font-title_s">소품샵 코스</h1>
       </div>
 
       {/* 탭바 */}
@@ -37,7 +37,7 @@ export default function CoursePage() {
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
               className={clsx(
-                'flex-1 py-14 transition-colors font-body1_m',
+                'flex-1 py-14 transition-colors font-body_m',
                 activeTab === tab.value
                   ? 'border-b-2 border-gray-800 text-gray-800'
                   : 'border-b-2 border-transparent text-gray-400'

@@ -58,7 +58,7 @@ export default function ShopListItem({
           </div>
           {/* 이름 + 위치 */}
           <div className="flex flex-col gap-4">
-            <span className="text-left font-title4_semi">{name}</span>
+            <span className="text-left font-subtitle_l">{name}</span>
             {location && (
               <span className="text-left text-gray-400 font-caption">{location}</span>
             )}

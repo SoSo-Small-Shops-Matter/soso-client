@@ -11,7 +11,7 @@ export default function ShopSelectHeader({ onBack }: ShopSelectHeaderProps) {
         <button type="button" onClick={onBack}>
           <BackIcon />
         </button>
-        <h2 className="position-center min-w-[200px] text-center font-title4_semi">코스 추가하기</h2>
+        <h2 className="position-center min-w-[200px] text-center font-subtitle_l">코스 추가하기</h2>
         <div className="w-24" />
       </div>
     </div>

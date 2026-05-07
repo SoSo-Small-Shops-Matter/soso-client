@@ -48,12 +48,12 @@ export default function UnsubscribePage() {
       <Header title="탈퇴하기" type="back" />
       <Flex direction="col" gap={28} className="px-16 py-20">
         <Flex direction="col" gap={4}>
-          <p className="text-black font-title2_bold">
+          <p className="text-black font-title_m">
             소중한 {userData?.nickName}님
             <br />
             떠나신다니 너무 아쉬워요.
           </p>
-          <p className="text-gray-400 font-body2_m">
+          <p className="text-gray-400 font-body_s">
             계정 탈퇴 이유를 알려주시면 <br />더 나은 서비스를 제공하도록 노력하겠습니다.
           </p>
         </Flex>

@@ -15,7 +15,7 @@ export function CourseSharedHeader({ title, onSaveCourse, onShare, nickname, pro
   return (
     <div className="flex flex-col bg-white">
       <div className="flex h-[52px] items-center justify-between px-20 py-13">
-        <span className="flex-1 truncate text-xl font-bold text-black">{title.trim()}</span>
+        <span className="flex-1 truncate font-title_s text-black">{title.trim()}</span>
         <div className="flex items-center gap-12">
           <button type="button" onClick={onSaveCourse} className="flex items-center justify-center">
             <CopyIcon />
@@ -28,7 +28,7 @@ export function CourseSharedHeader({ title, onSaveCourse, onShare, nickname, pro
 
       <div className="pointer-events-none flex items-center gap-8 px-16 pb-4">
         <ProfileImage imgUrl={getSafeImageUrl(profileImg)} size={28} />
-        <span className="text-sm font-medium text-gray-700">{nickname ?? '닉네임'}</span>
+        <span className="font-body_s text-gray-700">{nickname ?? '닉네임'}</span>
       </div>
     </div>
   )

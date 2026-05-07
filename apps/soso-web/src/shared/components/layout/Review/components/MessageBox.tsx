@@ -12,7 +12,7 @@ export default function MessageBox({ children, isMe, isWrite }: MessageBoxProps)
       style={{
         backgroundColor: isMe && isWrite ? '#FFF2EE' : '#F7F8F9',
       }}
-      className="relative w-full rounded-12 px-18 py-16 text-gray-600 font-body2_m"
+      className="relative w-full rounded-12 px-18 py-16 text-gray-600 font-body_s"
     >
       {children}
       <svg

@@ -44,7 +44,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             exit={{ opacity: 0, y: 20, x: '-50%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="flex w-full items-center justify-between rounded-12 bg-gray-800 px-16 py-14 text-white font-body2_m">
+            <div className="flex w-full items-center justify-between rounded-12 bg-gray-800 px-16 py-14 text-white font-body_s">
               <span>{toast.message}</span>
               {toast.action && (
                 <div role="button" onClick={toast.action.onPress}>

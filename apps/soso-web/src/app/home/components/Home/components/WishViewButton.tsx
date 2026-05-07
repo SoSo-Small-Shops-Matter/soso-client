@@ -18,7 +18,7 @@ export default function WishViewButton({ className, isActive, ...props }: WishVi
       {...props}
     >
       <WishIcon isActive={isActive} width="16" height="16" fill={isActive ? 'var(--main-color)' : 'var(--gray-800)'} />
-      <span className={clsx('font-body2_m', isActive ? 'border-main text-main' : 'border-gray-100 text-black')}>
+      <span className={clsx('font-body_s', isActive ? 'border-main text-main' : 'border-gray-100 text-black')}>
         찜
       </span>
     </button>

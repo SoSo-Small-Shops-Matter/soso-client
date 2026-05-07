@@ -47,7 +47,7 @@ export default function SettingPage() {
         <LinkButton
           title="버전"
           link="/my/setting/feedback"
-          icon={<span className="text-main font-body1_m">1.0</span>}
+          icon={<span className="text-main font-body_m">1.0</span>}
           className="cursor-default"
           disabled
         />

@@ -89,7 +89,7 @@ export default function CourseFinalizePage() {
           <button type="button" onClick={() => router.back()}>
             <BackIcon />
           </button>
-          <h2 className="min-w-[200px] text-center font-title4_semi position-center">코스 추가하기</h2>
+          <h2 className="min-w-[200px] text-center font-subtitle_l position-center">코스 추가하기</h2>
           <button type="button" onClick={() => router.push('/course/add/map')}>
             <MapIcon width="24" height="24" />
           </button>
@@ -105,7 +105,7 @@ export default function CourseFinalizePage() {
             <button
               type="button"
               onClick={() => router.push('/course/add/shop-select')}
-              className="text-main font-body2_m"
+              className="text-main font-body_s"
             >
               추가하기
             </button>
@@ -123,7 +123,7 @@ export default function CourseFinalizePage() {
             onClick={handleDelete}
             disabled={selectedIds.size === 0}
             className={clsx(
-              'h-56 rounded-16 px-20 transition-opacity font-title4_m',
+              'h-56 rounded-16 px-20 transition-opacity font-body_l',
               selectedIds.size > 0 ? 'bg-gray-100 text-gray-600 opacity-100' : 'bg-gray-100 text-gray-400 opacity-50'
             )}
           >
@@ -134,7 +134,7 @@ export default function CourseFinalizePage() {
             onClick={handleCreate}
             disabled={!courseName.trim() || isPending}
             className={clsx(
-              'h-56 flex-1 rounded-16 text-white transition-opacity font-title4_m',
+              'h-56 flex-1 rounded-16 text-white transition-opacity font-body_l',
               courseName.trim() && !isPending ? 'bg-main opacity-100' : 'bg-main opacity-30'
             )}
           >

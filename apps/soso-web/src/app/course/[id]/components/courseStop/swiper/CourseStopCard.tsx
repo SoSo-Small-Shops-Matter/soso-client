@@ -68,7 +68,7 @@ export function CourseStopCard({
   return (
     <>
       <div className="flex items-center gap-10 overflow-hidden rounded-2xl bg-white p-16 shadow-sm">
-        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-[11px] font-bold text-gray-400">
+        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-400 font-caption">
           {stop.orderIndex}
         </div>
         <div className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
@@ -80,15 +80,15 @@ export function CourseStopCard({
           </button>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <span className="truncate text-base font-bold text-gray-900">{stop.shop.name}</span>
+          <span className="font-subtitle_m truncate text-gray-900">{stop.shop.name}</span>
           {showStamp && (
             <button
               type="button"
               onClick={handleNavigate}
-              className="flex w-fit items-center gap-1 text-sm text-gray-400"
+              className="font-body_s flex w-fit items-center gap-1 text-gray-400"
             >
               <NavigationArrowIcon width="12.67" height="12.67" fill="rgba(126, 132, 140, 1)" rotate={90} />
-              <span className="color-gray-500 ml-4 text-xs font-medium">길찾기</span>
+              <span className="color-gray-500 ml-4 font-caption">길찾기</span>
             </button>
           )}
         </div>

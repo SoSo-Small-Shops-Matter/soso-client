@@ -16,7 +16,7 @@ interface AgreementItemProps {
 export default function AgreementItem({ id, checked, label, onChange, link }: AgreementItemProps) {
   return (
     <Flex className="w-full pl-16" justify="between" align="center">
-      <label htmlFor={id} className="flex cursor-pointer items-center gap-12 text-gray-500 font-body1_m">
+      <label htmlFor={id} className="flex cursor-pointer items-center gap-12 text-gray-500 font-body_m">
         <Checkbox id={id} checked={checked} onChange={onChange} />
         {label}
       </label>

@@ -74,7 +74,7 @@ export default function InfoSetting() {
     <div className="modal-page">
       <Header type="back" />
       <Flex direction="col" gap={20} className="w-full px-20 pt-56">
-        <h2 className="text-[#191919] font-title2_bold">
+        <h2 className="text-[#191919] font-title_m">
           반가워요!
           <br />
           닉네임을 설정해 주세요.

@@ -24,7 +24,7 @@ export default function RecommendShopList({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-60">
-        <p className="text-gray-400 font-body1_m">불러오는 중...</p>
+        <p className="text-gray-400 font-body_m">불러오는 중...</p>
       </div>
     )
   }
@@ -32,7 +32,7 @@ export default function RecommendShopList({
   if (!shops || shops.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-8 py-80">
-        <p className="text-gray-400 font-body1_m">주변 소품샵이 없어요.</p>
+        <p className="text-gray-400 font-body_m">주변 소품샵이 없어요.</p>
       </div>
     )
   }

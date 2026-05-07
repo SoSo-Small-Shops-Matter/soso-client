@@ -82,7 +82,7 @@ export default function CourseCard({ course }: CourseCardProps) {
 
             {/* 이름 + 날짜 */}
             <div className="min-w-0 flex-1">
-              <p className="truncate text-gray-800 font-body1_bold">{course.name}</p>
+              <p className="truncate text-gray-800 font-subtitle_m">{course.name}</p>
               <p className="mt-2 text-gray-400 font-caption">{getFormatDateString(course.createdAt, 'yyyy.MM.dd')}</p>
             </div>
 
@@ -93,7 +93,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                 isInProgress ? 'bg-orange-light' : 'bg-gray-50'
               )}
             >
-              <span className={clsx('font-body1_bold', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
+              <span className={clsx('font-subtitle_m', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
                 {course.progress}%
               </span>
               <span className={clsx('font-caption', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>

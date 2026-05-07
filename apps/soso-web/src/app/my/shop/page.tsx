@@ -95,7 +95,7 @@ export default function MyShopPage() {
         {/* 데이터가 없을 때 표시할 내용 */}
         {myShopData && allShops.length === 0 && (
           <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-            <p className="text-center text-gray-400 font-body1_m">
+            <p className="text-center text-gray-400 font-body_m">
               아직 내가 알린 소품샵이 없어요. <br />
               새로운 소품샵을 소소에 알려주세요!
             </p>

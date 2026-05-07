@@ -61,7 +61,7 @@ export default function MyReviewPage() {
           <button
             onClick={handleClickFilter}
             name="latest"
-            className={clsx('font-body2_m', isLatest ? 'text-main' : 'text-gray-400')}
+            className={clsx('font-body_s', isLatest ? 'text-main' : 'text-gray-400')}
           >
             최신순
           </button>
@@ -69,7 +69,7 @@ export default function MyReviewPage() {
           <button
             onClick={handleClickFilter}
             name="old"
-            className={clsx('font-body2_m', isLatest ? 'text-gray400' : 'text-main')}
+            className={clsx('font-body_s', isLatest ? 'text-gray400' : 'text-main')}
           >
             오래된 순
           </button>
@@ -91,7 +91,7 @@ export default function MyReviewPage() {
 
           {myReviewData && allReviews.length === 0 && (
             <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-              <p className="text-center text-gray-400 font-body1_m">
+              <p className="text-center text-gray-400 font-body_m">
                 아직 후기가 없어요.
                 <br />
                 소소하게 써주신 한 줄이 큰 도움이 돼요!

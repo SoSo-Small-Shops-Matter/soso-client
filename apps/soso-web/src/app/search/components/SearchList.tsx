@@ -135,7 +135,7 @@ export default function SearchList() {
               >
                 <Flex direction="col" gap={12} className="w-full px-20">
                   <Flex justify="between" align="center" className="w-full">
-                    <h3 className="font-body1_bold">최근에 찾은 소품샵</h3>
+                    <h3 className="font-subtitle_m">최근에 찾은 소품샵</h3>
                     {token && (
                       <button onClick={handleAllDeleteFindShop} className="text-gray-400 font-caption">
                         전체 삭제
@@ -164,7 +164,7 @@ export default function SearchList() {
                       ))}
                     </Swiper>
                   ) : (
-                    <p className="text-gray-400 font-body2_m">로그인 후 가능한 서비스입니다.</p>
+                    <p className="text-gray-400 font-body_s">로그인 후 가능한 서비스입니다.</p>
                   )}
                 </Flex>
               </motion.div>
@@ -173,7 +173,7 @@ export default function SearchList() {
         </AnimatePresence>
         <div className="w-full">
           <Flex direction="col" gap={4} className="w-full">
-            {!searchDebounceValue && <h3 className="px-20 font-body1_bold">내 근처 가장 인기 많은 소품샵은?</h3>}
+            {!searchDebounceValue && <h3 className="px-20 font-subtitle_m">내 근처 가장 인기 많은 소품샵은?</h3>}
             {!searchDebounceValue && (
               <Flex direction="col" className="w-full">
                 {shopSortData?.map((shop) => (
@@ -201,10 +201,10 @@ export default function SearchList() {
           )}
           {shopSearchData && !shopSearchData.pages[0].data.length && (
             <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-              <p className="text-gray-500 font-body1_m">찾고 계신 장소가 없으신가요?</p>
+              <p className="text-gray-500 font-body_m">찾고 계신 장소가 없으신가요?</p>
               <Link
                 href="/report"
-                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body1_m"
+                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body_m"
               >
                 소중한 소품샵 제보하기
               </Link>
@@ -212,10 +212,10 @@ export default function SearchList() {
           )}
           {shopSortData && !shopSortData.length && !shopSearchData && (
             <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-              <p className="text-gray-500 font-body1_m">내 주변 소품샵이 없어요</p>
+              <p className="text-gray-500 font-body_m">내 주변 소품샵이 없어요</p>
               <Link
                 href="/report"
-                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body1_m"
+                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body_m"
               >
                 소중한 소품샵 제보하기
               </Link>

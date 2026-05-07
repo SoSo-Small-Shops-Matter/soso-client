@@ -89,7 +89,7 @@ export default function LoginPage() {
       >
         <button
           onClick={googleLogin}
-          className="relative flex h-56 w-full items-center justify-center gap-6 rounded-16 border border-gray-200 bg-white font-body1_m"
+          className="relative flex h-56 w-full items-center justify-center gap-6 rounded-16 border border-gray-200 bg-white font-body_m"
         >
           <GoogleIcon />
           Google로 시작하기
@@ -97,7 +97,7 @@ export default function LoginPage() {
         <AppleLogin />
         <button
           onClick={handleGuestLogin}
-          className="flex h-56 w-full items-center justify-center text-gray-500 font-body2_m"
+          className="flex h-56 w-full items-center justify-center text-gray-500 font-body_s"
         >
           로그인 없이 시작하기
         </button>

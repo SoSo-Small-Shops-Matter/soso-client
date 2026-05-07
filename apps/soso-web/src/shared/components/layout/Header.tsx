@@ -27,7 +27,7 @@ export default function Header({ type, title, customBtn, top }: HeaderProps) {
     >
       {!type && (
         <Flex align="center" className="h-full w-full">
-          <h1 className="font-title3_bold">{title}</h1>
+          <h1 className="font-title_s">{title}</h1>
         </Flex>
       )}
 
@@ -39,13 +39,13 @@ export default function Header({ type, title, customBtn, top }: HeaderProps) {
               {type === 'back' && <BackIcon />}
             </button>
           </div>
-          <h2 className="min-w-[200px] text-center font-title4_semi position-center">{title}</h2>
+          <h2 className="min-w-[200px] text-center font-subtitle_l position-center">{title}</h2>
           <div>{customBtn}</div>
         </Flex>
       )}
       {type === 'customBtn' && (
         <Flex justify="between" align="center" className="h-full w-full">
-          <h1 className="font-title3_bold">{title}</h1>
+          <h1 className="font-title_s">{title}</h1>
           <div>{customBtn}</div>
         </Flex>
       )}

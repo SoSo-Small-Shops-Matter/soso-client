@@ -42,7 +42,7 @@ export default function ShopLocation({ location }: ShopLocationProps) {
       <FullMap isOpen={isFullMap} onClose={handleToggleFullMap} />
 
       <Flex justify="between" align="center" className="w-full">
-        <p className="text-gray-600 font-body2_m">{location}</p>
+        <p className="text-gray-600 font-body_s">{location}</p>
         <IconButton label="복사하기" icon={<PasteIcon />} onClick={() => copyToClipboard(String(location))} />
       </Flex>
     </ContentBox>

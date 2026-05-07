@@ -37,7 +37,7 @@ export default function SortableShopItem({ shop, index, isSelected, onToggleSele
 
       {/* 가게명 + 순서 */}
       <div className="flex flex-1 min-w-0 items-center gap-8">
-        <span className="truncate font-title4_semi">{shop.name}</span>
+        <span className="truncate font-subtitle_l">{shop.name}</span>
         <span className="flex-shrink-0 text-gray-400 font-caption">{index + 1}</span>
       </div>
 

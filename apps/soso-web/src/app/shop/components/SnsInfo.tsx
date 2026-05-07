@@ -31,7 +31,7 @@ export default function SnsInfo({ instaId }: SnsInfoProps) {
         {instaId ? (
           <button onClick={() => openInstagram(instaId)} className="flex items-center gap-8">
             <InstaIcon />
-            <p className="text-14 font-medium text-gray-800 underline">{instaId}</p>
+            <p className="font-body_s text-gray-800 underline">{instaId}</p>
           </button>
         ) : (
           <EmptyData text="등록된 SNS가 없습니다." />

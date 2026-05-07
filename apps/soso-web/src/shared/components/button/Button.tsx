@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary'
-export type ButtonSize = 'x-large' | 'large' | 'medium' | 'small'
+export type ButtonSize = 'xLarge' | 'large' | 'medium' | 'small'
 export type ButtonState = 'default' | 'hover' | 'press' | 'disabled'
 
 // ─── Filled 스타일 ───────────────────────────────────────────────────────────
@@ -72,9 +72,9 @@ const outlinedInteractive: Record<ButtonVariant, string> = {
 // ─── Size ────────────────────────────────────────────────────────────────────
 
 export const sizeStyles: Record<ButtonSize, { container: string; font: string }> = {
-  'x-large': { container: 'w-56 h-56 px-6 rounded-16', font: 'font-title4_m' },
-  large: { container: 'w-48 h-48 px-5 rounded-14', font: 'font-body1_m' },
-  medium: { container: 'w-40 h-40 px-4 rounded-12', font: 'font-body2_m' },
+  xLarge: { container: 'w-56 h-56 px-6 rounded-16', font: 'font-body_l' },
+  large: { container: 'w-48 h-48 px-5 rounded-14', font: 'font-body_m' },
+  medium: { container: 'w-40 h-40 px-4 rounded-12', font: 'font-body_s' },
   small: { container: 'w-32 h-32 px-3 rounded-8', font: 'font-caption' },
 }
 
@@ -103,7 +103,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({
   title,
   variant = 'primary',
-  size = 'x-large',
+  size = 'xLarge',
   state,
   outlined = false,
   leftIcon,

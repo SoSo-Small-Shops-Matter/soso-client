@@ -35,7 +35,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
     <>
       {/* 이름 표시 영역 */}
       <div className="flex items-start gap-8 py-4">
-        <p className="flex-1 break-words text-gray-900 font-title2_bold">
+        <p className="flex-1 break-words text-gray-900 font-title_m">
           {value || <span className="text-gray-300">코스 이름을 입력해 주세요.</span>}
         </p>
         <button type="button" onClick={handleOpen} className="mt-2 flex-shrink-0">
@@ -54,7 +54,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
           <Backdrop onClick={value ? handleCancel : undefined} />
           <div className="fixed left-1/2 top-1/2 z-modal w-[323px] -translate-x-1/2 -translate-y-1/2 rounded-20 bg-white px-16 pb-20 pt-24">
             <div className="flex flex-col items-center gap-20">
-              <h3 className="font-title4_semi">코스 제목</h3>
+              <h3 className="font-subtitle_l">코스 제목</h3>
 
               {/* 입력창 */}
               <div className="relative w-full">
@@ -68,7 +68,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
                   placeholder="코스 이름을 입력해 주세요."
                   maxLength={30}
                   autoFocus
-                  className="h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none font-body1_m placeholder:text-gray-300"
+                  className="h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none font-body_m placeholder:text-gray-300"
                 />
                 {draft && (
                   <button

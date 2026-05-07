@@ -32,7 +32,7 @@ export default function RoadFindButton({ kakaoUrl, naverUrl, appleUrl }: RoadFin
       <BottomModal isOpen={isFindModal} onClose={handleToggleFindModal}>
         <Flex direction="col" gap={18} className="relative w-full">
           <Flex justify="between" align="center" className="w-full">
-            <h4 className="font-title3_bold">길찾기</h4>
+            <h4 className="font-title_s">길찾기</h4>
             <button onClick={handleToggleFindModal}>
               <XIcon />
             </button>

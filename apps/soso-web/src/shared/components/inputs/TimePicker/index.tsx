@@ -52,7 +52,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
     <div className="flex items-center justify-center">
       <div className="relative w-[320px] rounded-[16px] bg-white p-[20px] shadow-lg">
         <div className="mb-[16px] flex items-center justify-end">
-          <button onClick={onCancel} className="text-[18px] font-medium text-black focus:outline-none">
+          <button onClick={onCancel} className="font-body_l text-black focus:outline-none">
             <XIcon />
           </button>
         </div>
@@ -68,10 +68,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             onSlideChange={(swiper) => setSelectedAMPM(swiper.realIndex === 0 ? '오전' : '오후')}
             className="h-[120px] w-[40px]"
           >
-            <SwiperSlide className="flex cursor-pointer items-center justify-center text-[18px] font-medium opacity-25">
+            <SwiperSlide className="flex cursor-pointer items-center justify-center font-body_l opacity-25">
               오전
             </SwiperSlide>
-            <SwiperSlide className="flex cursor-pointer items-center justify-center text-[18px] font-medium opacity-25">
+            <SwiperSlide className="flex cursor-pointer items-center justify-center font-body_l opacity-25">
               오후
             </SwiperSlide>
           </Swiper>
@@ -90,7 +90,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             {[...Array(12).keys()].map((hour) => (
               <SwiperSlide
                 key={hour}
-                className="flex cursor-pointer items-center justify-center text-[18px] font-medium opacity-25"
+                className="flex cursor-pointer items-center justify-center font-body_l opacity-25"
               >
                 {hour + 1}시
               </SwiperSlide>
@@ -111,7 +111,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
             {[...Array(12).keys()].map((minute) => (
               <SwiperSlide
                 key={minute}
-                className="flex cursor-pointer items-center justify-center text-[18px] font-medium opacity-25"
+                className="flex cursor-pointer items-center justify-center font-body_l opacity-25"
               >
                 {minute * 5}분
               </SwiperSlide>
@@ -123,7 +123,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
 
         <button
           onClick={handleConfirm}
-          className="mt-[20px] w-full rounded-[12px] bg-main py-[12px] text-[18px] font-medium text-white"
+          className="mt-[20px] w-full rounded-[12px] bg-main py-[12px] font-body_l text-white"
         >
           시간 설정
         </button>

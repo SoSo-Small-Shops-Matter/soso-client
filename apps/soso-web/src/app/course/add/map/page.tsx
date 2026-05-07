@@ -155,7 +155,7 @@ export default function CourseAddMapPage() {
         <button type="button" onClick={() => router.back()}>
           <BackIcon />
         </button>
-        <h2 className="min-w-[200px] text-center font-title4_semi position-center">코스 추가하기</h2>
+        <h2 className="min-w-[200px] text-center font-subtitle_l position-center">코스 추가하기</h2>
         <div className="w-24" />
       </div>
 

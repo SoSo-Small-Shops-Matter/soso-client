@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 type TextButtonVariant = 'primary' | 'tertiary'
-type TextButtonSize = 'medium' | 'small'
+type TextButtonSize = 'large' | 'medium' | 'small'
 type TextButtonState = 'default' | 'hover' | 'press' | 'disabled'
 
 interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -36,7 +36,8 @@ const interactiveStyles: Record<TextButtonVariant, string> = {
 }
 
 const sizeStyles: Record<TextButtonSize, { font: string; iconSize: string }> = {
-  medium: { font: 'font-body2_m', iconSize: 'w-20 h-20' },
+  large: { font: 'font-body_m', iconSize: 'w-20 h-20' },
+  medium: { font: 'font-body_s', iconSize: 'w-20 h-20' },
   small: { font: 'font-caption', iconSize: 'w-20 h-20' },
 }
 

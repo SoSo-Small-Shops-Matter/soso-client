@@ -28,7 +28,7 @@ export default function ShopReview({ shopData, id }: ShopReviewProps) {
       <Flex justify="between" align="center" className="w-full">
         <Flex align="center" gap={4}>
           <ContentTitle title="후기" />
-          <span className="text-gray-400 font-body1_m">
+          <span className="text-gray-400 font-body_m">
             {shopData ? shopData?.userReviews.length + shopData?.otherReviews.length : 0}개
           </span>
         </Flex>

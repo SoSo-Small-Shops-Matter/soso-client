@@ -14,7 +14,7 @@ export default function ShopSelectTabs({ activeTab, onTabChange }: ShopSelectTab
         type="button"
         onClick={() => onTabChange('wish')}
         className={clsx(
-          'flex items-center gap-4 rounded-full px-14 py-7 font-body2_m transition-colors',
+          'flex items-center gap-4 rounded-full px-14 py-7 font-body_s transition-colors',
           activeTab === 'wish'
             ? 'bg-main text-white'
             : 'border border-gray-200 bg-white text-gray-500'
@@ -27,7 +27,7 @@ export default function ShopSelectTabs({ activeTab, onTabChange }: ShopSelectTab
         type="button"
         onClick={() => onTabChange('recommend')}
         className={clsx(
-          'flex items-center gap-4 rounded-full px-14 py-7 font-body2_m transition-colors',
+          'flex items-center gap-4 rounded-full px-14 py-7 font-body_s transition-colors',
           activeTab === 'recommend'
             ? 'bg-main text-white'
             : 'border border-gray-200 bg-white text-gray-500'

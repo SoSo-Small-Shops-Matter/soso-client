@@ -40,7 +40,7 @@ export default function SelectedShopList({ shops, selectedIds, onToggleSelect }:
 
   return (
     <div className="px-20">
-      <p className="mb-12 font-title4_semi">선택된 소품샵 ({shops.length}개)</p>
+      <p className="mb-12 font-subtitle_l">선택된 소품샵 ({shops.length}개)</p>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
           {shops.map((shop, index) => (

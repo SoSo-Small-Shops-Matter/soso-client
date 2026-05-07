@@ -32,8 +32,8 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
     <Flex direction="col" gap={8} className="w-full">
       <Flex justify="between" align="center" className="w-full">
         <Flex align="end" gap={4}>
-          <h3 className="text-black font-title4_semi">{title}</h3>
-          {data?.length > 0 && <span className="text-gray-500 font-body2_m">{totalData || 0}개</span>}
+          <h3 className="text-black font-subtitle_l">{title}</h3>
+          {data?.length > 0 && <span className="text-gray-500 font-body_s">{totalData || 0}개</span>}
         </Flex>
         <Link href={productLink} className="flex items-center gap-2 text-gray-400 font-caption">
           전체보기 <LinkIcon width="16" height="16" />
@@ -65,7 +65,7 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
                   }
                   size={72}
                 />
-                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body2_m">{item.name}</span>
+                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body_s">{item.name}</span>
               </Link>
             </SwiperSlide>
           ))}

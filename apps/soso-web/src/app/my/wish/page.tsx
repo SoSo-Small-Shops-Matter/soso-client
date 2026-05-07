@@ -67,7 +67,7 @@ export default function MyWishPage() {
       <Flex direction="col" align="end" gap={20} className="w-full px-16 pb-28 pt-12">
         <div className="relative">
           <button className="flex items-center gap-4" onClick={handleToggleFilter}>
-            <span className="text-gray-500 font-body2_m">{selectedRegion.name}</span>
+            <span className="text-gray-500 font-body_s">{selectedRegion.name}</span>
             <BottomArrowIcon />
           </button>
           {isFilter && (
@@ -106,7 +106,7 @@ export default function MyWishPage() {
 
         {myWishData && allWishItems.length === 0 && (
           <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-            <p className="text-center text-gray-400 font-body1_m">
+            <p className="text-center text-gray-400 font-body_m">
               아직 찜한 소품샵이 없어요.
               <br />
               소소한 취향을 놓치지 마세요!

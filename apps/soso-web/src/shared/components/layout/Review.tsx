@@ -139,7 +139,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
         <Flex align="center" gap={12} className="flex-1">
           <ProfileImage imgUrl={isMe ? getSafeImageUrl(userData?.profileImg) : getSafeImageUrl(data?.user?.photoUrl)} />
           <Flex direction="col" className="flex-1">
-            <p className="text-gray-800 font-body2_m">{data?.user?.nickName || isMe ? data?.user?.nickName : '익명'}</p>
+            <p className="text-gray-800 font-body_s">{data?.user?.nickName || isMe ? data?.user?.nickName : '익명'}</p>
             {data?.createdAt && (
               <p className="text-gray-400 font-caption">{getFormatDateString(data.createdAt, 'yyyy.MM.dd')}</p>
             )}
@@ -171,7 +171,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
             <Flex direction="col" align="start" gap={16} className="w-full">
               <button
                 onClick={handleToggleWriteModal}
-                className="block w-full break-all text-left text-gray-400 font-body2_m"
+                className="block w-full break-all text-left text-gray-400 font-body_s"
               >
                 후기를 작성해 주세요.
               </button>
@@ -182,7 +182,7 @@ export default function Review({ isMe, isWrite = false, isBorder = true, data }:
       ) : (
         <MessageBox isMe={isMe} isWrite={isWrite}>
           <Flex direction="col" gap={16}>
-            <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body2_m">
+            <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body_s">
               {data?.content || ''}
             </pre>
             {data && data?.images?.length > 0 && (

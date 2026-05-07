@@ -30,8 +30,8 @@ const DialogModal = ({
       <div className="fixed left-1/2 top-1/2 z-modal w-[323px] -translate-x-1/2 -translate-y-1/2 rounded-20 bg-white px-16 pb-20 pt-24">
         <Flex direction="col" align="center" gap={24} className="w-full">
           <Flex direction="col" align="center" gap={12} className="w-full">
-            {title && <h3 className="text-black font-title4_semi">{title}</h3>}
-            {message && <p className="text-center text-gray-500 font-body1_m">{message}</p>}
+            {title && <h3 className="text-black font-subtitle_l">{title}</h3>}
+            {message && <p className="text-center text-gray-500 font-body_m">{message}</p>}
           </Flex>
           <Flex gap={9} className="w-full">
             {type === 'confirm' && (

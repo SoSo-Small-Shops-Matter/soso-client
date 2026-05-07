@@ -151,12 +151,12 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>
         <div className="flex flex-col">
-          <button type="button" className="px-[4px] py-[18px] text-left text-lg font-bold text-black">
+          <button type="button" className="px-[4px] py-[18px] text-left font-subtitle_l text-black">
             수정
           </button>
           <button
             type="button"
-            className="px-[4px] py-[18px] text-left text-lg font-bold text-gray-900"
+            className="px-[4px] py-[18px] text-left font-subtitle_l text-gray-900"
             onClick={handleDeleteCourse}
           >
             삭제
