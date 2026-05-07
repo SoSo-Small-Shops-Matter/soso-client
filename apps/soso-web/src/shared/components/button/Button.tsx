@@ -71,11 +71,11 @@ const outlinedInteractive: Record<ButtonVariant, string> = {
 
 // ─── Size ────────────────────────────────────────────────────────────────────
 
-export const sizeStyles: Record<ButtonSize, { container: string; font: string }> = {
-  xLarge: { container: 'w-56 h-56 px-6 rounded-16', font: 'font-body_l' },
-  large: { container: 'w-48 h-48 px-5 rounded-14', font: 'font-body_m' },
-  medium: { container: 'w-40 h-40 px-4 rounded-12', font: 'font-body_s' },
-  small: { container: 'w-32 h-32 px-3 rounded-8', font: 'font-caption' },
+export const sizeStyles: Record<ButtonSize, { container: string; font: string; iconSize: number }> = {
+  xLarge: { container: 'w-56 h-56 px-6 rounded-16', font: 'font-subtitle_l', iconSize: 24 },
+  large: { container: 'w-48 h-48 px-5 rounded-14', font: 'font-subtitle_m', iconSize: 20 },
+  medium: { container: 'w-40 h-40 px-4 rounded-12', font: 'font-subtitle_s', iconSize: 16 },
+  small: { container: 'w-32 h-32 px-3 rounded-8', font: 'font-caption', iconSize: 16 },
 }
 
 // ─── 헬퍼 함수 ───────────────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ export default function Button({
   const resolvedState: ButtonState = state ?? (disabled ? 'disabled' : 'default')
   const isDisabled = resolvedState === 'disabled' || disabled
 
-  const { container, font } = sizeStyles[size]
+  const { container, font, iconSize } = sizeStyles[size]
 
   return (
     <button
@@ -132,9 +132,17 @@ export default function Button({
       disabled={isDisabled}
       {...props}
     >
-      {leftIcon && <span className="flex items-center">{leftIcon}</span>}
+      {leftIcon && (
+        <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>
+          {leftIcon}
+        </span>
+      )}
       {title}
-      {rightIcon && <span className="flex items-center">{rightIcon}</span>}
+      {rightIcon && (
+        <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>
+          {rightIcon}
+        </span>
+      )}
     </button>
   )
 }

@@ -35,10 +35,10 @@ const interactiveStyles: Record<TextButtonVariant, string> = {
   tertiary: 'hover:text-gray-600 active:text-gray-800',
 }
 
-const sizeStyles: Record<TextButtonSize, { font: string; iconSize: string }> = {
-  large: { font: 'font-body_m', iconSize: 'w-20 h-20' },
-  medium: { font: 'font-body_s', iconSize: 'w-20 h-20' },
-  small: { font: 'font-caption', iconSize: 'w-20 h-20' },
+const sizeStyles: Record<TextButtonSize, { font: string; iconSize: number }> = {
+  large: { font: 'font-subtitle_m', iconSize: 20 },
+  medium: { font: 'font-subtitle_s', iconSize: 16 },
+  small: { font: 'font-caption', iconSize: 16 },
 }
 
 export default function TextButton({
@@ -69,9 +69,17 @@ export default function TextButton({
       disabled={isDisabled}
       {...props}
     >
-      {leftIcon && <span className={clsx('flex items-center', iconSize)}>{leftIcon}</span>}
+      {leftIcon && (
+        <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>
+          {leftIcon}
+        </span>
+      )}
       {label}
-      {rightIcon && <span className={clsx('flex items-center', iconSize)}>{rightIcon}</span>}
+      {rightIcon && (
+        <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>
+          {rightIcon}
+        </span>
+      )}
     </button>
   )
 }

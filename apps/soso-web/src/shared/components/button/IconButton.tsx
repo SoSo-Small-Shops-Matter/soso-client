@@ -41,10 +41,10 @@ const interactiveStyles: Record<IconButtonVariant, string> = {
   tertiary: 'hover:bg-gray-100 active:bg-gray-200',
 }
 
-const sizeStyles: Record<IconButtonSize, { box: string; iconSize: string; radius: string }> = {
-  large: { box: 'w-56 h-56', iconSize: 'w-24 h-24', radius: 'rounded-16' },
-  medium: { box: 'w-40 h-40', iconSize: 'w-20 h-20', radius: 'rounded-12' },
-  small: { box: 'w-32 h-32', iconSize: 'w-16 h-16', radius: 'rounded-10' },
+const sizeStyles: Record<IconButtonSize, { box: string; iconSize: number; radius: string }> = {
+  large: { box: 'w-56 h-56', iconSize: 24, radius: 'rounded-16' },
+  medium: { box: 'w-40 h-40', iconSize: 20, radius: 'rounded-12' },
+  small: { box: 'w-32 h-32', iconSize: 16, radius: 'rounded-10' },
 }
 
 export default function IconButton({
@@ -76,7 +76,9 @@ export default function IconButton({
       disabled={isDisabled}
       {...props}
     >
-      <span className={clsx('flex items-center justify-center', iconSize)}>{icon}</span>
+      <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>
+        {icon}
+      </span>
     </button>
   )
 }

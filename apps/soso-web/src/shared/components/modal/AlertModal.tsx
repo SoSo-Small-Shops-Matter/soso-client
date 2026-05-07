@@ -14,10 +14,10 @@ export default function AlertModal({ isOpen, onClose, title, children }: AlertMo
     <ModalPortal isOpen={isOpen} onClose={onClose}>
       <Flex direction="col" gap={24} className="w-[320px] rounded-20 bg-white px-16 pb-20 pt-24">
         <Flex direction="col" align="center" gap={12} className="w-full">
-          <h3 className="text-black font-subtitle_l">{title}</h3>
-          <p className="text-center text-gray-500 font-body_m">{children}</p>
+          <h3 className="font-subtitle_l text-black">{title}</h3>
+          <p className="font-body_m text-center text-gray-500">{children}</p>
         </Flex>
-        <Button title="확인" height="52px" />
+        <Button title="확인" />
       </Flex>
     </ModalPortal>
   )

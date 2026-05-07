@@ -35,7 +35,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
     <>
       {/* 이름 표시 영역 */}
       <div className="flex items-start gap-8 py-4">
-        <p className="flex-1 break-words text-gray-900 font-title_m">
+        <p className="font-title_m flex-1 break-words text-gray-900">
           {value || <span className="text-gray-300">코스 이름을 입력해 주세요.</span>}
         </p>
         <button type="button" onClick={handleOpen} className="mt-2 flex-shrink-0">
@@ -68,7 +68,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
                   placeholder="코스 이름을 입력해 주세요."
                   maxLength={30}
                   autoFocus
-                  className="h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none font-body_m placeholder:text-gray-300"
+                  className="font-body_m h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none placeholder:text-gray-300"
                 />
                 {draft && (
                   <button
@@ -88,17 +88,8 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
 
               {/* 버튼 */}
               <div className="flex w-full gap-9">
-                <Button
-                  title="취소"
-                  bgColor="var(--gray-50)"
-                  textColor="var(--gray-400)"
-                  borderColor="none"
-                  width="auto"
-                  className="flex-1"
-                  onClick={handleCancel}
-                  disabled={!value}
-                />
-                <Button title="확인" width="auto" className="flex-1" onClick={handleConfirm} disabled={!draft.trim()} />
+                <Button title="취소" variant="tertiary" size="large" onClick={handleCancel} disabled={!value} />
+                <Button title="확인" size="large" onClick={handleConfirm} disabled={!draft.trim()} />
               </div>
             </div>
           </div>
