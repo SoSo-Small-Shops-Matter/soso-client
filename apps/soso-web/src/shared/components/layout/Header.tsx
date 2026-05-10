@@ -39,7 +39,7 @@ export default function Header({ type, title, customBtn, top }: HeaderProps) {
               {type === 'back' && <BackIcon />}
             </button>
           </div>
-          <h2 className="min-w-[200px] text-center font-subtitle_l position-center">{title}</h2>
+          <h2 className="font-subtitle_l min-w-[200px] text-center position-center">{title}</h2>
           <div>{customBtn}</div>
         </Flex>
       )}

@@ -7,8 +7,10 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, FreeMode } from 'swiper/modules'
 import EmptyData from '@/shared/components/ui/EmptyData'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
+import ArrowRightAltIcon from '@/shared/components/icons/ArrowRightAltIcon'
 import clsx from 'clsx'
 import { SubmissionType, SUBMISSION_TYPE } from '@/shared/api/my/types'
+import { WISH_LIST_LIMIT } from './ProductLists'
 
 interface Data {
   id: number | null
@@ -28,15 +30,14 @@ interface ProductLayoutProps {
 }
 
 export default function ProductLayout({ data, title, placeholder, productLink, totalData }: ProductLayoutProps) {
+  const showMoreButton = totalData && totalData > WISH_LIST_LIMIT
+
   return (
-    <Flex direction="col" gap={8} className="w-full">
+    <Flex direction="col" gap={12} className="w-full">
       <Flex justify="between" align="center" className="w-full">
-        <Flex align="end" gap={4}>
-          <h3 className="text-black font-subtitle_l">{title}</h3>
-          {data?.length > 0 && <span className="text-gray-500 font-body_s">{totalData || 0}개</span>}
-        </Flex>
-        <Link href={productLink} className="flex items-center gap-2 text-gray-400 font-caption">
-          전체보기 <LinkIcon width="16" height="16" />
+        <h3 className="font-subtitle_l text-black">{title}</h3>
+        <Link href={productLink} className="flex items-center">
+          <LinkIcon />
         </Link>
       </Flex>
       {data?.length > 0 ? (
@@ -65,10 +66,23 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
                   }
                   size={72}
                 />
-                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body_s">{item.name}</span>
+                <span className="font-body_s block max-w-full truncate break-all px-4 text-gray-500">{item.name}</span>
               </Link>
             </SwiperSlide>
           ))}
+
+          {showMoreButton && (
+            <SwiperSlide style={{ width: '72px' }} key="more">
+              <div className="ml-10 mt-20">
+                <Link href={productLink} className="flex w-full flex-col gap-6">
+                  <div className="border-width-1 flex h-[40px] w-[40px] items-center justify-center rounded-full border border-gray-100 bg-white">
+                    <ArrowRightAltIcon fill="#9E9E9E" />
+                  </div>
+                  <span className="block max-w-full truncate break-all px-4 text-gray-500 font-caption">더보기</span>
+                </Link>
+              </div>
+            </SwiperSlide>
+          )}
         </Swiper>
       ) : (
         <EmptyData text={placeholder} />
