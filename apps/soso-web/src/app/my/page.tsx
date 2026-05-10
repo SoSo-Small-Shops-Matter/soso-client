@@ -1,5 +1,5 @@
 import MyProfile from '@/app/my/components/MyProfile'
-import ProductLists from '@/app/my/components/ProductLists'
+import MyWishShopList from '@/app/my/components/MyWishShopList'
 import Divider from '@/shared/components/divider/Divider'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
 import SettingIcon from '@/shared/components/icons/SettingIcon'
@@ -31,7 +31,7 @@ export default function MyPage() {
       </div>
       <Divider height="10px" />
       <div className="w-full px-16 py-20">
-        <ProductLists />
+        <MyWishShopList />
       </div>
       <Divider height="10px" />
       <Flex direction="col">

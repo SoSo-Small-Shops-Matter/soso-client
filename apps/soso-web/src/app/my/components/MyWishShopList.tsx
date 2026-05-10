@@ -1,18 +1,18 @@
 'use client'
 
-import Flex from '@/shared/components/layout/Flex'
-import ProductImage from '@/shared/components/ui/ProductImage'
-import Link from 'next/link'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, FreeMode } from 'swiper/modules'
-import EmptyData from '@/shared/components/ui/EmptyData'
-import LinkIcon from '@/shared/components/icons/LinkIcon'
+import { useGetMyWishQuery } from '@/shared/api/my/queries'
+import { SUBMISSION_TYPE, SubmissionType } from '@/shared/api/my/types'
 import ArrowRightAltIcon from '@/shared/components/icons/ArrowRightAltIcon'
+import LinkIcon from '@/shared/components/icons/LinkIcon'
+import Flex from '@/shared/components/layout/Flex'
+import EmptyData from '@/shared/components/ui/EmptyData'
+import ProductImage from '@/shared/components/ui/ProductImage'
 import clsx from 'clsx'
-import { SubmissionType, SUBMISSION_TYPE } from '@/shared/api/my/types'
-import { WISH_LIST_LIMIT } from './ProductLists'
+import Link from 'next/link'
+import { FreeMode, Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-interface Data {
+interface MyWishShopItem {
   id: number | null
   image: string | null
   name: string | null
@@ -20,27 +20,34 @@ interface Data {
   type?: SubmissionType | null
 }
 
-interface ProductLayoutProps {
-  data: Data[]
-  title: string
-  placeholder: string
-  productLink: string
-  type?: SubmissionType
-  totalData?: number
-}
+export const WISH_LIST_LIMIT = 10
+const WISH_TITLE = '찜'
+const WISH_PLACEHOLDER = '아직 찜한 소품샵이 없습니다.'
+const WISH_LINK = '/my/wish'
 
-export default function ProductLayout({ data, title, placeholder, productLink, totalData }: ProductLayoutProps) {
+export default function MyWishShopList() {
+  const { data: myWishData } = useGetMyWishQuery(WISH_LIST_LIMIT)
+  const totalData = myWishData?.pages[0].pageInfo.totalElements
+
+  const myWishList: MyWishShopItem[] =
+    myWishData?.pages[0].data.map((wish) => ({
+      id: wish.shop.id || null,
+      image: wish.shop?.mainImage || null,
+      name: wish.shop?.name || null,
+      link: `/shop/${wish.shop?.id}` || null,
+    })) || []
+
   const showMoreButton = totalData && totalData > WISH_LIST_LIMIT
 
   return (
     <Flex direction="col" gap={12} className="w-full">
       <Flex justify="between" align="center" className="w-full">
-        <h3 className="font-subtitle_l text-black">{title}</h3>
-        <Link href={productLink} className="flex items-center">
+        <h3 className="font-subtitle_l text-black">{WISH_TITLE}</h3>
+        <Link href={WISH_LINK} className="flex items-center">
           <LinkIcon />
         </Link>
       </Flex>
-      {data?.length > 0 ? (
+      {myWishList?.length > 0 ? (
         <Swiper
           modules={[Navigation, FreeMode]}
           slidesPerView="auto"
@@ -49,7 +56,7 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
           grabCursor={true}
           className="w-full"
         >
-          {data.map((item, index) => (
+          {myWishList.map((item, index) => (
             <SwiperSlide style={{ width: '72px' }} key={index}>
               <Link
                 href={item.type === SUBMISSION_TYPE.NEW_SHOP ? '#' : item.link || ''}
@@ -74,7 +81,7 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
           {showMoreButton && (
             <SwiperSlide style={{ width: '72px' }} key="more">
               <div className="ml-10 mt-20">
-                <Link href={productLink} className="flex w-full flex-col gap-6">
+                <Link href={WISH_LINK} className="flex w-full flex-col gap-6">
                   <div className="border-width-1 flex h-[40px] w-[40px] items-center justify-center rounded-full border border-gray-100 bg-white">
                     <ArrowRightAltIcon fill="#9E9E9E" />
                   </div>
@@ -85,7 +92,7 @@ export default function ProductLayout({ data, title, placeholder, productLink, t
           )}
         </Swiper>
       ) : (
-        <EmptyData text={placeholder} />
+        <EmptyData text={WISH_PLACEHOLDER} />
       )}
     </Flex>
   )
