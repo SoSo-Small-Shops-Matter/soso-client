@@ -56,24 +56,22 @@ export default function MyWishShopList() {
           grabCursor={true}
           className="w-full"
         >
-          {myWishList.map((item, index) => (
-            <SwiperSlide style={{ width: '72px' }} key={index}>
+          {myWishList.map(({ id, type, link, image, name }) => (
+            <SwiperSlide style={{ width: '72px' }} key={id}>
               <Link
-                href={item.type === SUBMISSION_TYPE.NEW_SHOP ? '#' : item.link || ''}
+                href={type === SUBMISSION_TYPE.NEW_SHOP ? '#' : link || ''}
                 className={clsx(
                   'flex w-full flex-col gap-6 truncate',
-                  item.type === SUBMISSION_TYPE.NEW_SHOP && 'cursor-default'
+                  type === SUBMISSION_TYPE.NEW_SHOP && 'cursor-default'
                 )}
               >
                 <ProductImage
                   imgUrl={
-                    item.type === SUBMISSION_TYPE.NEW_SHOP
-                      ? '/images/confirm.png'
-                      : item.image || '/images/default_item.svg'
+                    type === SUBMISSION_TYPE.NEW_SHOP ? '/images/confirm.png' : image || '/images/default_item.svg'
                   }
                   size={72}
                 />
-                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body_s">{item.name}</span>
+                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body_s">{name}</span>
               </Link>
             </SwiperSlide>
           ))}

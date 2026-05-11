@@ -7,6 +7,7 @@ import { GetVisitedShopsResponse, VisitedShop } from '@/shared/api/course/types'
 import Loading from '@/shared/components/loading/Loading'
 import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function MyVisitedPage() {
   const { data, isLoading, isError } = useGetVisitedShopsQuery(1, 10)
@@ -51,10 +52,12 @@ function MyVisitedContent({ paginatedVisitedShops }: { paginatedVisitedShops: Ge
         <ArrowRightIcon rotate={90} fill={'rgba(126, 132, 140, 1)'} />
       </div>
       <div className="grid w-full grid-cols-3 gap-11">
-        {visitedShops.map((shop: VisitedShop) => (
-          <Link key={shop.shopId} href={`/shop/${shop.shopId}`} className="flex flex-col items-start gap-8">
-            <img src={shop.mainImage} alt={shop.name} className="aspect-square w-full rounded-lg object-cover" />
-            <span className="max-w-[95%] truncate text-gray-500 font-body_m">{shop.name}</span>
+        {visitedShops.map(({ shopId, mainImage, name }: VisitedShop) => (
+          <Link key={shopId} href={`/shop/${shopId}`} className="flex w-full flex-col items-start gap-8">
+            <div className="relative aspect-square w-full">
+              <Image src={mainImage} alt={name} fill className="rounded-lg object-cover" />
+            </div>
+            <span className="max-w-[95%] truncate text-gray-500 font-body_m">{name}</span>
           </Link>
         ))}
       </div>
