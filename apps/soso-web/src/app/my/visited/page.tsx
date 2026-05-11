@@ -8,9 +8,12 @@ import Loading from '@/shared/components/loading/Loading'
 import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
 import Link from 'next/link'
 import Image from 'next/image'
+import { InfiniteData } from '@tanstack/react-query'
+import { useInView } from 'react-intersection-observer'
+import { useEffect } from 'react'
 
 export default function MyVisitedPage() {
-  const { data, isLoading, isError } = useGetVisitedShopsQuery(1, 10)
+  const { data, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetVisitedShopsQuery(10)
 
   if (isLoading) {
     return <Loading />
@@ -27,7 +30,7 @@ export default function MyVisitedPage() {
     )
   }
 
-  if (!data.items.length) {
+  if (!data.pages.length) {
     return (
       <div>
         <Header title="방문한 소품샵" type="back" />
@@ -39,11 +42,44 @@ export default function MyVisitedPage() {
     )
   }
 
-  return <MyVisitedContent paginatedVisitedShops={data} />
+  return (
+    <MyVisitedContent
+      paginatedVisitedShops={data}
+      fetchNextPage={fetchNextPage}
+      isLoading={isLoading}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+    />
+  )
 }
 
-function MyVisitedContent({ paginatedVisitedShops }: { paginatedVisitedShops: GetVisitedShopsResponse }) {
-  const { items: visitedShops } = paginatedVisitedShops
+function MyVisitedContent({
+  paginatedVisitedShops,
+  fetchNextPage,
+  isLoading,
+  hasNextPage,
+  isFetchingNextPage,
+}: {
+  paginatedVisitedShops: InfiniteData<GetVisitedShopsResponse>
+  fetchNextPage: () => void
+  isLoading: boolean
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
+}) {
+  const { pages } = paginatedVisitedShops
+
+  const visitedShops = pages.flatMap((page) => page.items)
+
+  const { ref, inView } = useInView({
+    threshold: 0.2,
+  })
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage && !isLoading) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading])
+
   return (
     <div className="p-16">
       <Header title="방문한 소품샵" type="back" />
@@ -55,12 +91,13 @@ function MyVisitedContent({ paginatedVisitedShops }: { paginatedVisitedShops: Ge
         {visitedShops.map(({ shopId, mainImage, name }: VisitedShop) => (
           <Link key={shopId} href={`/shop/${shopId}`} className="flex w-full flex-col items-start gap-8">
             <div className="relative aspect-square w-full">
-              <Image src={mainImage} alt={name} fill className="rounded-lg object-cover" />
+              <Image src={mainImage} alt={name || '방문한 소품샵 이미지'} fill className="rounded-lg object-cover" />
             </div>
             <span className="max-w-[95%] truncate text-gray-500 font-body_m">{name}</span>
           </Link>
         ))}
       </div>
+      {!isLoading && <div ref={ref} className="h-40" />}
     </div>
   )
 }
