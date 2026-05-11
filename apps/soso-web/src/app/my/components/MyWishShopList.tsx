@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { FreeMode, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import MyWishShopListSkeleton from './MyWishShopListSkeleton'
 
 interface MyWishShopItem {
   id: number | null
@@ -26,7 +27,7 @@ const WISH_PLACEHOLDER = '아직 찜한 소품샵이 없습니다.'
 const WISH_LINK = '/my/wish'
 
 export default function MyWishShopList() {
-  const { data: myWishData } = useGetMyWishQuery(WISH_LIST_LIMIT)
+  const { data: myWishData, isLoading } = useGetMyWishQuery(WISH_LIST_LIMIT)
   const totalData = myWishData?.pages[0].pageInfo.totalElements
 
   const myWishList: MyWishShopItem[] =
@@ -47,7 +48,9 @@ export default function MyWishShopList() {
           <LinkIcon />
         </Link>
       </Flex>
-      {myWishList?.length > 0 ? (
+      {isLoading ? (
+        <MyWishShopListSkeleton />
+      ) : myWishList?.length > 0 ? (
         <Swiper
           modules={[Navigation, FreeMode]}
           slidesPerView="auto"
