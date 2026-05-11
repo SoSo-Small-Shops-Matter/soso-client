@@ -27,7 +27,7 @@ const WISH_PLACEHOLDER = '아직 찜한 소품샵이 없습니다.'
 const WISH_LINK = '/my/wish'
 
 export default function MyWishShopList() {
-  const { data: myWishData, isLoading } = useGetMyWishQuery(WISH_LIST_LIMIT)
+  const { data: myWishData, isPending, isSuccess } = useGetMyWishQuery(WISH_LIST_LIMIT)
   const totalData = myWishData?.pages[0].pageInfo.totalElements
 
   const myWishList: MyWishShopItem[] =
@@ -48,9 +48,8 @@ export default function MyWishShopList() {
           <LinkIcon />
         </Link>
       </Flex>
-      {isLoading ? (
-        <MyWishShopListSkeleton />
-      ) : myWishList?.length > 0 ? (
+      {isPending && <MyWishShopListSkeleton />}
+      {isSuccess && myWishList?.length > 0 && (
         <Swiper
           modules={[Navigation, FreeMode]}
           slidesPerView="auto"
@@ -92,9 +91,8 @@ export default function MyWishShopList() {
             </SwiperSlide>
           )}
         </Swiper>
-      ) : (
-        <EmptyData text={WISH_PLACEHOLDER} />
       )}
+      {isSuccess && myWishList?.length === 0 && <EmptyData text={WISH_PLACEHOLDER} />}
     </Flex>
   )
 }
