@@ -8,6 +8,7 @@ export const courseKeys = {
   list: (params: GetCoursesParams) => [...courseKeys.all, 'list', params] as const,
   detail: (courseId: number) => [...courseKeys.all, 'detail', courseId] as const,
   shared: (token: string) => [...courseKeys.all, 'shared', token] as const,
+  visitedShops: (page: number, limit: number) => [...courseKeys.all, 'visitedShops', page, limit] as const,
 }
 
 // ─── Queries ───────────────────────────────────────────────────────────────
@@ -31,6 +32,12 @@ export const useGetSharedCourseQuery = (token: string) =>
     queryKey: courseKeys.shared(token),
     queryFn: () => courseApi.getSharedCourse(token),
     enabled: !!token,
+  })
+
+export const useGetVisitedShopsQuery = (page: number, limit: number) =>
+  useQuery({
+    queryKey: courseKeys.visitedShops(page, limit),
+    queryFn: () => courseApi.getVisitedShops(page, limit),
   })
 
 // ─── Mutations ─────────────────────────────────────────────────────────────

@@ -42,7 +42,7 @@ export default function MyWishShopList() {
   return (
     <Flex direction="col" gap={12} className="w-full">
       <Flex justify="between" align="center" className="w-full">
-        <h3 className="font-subtitle_l text-black">{WISH_TITLE}</h3>
+        <h3 className="text-black font-subtitle_l">{WISH_TITLE}</h3>
         <Link href={WISH_LINK} className="flex items-center">
           <LinkIcon />
         </Link>
@@ -73,7 +73,7 @@ export default function MyWishShopList() {
                   }
                   size={72}
                 />
-                <span className="font-body_s block max-w-full truncate break-all px-4 text-gray-500">{item.name}</span>
+                <span className="block max-w-full truncate break-all px-4 text-gray-500 font-body_s">{item.name}</span>
               </Link>
             </SwiperSlide>
           ))}

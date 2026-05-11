@@ -19,6 +19,14 @@ export interface CourseShopSummary {
   instagram: string | null
 }
 
+export interface VisitedShop {
+  shopId: number
+  name: string
+  mainImage: string
+  isHidden: boolean
+  lastVisitedAt: string
+}
+
 // ─── Stop ──────────────────────────────────────────────────────────────────
 
 export interface CourseStopDto {
@@ -47,6 +55,13 @@ export interface GetCoursesParams {
 
 export interface GetCoursesResponse {
   items: CourseListItemDto[]
+  total: number
+  page: number
+  limit: number
+}
+
+export interface GetVisitedShopsResponse {
+  items: VisitedShop[]
   total: number
   page: number
   limit: number
