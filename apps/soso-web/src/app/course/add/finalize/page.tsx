@@ -18,7 +18,6 @@ export default function CourseFinalizePage() {
   const { mutate: createCourse, isPending } = useCreateCourseMutation()
   const { openDialog, closeDialog } = useDialog()
   const { openToast } = useToast()
-
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
   const handleToggleSelect = (id: number) => {
@@ -112,7 +111,7 @@ export default function CourseFinalizePage() {
           </div>
         </div>
 
-        <SelectedShopList shops={selectedShops} selectedIds={selectedIds} onToggleSelect={handleToggleSelect} />
+        <SelectedShopList selectedIds={selectedIds} onToggleSelect={handleToggleSelect} />
       </div>
 
       {/* 하단 버튼 */}

@@ -28,10 +28,7 @@ export default function ShopListItem({
       type="button"
       onClick={onToggle}
       disabled={disabled}
-      className={clsx(
-        'w-full border-b border-gray-100 px-20 py-16 transition-colors',
-        disabled && 'opacity-40'
-      )}
+      className={clsx('w-full border-b border-gray-100 px-20 py-16 transition-colors', disabled && 'opacity-40')}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-12">
@@ -43,25 +40,17 @@ export default function ShopListItem({
               style={{ objectFit: 'cover' }}
               alt={name}
               onError={handleImageError}
-              unoptimized
             />
             {selected && (
               <div className="absolute left-4 top-4 flex h-18 w-18 items-center justify-center rounded-full bg-main">
-                <span
-                  className="text-white"
-                  style={{ fontSize: '10px', fontWeight: 700, lineHeight: 1 }}
-                >
-                  {order}
-                </span>
+                <span className="text-white font-subtitle_m">{order}</span>
               </div>
             )}
           </div>
           {/* 이름 + 위치 */}
           <div className="flex flex-col gap-4">
             <span className="text-left font-subtitle_l">{name}</span>
-            {location && (
-              <span className="text-left text-gray-400 font-caption">{location}</span>
-            )}
+            {location && <span className="text-left text-gray-400 font-caption">{location}</span>}
           </div>
         </div>
         {/* 체크박스 */}

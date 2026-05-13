@@ -1,6 +1,6 @@
 'use client'
 
-import { SelectedShop, useCourseAddStore } from '@/shared/store/useCourseAddStore'
+import { useCourseAddStore } from '@/shared/store/useCourseAddStore'
 import {
   DndContext,
   DragEndEvent,
@@ -14,13 +14,12 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import SortableShopItem from './SortableShopItem'
 
 interface SelectedShopListProps {
-  shops: SelectedShop[]
   selectedIds: Set<number>
   onToggleSelect: (id: number) => void
 }
 
-export default function SelectedShopList({ shops, selectedIds, onToggleSelect }: SelectedShopListProps) {
-  const { reorderShops } = useCourseAddStore()
+export default function SelectedShopList({ selectedIds, onToggleSelect }: SelectedShopListProps) {
+  const { selectedShops: shops, reorderShops } = useCourseAddStore()
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),

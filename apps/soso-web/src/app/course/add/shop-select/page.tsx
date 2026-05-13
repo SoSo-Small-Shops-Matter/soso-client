@@ -1,10 +1,7 @@
 'use client'
 
 import { useGetShopSearchListQuery } from '@/shared/api/search/queries'
-import { SearchedShopType } from '@/shared/api/search/types'
 import { useGetMyWishQuery } from '@/shared/api/my/queries'
-import { MyWishType } from '@/shared/api/my/types'
-import { ShopType } from '@/shared/api/shops/types'
 import { SelectedShop, useCourseAddStore } from '@/shared/store/useCourseAddStore'
 import { useDialog } from '@/shared/context/DialogContext'
 import useDebounce from '@/shared/hooks/useDebounce'
@@ -12,14 +9,12 @@ import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 import ShopSelectHeader from './components/ShopSelectHeader'
 import ShopSearchInput from './components/ShopSearchInput'
-import ShopSelectTabs from './components/ShopSelectTabs'
-import ShopSearchResults from './components/ShopSearchResults'
-import WishShopList from './components/WishShopList'
-import RecommendShopList from './components/RecommendShopList'
+import ShopSelectTabs, { type FilterType } from './components/ShopSelectTabs'
+import ShopSelectContent from './components/ShopSelectContent'
 import SelectedShopsBottom from './components/SelectedShopsBottom'
 
 const MAX_SELECT = 30
-type FilterType = 'wish' | 'recommend'
+const WISH_PAGE_SIZE = 50
 
 export default function CourseShopSelectPage() {
   const router = useRouter()
@@ -34,7 +29,7 @@ export default function CourseShopSelectPage() {
   const { data: searchData, isLoading: isSearchLoading } = useGetShopSearchListQuery(debouncedSearch)
   const searchResults = searchData?.pages.flatMap((page) => page.data) ?? []
 
-  const { data: wishData, isLoading: isWishLoading } = useGetMyWishQuery(50)
+  const { data: wishData, isLoading: isWishLoading } = useGetMyWishQuery(WISH_PAGE_SIZE)
   const wishList = wishData?.pages.flatMap((page) => page.data) ?? []
 
   const isSelected = (shopId: number) => selectedShops.some((s) => s.id === shopId)
@@ -45,8 +40,15 @@ export default function CourseShopSelectPage() {
   const requestLocationPermission = () => {
     if (!navigator.geolocation) return
     navigator.geolocation.getCurrentPosition(
-      () => { setLocationGranted(true); setActiveFilter('recommend'); closeDialog() },
-      () => { setLocationGranted(false); closeDialog() }
+      () => {
+        setLocationGranted(true)
+        setActiveFilter('recommend')
+        closeDialog()
+      },
+      () => {
+        setLocationGranted(false)
+        closeDialog()
+      }
     )
   }
 
@@ -81,7 +83,13 @@ export default function CourseShopSelectPage() {
     setActiveFilter(filter)
   }
 
-  const toSelected = (shop: { id: number; name: string; mainImage: string | null; lat?: number; lng?: number }): SelectedShop => ({
+  const toSelected = (shop: {
+    id: number
+    name: string
+    mainImage: string | null
+    lat?: number
+    lng?: number
+  }): SelectedShop => ({
     id: shop.id,
     name: shop.name,
     mainImage: shop.mainImage ?? null,
@@ -89,19 +97,9 @@ export default function CourseShopSelectPage() {
     lng: shop.lng,
   })
 
-  const handleToggleFromSearch = (shop: SearchedShopType) => {
+  const handleToggle = (shop: SelectedShop) => {
     if (!isSelected(shop.id) && selectedShops.length >= MAX_SELECT) return
-    toggleShop(toSelected(shop))
-  }
-
-  const handleToggleFromWish = (wish: MyWishType) => {
-    if (!isSelected(wish.shop.id) && selectedShops.length >= MAX_SELECT) return
-    toggleShop(toSelected(wish.shop))
-  }
-
-  const handleToggleFromRecommend = (shop: ShopType) => {
-    if (!isSelected(shop.id) && selectedShops.length >= MAX_SELECT) return
-    toggleShop(toSelected(shop))
+    toggleShop(shop)
   }
 
   const isSearchMode = !!debouncedSearch
@@ -116,47 +114,23 @@ export default function CourseShopSelectPage() {
       </div>
 
       <div className="flex-1 overflow-y-auto pt-[114px]">
-        {isSearchMode ? (
-          <ShopSearchResults
-            results={searchResults}
-            isLoading={isSearchLoading}
-            selectedCount={selectedShops.length}
-            maxSelect={MAX_SELECT}
-            isSelected={isSelected}
-            selectedOrder={selectedOrder}
-            onToggle={handleToggleFromSearch}
-          />
-        ) : activeFilter === 'wish' ? (
-          <WishShopList
-            wishList={wishList}
-            isLoading={isWishLoading}
-            selectedCount={selectedShops.length}
-            maxSelect={MAX_SELECT}
-            isSelected={isSelected}
-            selectedOrder={selectedOrder}
-            onToggle={handleToggleFromWish}
-          />
-        ) : activeFilter === 'recommend' ? (
-          <RecommendShopList
-            selectedCount={selectedShops.length}
-            maxSelect={MAX_SELECT}
-            isSelected={isSelected}
-            selectedOrder={selectedOrder}
-            onToggle={handleToggleFromRecommend}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center gap-8 py-80">
-            <p className="text-gray-400 font-body_m">소품샵을 검색하거나 필터를 선택해 보세요.</p>
-          </div>
-        )}
+        <ShopSelectContent
+          isSearchMode={isSearchMode}
+          activeFilter={activeFilter}
+          searchResults={searchResults}
+          isSearchLoading={isSearchLoading}
+          wishList={wishList}
+          isWishLoading={isWishLoading}
+          selectedCount={selectedShops.length}
+          maxSelect={MAX_SELECT}
+          isSelected={isSelected}
+          selectedOrder={selectedOrder}
+          onToggle={handleToggle}
+          toSelected={toSelected}
+        />
       </div>
 
-      <SelectedShopsBottom
-        selectedShops={selectedShops}
-        maxSelect={MAX_SELECT}
-        onRemove={removeShop}
-        onReset={reset}
-      />
+      <SelectedShopsBottom selectedShops={selectedShops} maxSelect={MAX_SELECT} onRemove={removeShop} onReset={reset} />
     </div>
   )
 }

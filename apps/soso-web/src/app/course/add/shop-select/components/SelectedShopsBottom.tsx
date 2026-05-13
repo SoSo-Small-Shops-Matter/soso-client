@@ -18,7 +18,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove
   const isEmpty = selectedShops.length === 0
 
   const handleNext = () => {
-    if (selectedShops.length > 0) router.push('/course/add/finalize')
+    if (!isEmpty) router.push('/course/add/finalize')
   }
 
   return (
@@ -53,7 +53,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove
       )}
 
       <div className="w-full py-10">
-        <Button title="다음" onClick={handleNext} disabled={selectedShops.length === 0} />
+        <Button title="다음" onClick={handleNext} disabled={isEmpty} />
       </div>
     </div>
   )

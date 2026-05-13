@@ -39,18 +39,21 @@ export default function WishShopList({
 
   return (
     <>
-      {wishList.map((wish) => (
-        <ShopListItem
-          key={wish.id}
-          id={wish.shop.id}
-          name={wish.shop.name}
-          mainImage={wish.shop.mainImage}
-          selected={isSelected(wish.shop.id)}
-          order={selectedOrder(wish.shop.id)}
-          disabled={!isSelected(wish.shop.id) && selectedCount >= maxSelect}
-          onToggle={() => onToggle(wish)}
-        />
-      ))}
+      {wishList.map((wish) => {
+        const { id: wishId, shop } = wish
+        return (
+          <ShopListItem
+            key={wishId}
+            id={shop.id}
+            name={shop.name}
+            mainImage={shop.mainImage}
+            selected={isSelected(shop.id)}
+            order={selectedOrder(shop.id)}
+            disabled={!isSelected(shop.id) && selectedCount >= maxSelect}
+            onToggle={() => onToggle(wish)}
+          />
+        )
+      })}
     </>
   )
 }

@@ -31,7 +31,6 @@ export default function CourseAddMapPage() {
   } | null>(null)
   const swiperRef = useRef<SwiperType | null>(null)
 
-  const [selectedIndex, setSelectedIndex] = useState(0)
   const [isMapReady, setIsMapReady] = useState(false)
 
   const initMap = () => {
@@ -72,11 +71,10 @@ export default function CourseAddMapPage() {
 
     // 폴리라인(점선) 렌더링
     if (shops.length >= 2) {
-      const polylinePaths = shops.map((s) => ({ lat: s.lat!, lng: s.lng! }))
-      const polylinePaths2: naver.maps.LatLng[] = polylinePaths.map((p) => new naver.maps.LatLng(p.lat, p.lng))
+      const path = shops.map((s) => new naver.maps.LatLng(s.lat!, s.lng!))
       const polyline = new naver.maps.Polyline({
         map,
-        path: polylinePaths2,
+        path,
         strokeColor: '#FF7F50',
         strokeWeight: 3,
         strokeLineCap: 'round',
@@ -111,7 +109,6 @@ export default function CourseAddMapPage() {
       }
     }
 
-    setSelectedIndex(index)
     map.panTo(new naver.maps.LatLng(shop.lat!, shop.lng!))
     zoomWithDragLock(map, COURSE_MAX_ZOOM)
 
@@ -137,10 +134,13 @@ export default function CourseAddMapPage() {
     renderAll(mapRef.current, shopsWithCoords)
   }, [isMapReady])
 
-  if (selectedShops.length === 0) {
-    router.replace('/course/add/finalize')
-    return null
-  }
+  useEffect(() => {
+    if (selectedShops.length === 0) {
+      router.replace('/course/add/finalize')
+    }
+  }, [selectedShops.length, router])
+
+  if (selectedShops.length === 0) return null
 
   return (
     <div className="relative h-[calc(var(--vh,1vh)*100)] w-full overflow-hidden">
