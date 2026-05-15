@@ -51,6 +51,17 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
     if (map) zoomWithDragLock(map, COURSE_MAX_ZOOM)
   }
 
+  const clearStoreState = () => {
+    clearMarkers()
+    useMapStore.setState({ map: null })
+  }
+
+  const clearNaverMarkers = (renderedMarkers: naver.maps.Marker[]) => {
+    renderedMarkers.forEach((m) => m.setMap(null))
+    markerRefs.current = []
+    selectedMarkerRef.current = null
+  }
+
   useEffect(() => {
     const firstStopPosition = course?.stops[0]?.shop
     if (!isNaverMapsReady || !course || !firstStopPosition) return
@@ -71,8 +82,7 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
     })
 
     return () => {
-      clearMarkers()
-      useMapStore.setState({ map: null })
+      clearStoreState()
     }
   }, [course, isNaverMapsReady])
 
@@ -92,6 +102,10 @@ export function useCourseMap(course?: CourseDetailDto | SharedCourseDto) {
     drawPolylines(map, polylinePaths)
     map.setZoom(COURSE_DEFAULT_ZOOM, true)
     selectCourseStop(0)
+
+    return () => {
+      clearNaverMarkers(renderedMarkers)
+    }
   }, [map, markers])
 
   return { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex }
