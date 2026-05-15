@@ -18,6 +18,7 @@ interface CourseEditState {
   removeShop: (shopId: number) => void
   toggleShop: (shop: SelectedShop) => void
   reorderShops: (fromIndex: number, toIndex: number) => void
+  clearShops: () => void
   setCourseName: (name: string) => void
   reset: () => void
 }
@@ -62,6 +63,8 @@ export const useCourseEditStore = create<CourseEditState>((set, get) => ({
       shops.splice(toIndex, 0, moved)
       return { selectedShops: shops }
     }),
+
+  clearShops: () => set({ selectedShops: [] }),
 
   setCourseName: (name) => set({ courseName: name }),
 

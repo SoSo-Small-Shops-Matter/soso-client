@@ -18,7 +18,6 @@ interface ShopSelectContentProps {
   isSelected: (shopId: number) => boolean
   selectedOrder: (shopId: number) => number
   onToggle: (shop: SelectedShop) => void
-  toSelected: (shop: { id: number; name: string; mainImage: string | null; lat?: number; lng?: number }) => SelectedShop
 }
 
 export default function ShopSelectContent({
@@ -33,7 +32,6 @@ export default function ShopSelectContent({
   isSelected,
   selectedOrder,
   onToggle,
-  toSelected,
 }: ShopSelectContentProps) {
   if (isSearchMode) {
     return (
@@ -44,7 +42,7 @@ export default function ShopSelectContent({
         maxSelect={maxSelect}
         isSelected={isSelected}
         selectedOrder={selectedOrder}
-        onToggle={(shop) => onToggle(toSelected(shop))}
+        onToggle={(shop) => onToggle(shop)}
       />
     )
   }
@@ -57,7 +55,7 @@ export default function ShopSelectContent({
         maxSelect={maxSelect}
         isSelected={isSelected}
         selectedOrder={selectedOrder}
-        onToggle={(wish) => onToggle(toSelected(wish.shop))}
+        onToggle={(wish) => onToggle(wish.shop)}
       />
     )
   }
@@ -68,7 +66,7 @@ export default function ShopSelectContent({
         maxSelect={maxSelect}
         isSelected={isSelected}
         selectedOrder={selectedOrder}
-        onToggle={(shop) => onToggle(toSelected(shop))}
+        onToggle={(shop) => onToggle(shop)}
       />
     )
   }

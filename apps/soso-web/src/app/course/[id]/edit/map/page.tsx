@@ -54,12 +54,6 @@ export default function CourseEditMapPage({ params }: PageProps) {
   }
 
   const renderAll = (map: naver.maps.Map, shops: SelectedShop[]) => {
-    markerRefs.current.forEach((m) => m.setMap(null))
-    polylinesRef.current.forEach((p) => p.setMap(null))
-    markerRefs.current = []
-    polylinesRef.current = []
-    selectedMarkerRef.current = null
-
     const newMarkers = shops.map((shop, index) => {
       const icon = createDefaultMarkerIcon(index + 1)
       const marker = new naver.maps.Marker({

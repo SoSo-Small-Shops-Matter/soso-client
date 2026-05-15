@@ -48,14 +48,6 @@ export default function CourseAddMapPage() {
   }
 
   const renderAll = (map: naver.maps.Map, shops: SelectedShop[]) => {
-    // 기존 마커/폴리라인 제거
-    markerRefs.current.forEach((m) => m.setMap(null))
-    polylinesRef.current.forEach((p) => p.setMap(null))
-    markerRefs.current = []
-    polylinesRef.current = []
-    selectedMarkerRef.current = null
-
-    // 마커 렌더링
     const newMarkers = shops.map((shop, index) => {
       const icon = createDefaultMarkerIcon(index + 1)
       const marker = new naver.maps.Marker({

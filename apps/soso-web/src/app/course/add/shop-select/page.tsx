@@ -83,20 +83,6 @@ export default function CourseShopSelectPage() {
     setActiveFilter(filter)
   }
 
-  const toSelected = (shop: {
-    id: number
-    name: string
-    mainImage: string | null
-    lat?: number
-    lng?: number
-  }): SelectedShop => ({
-    id: shop.id,
-    name: shop.name,
-    mainImage: shop.mainImage ?? null,
-    lat: shop.lat,
-    lng: shop.lng,
-  })
-
   const handleToggle = (shop: SelectedShop) => {
     if (!isSelected(shop.id) && selectedShops.length >= MAX_SELECT) return
     toggleShop(shop)
@@ -126,7 +112,6 @@ export default function CourseShopSelectPage() {
           isSelected={isSelected}
           selectedOrder={selectedOrder}
           onToggle={handleToggle}
-          toSelected={toSelected}
         />
       </div>
 

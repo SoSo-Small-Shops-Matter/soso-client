@@ -5,7 +5,6 @@ import { useGetMyWishQuery } from '@/shared/api/my/queries'
 import { SelectedShop, useCourseEditStore } from '@/shared/store/useCourseEditStore'
 import { useDialog } from '@/shared/context/DialogContext'
 import useDebounce from '@/shared/hooks/useDebounce'
-import { useRouter } from 'next/navigation'
 import { ChangeEvent, use, useState } from 'react'
 import Header from '@/shared/components/layout/Header'
 import ShopSearchInput from '@/app/course/add/shop-select/components/ShopSearchInput'
@@ -28,7 +27,7 @@ export default function CourseEditShopSelectPage({ params }: PageProps) {
   const [locationGranted, setLocationGranted] = useState(false)
   const debouncedSearch = useDebounce(searchValue, 300)
 
-  const { selectedShops, toggleShop, removeShop } = useCourseEditStore()
+  const { selectedShops, toggleShop } = useCourseEditStore()
 
   const { data: searchData, isLoading: isSearchLoading } = useGetShopSearchListQuery(debouncedSearch)
   const searchResults = searchData?.pages.flatMap((page) => page.data) ?? []
@@ -40,10 +39,6 @@ export default function CourseEditShopSelectPage({ params }: PageProps) {
   const selectedOrder = (shopId: number) => selectedShops.findIndex((s) => s.id === shopId) + 1
 
   const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)
-
-  const handleResetSelection = () => {
-    selectedShops.forEach((shop) => removeShop(shop.id))
-  }
 
   const requestLocationPermission = () => {
     if (!navigator.geolocation) return
@@ -91,20 +86,6 @@ export default function CourseEditShopSelectPage({ params }: PageProps) {
     setActiveFilter(filter)
   }
 
-  const toSelected = (shop: {
-    id: number
-    name: string
-    mainImage: string | null
-    lat?: number
-    lng?: number
-  }): SelectedShop => ({
-    id: shop.id,
-    name: shop.name,
-    mainImage: shop.mainImage ?? null,
-    lat: shop.lat,
-    lng: shop.lng,
-  })
-
   const handleToggle = (shop: SelectedShop) => {
     if (!isSelected(shop.id) && selectedShops.length >= MAX_SELECT) return
     toggleShop(shop)
@@ -134,17 +115,10 @@ export default function CourseEditShopSelectPage({ params }: PageProps) {
           isSelected={isSelected}
           selectedOrder={selectedOrder}
           onToggle={handleToggle}
-          toSelected={toSelected}
         />
       </div>
 
-      <EditSelectedShopsBottom
-        courseId={courseId}
-        selectedShops={selectedShops}
-        maxSelect={MAX_SELECT}
-        onRemove={removeShop}
-        onReset={handleResetSelection}
-      />
+      <EditSelectedShopsBottom courseId={courseId} maxSelect={MAX_SELECT} />
     </div>
   )
 }

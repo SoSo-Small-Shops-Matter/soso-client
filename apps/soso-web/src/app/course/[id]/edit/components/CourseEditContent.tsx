@@ -27,6 +27,7 @@ export default function CourseEditContent({ courseId }: CourseEditContentProps) 
   const { openDialog, closeDialog } = useDialog()
   const { openToast } = useToast()
   const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const isSubmittable = !!courseName.trim() && selectedShops.length > 0
 
   const handleToggleSelect = (id: number) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]))
@@ -64,7 +65,7 @@ export default function CourseEditContent({ courseId }: CourseEditContentProps) 
   }
 
   const handleComplete = () => {
-    if (!courseName.trim() || selectedShops.length === 0) return
+    if (!isSubmittable) return
     updateCourse(
       { name: courseName.trim(), shopIds: selectedShops.map((s) => s.id) },
       {
@@ -117,7 +118,7 @@ export default function CourseEditContent({ courseId }: CourseEditContentProps) 
             variant="primary"
             size="xLarge"
             onClick={handleComplete}
-            disabled={!courseName.trim() || isPending}
+            disabled={!isSubmittable || isPending}
           />
         </div>
       </div>

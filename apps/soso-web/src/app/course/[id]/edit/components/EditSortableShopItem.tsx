@@ -4,7 +4,6 @@ import { SelectedShop } from '@/shared/store/useCourseEditStore'
 import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import IconButton from '@/shared/components/button/IconButton'
 import ListIcon from '@/shared/components/icons/ListIcon'
 
 interface EditSortableShopItemProps {
