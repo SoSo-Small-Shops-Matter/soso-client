@@ -72,10 +72,10 @@ const outlinedInteractive: Record<ButtonVariant, string> = {
 // ─── Size ────────────────────────────────────────────────────────────────────
 
 export const sizeStyles: Record<ButtonSize, { container: string; font: string; iconSize: number }> = {
-  xLarge: { container: 'w-56 h-56 px-6 rounded-16', font: 'font-subtitle_l', iconSize: 24 },
-  large: { container: 'w-48 h-48 px-5 rounded-14', font: 'font-subtitle_m', iconSize: 20 },
-  medium: { container: 'w-40 h-40 px-4 rounded-12', font: 'font-subtitle_s', iconSize: 16 },
-  small: { container: 'w-32 h-32 px-3 rounded-8', font: 'font-caption', iconSize: 16 },
+  xLarge: { container: 'h-56 px-20 rounded-16', font: 'font-subtitle_l', iconSize: 24 },
+  large: { container: 'h-48 px-20 rounded-14', font: 'font-subtitle_m', iconSize: 20 },
+  medium: { container: 'h-40 px-12 rounded-12', font: 'font-subtitle_s', iconSize: 16 },
+  small: { container: 'h-32 px-12 rounded-8', font: 'font-caption', iconSize: 16 },
 }
 
 // ─── 헬퍼 함수 ───────────────────────────────────────────────────────────────

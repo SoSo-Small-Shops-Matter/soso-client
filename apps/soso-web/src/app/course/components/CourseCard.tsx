@@ -4,7 +4,6 @@ import 'react-swipeable-list/dist/styles.css'
 
 import clsx from 'clsx'
 import Link from 'next/link'
-import Image from 'next/image'
 import { SwipeableList, SwipeableListItem, SwipeAction, TrailingActions, Type as ListType } from 'react-swipeable-list'
 import { COURSE_STATUS, type CourseListItemDto } from '@/shared/api/course/types'
 import { useDeleteCourseMutation } from '@/shared/api/course/queries'
@@ -12,6 +11,7 @@ import { useDialog } from '@/shared/context/DialogContext'
 import { useToast } from '@/shared/context/ToastContext'
 import { getFormatDateString } from '@repo/utils'
 import TrashCanIcon from '@/shared/components/icons/TrashCanIcon'
+import CourseThumbnail from './CourseThumbnail'
 
 interface CourseCardProps {
   course: CourseListItemDto
@@ -19,7 +19,7 @@ interface CourseCardProps {
 
 export default function CourseCard({ course }: CourseCardProps) {
   const isInProgress = course.status === COURSE_STATUS.IN_PROGRESS
-  const thumbnail = course.thumbnails[0] ?? null
+  const thumbnails = course.thumbnails.slice(0, 2)
 
   const { openDialog, closeDialog } = useDialog()
   const { openToast } = useToast()
@@ -65,20 +65,7 @@ export default function CourseCard({ course }: CourseCardProps) {
       <SwipeableListItem trailingActions={trailingActions()} fullSwipe={false}>
         <Link href={`/course/${course.id}`} className="w-full">
           <div className="flex items-center gap-14 bg-white px-20 py-16 transition-colors active:bg-gray-50">
-            {/* 썸네일 */}
-            <div className="h-52 w-52 flex-shrink-0 overflow-hidden rounded-12 bg-gray-100">
-              {thumbnail ? (
-                <Image
-                  src={thumbnail}
-                  alt={course.name}
-                  width={52}
-                  height={52}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="h-full w-full bg-gray-100" />
-              )}
-            </div>
+            <CourseThumbnail thumbnails={thumbnails} alt={course.name} />
 
             {/* 이름 + 날짜 */}
             <div className="min-w-0 flex-1">
@@ -93,7 +80,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                 isInProgress ? 'bg-orange-light' : 'bg-gray-50'
               )}
             >
-              <span className={clsx('font-subtitle_m', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
+              <span className={clsx('font-subtitle_s', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
                 {course.progress}%
               </span>
               <span className={clsx('font-caption', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
