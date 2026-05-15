@@ -31,14 +31,14 @@ export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, onS
           </div>
         ) : (
           <div
-            className={`absolute z-10 flex h-[28] w-[28] items-center justify-center rounded-full font-caption text-white ${isSelected ? 'bg-orange-500' : 'bg-gray-100'}`}
+            className={`absolute z-10 flex h-28 w-28 items-center justify-center rounded-full text-white font-caption ${isSelected ? 'bg-orange-500' : 'bg-gray-100'}`}
           >
             {index + 1}
           </div>
         )}
       </div>
       <span
-        className={`w-full max-w-[51px] truncate text-center font-caption leading-tight transition-colors ${
+        className={`w-full max-w-[51px] truncate text-center leading-tight transition-colors font-caption ${
           isVisited ? 'font-medium text-main' : isSelected ? 'text-orange-500' : 'text-gray-400'
         }`}
       >
