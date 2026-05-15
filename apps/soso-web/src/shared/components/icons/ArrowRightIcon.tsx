@@ -1,8 +1,9 @@
 import { IconProps } from '@/shared/types/shareType'
 
-export default function ArrowRightIcon({ width, height, fill }: IconProps) {
+export default function ArrowRightIcon({ width, height, fill, rotate }: IconProps) {
   return (
     <svg
+      style={{ transform: `rotate(${rotate}deg)` }}
       xmlns="http://www.w3.org/2000/svg"
       width={width || '24'}
       height={height || '24'}

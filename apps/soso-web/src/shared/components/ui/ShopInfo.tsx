@@ -12,9 +12,9 @@ interface ShopInfoProps {
 export default function ShopInfo({ name, date, imgUrl, disabled }: ShopInfoProps) {
   return (
     <Flex align="center" gap={12}>
-      <ProductImage imgUrl={!disabled ? imgUrl : '/images/confirm.png'} />
+      <ProductImage size={48} imgUrl={!disabled ? imgUrl : '/images/confirm.png'} />
       <Flex direction="col" gap={4}>
-        <h3 className={clsx('text-black font-subtitle_l', disabled && 'text-gray-400')}>{name}</h3>
+        <h3 className={clsx('font-subtitle_m text-black', disabled && 'text-gray-400')}>{name}</h3>
         <p className={clsx('text-gray-400 font-caption', disabled && 'text-gray-200')}>{date}</p>
       </Flex>
     </Flex>

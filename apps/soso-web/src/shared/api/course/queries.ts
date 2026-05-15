@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { courseApi } from './api'
 import type { CreateCourseRequest, GetCoursesParams, UpdateCourseRequest } from './types'
 import { MINUTE } from '@repo/utils'
@@ -8,6 +8,8 @@ export const courseKeys = {
   list: (params: GetCoursesParams) => [...courseKeys.all, 'list', params] as const,
   detail: (courseId: number) => [...courseKeys.all, 'detail', courseId] as const,
   shared: (token: string) => [...courseKeys.all, 'shared', token] as const,
+  visitedShopsAll: ['courses', 'visitedShops'] as const,
+  visitedShops: (limit: number) => [...courseKeys.all, 'visitedShops', limit] as const,
 }
 
 // ─── Queries ───────────────────────────────────────────────────────────────
@@ -31,6 +33,16 @@ export const useGetSharedCourseQuery = (token: string) =>
     queryKey: courseKeys.shared(token),
     queryFn: () => courseApi.getSharedCourse(token),
     enabled: !!token,
+  })
+
+export const useGetVisitedShopsQuery = (limit: number) =>
+  useInfiniteQuery({
+    queryKey: courseKeys.visitedShops(limit),
+    queryFn: ({ pageParam }) => courseApi.getVisitedShops(pageParam, limit),
+    initialPageParam: 1,
+    getNextPageParam: ({ total, page, limit }) => (page * limit < total ? page + 1 : undefined),
+    staleTime: 5 * MINUTE,
+    gcTime: 5 * MINUTE,
   })
 
 // ─── Mutations ─────────────────────────────────────────────────────────────
@@ -103,6 +115,7 @@ export const useStampMutation = (courseId: number) => {
     mutationFn: (shopId: number) => courseApi.stamp(courseId, shopId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: courseKeys.detail(courseId) })
+      queryClient.invalidateQueries({ queryKey: courseKeys.visitedShopsAll })
     },
   })
 }

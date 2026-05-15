@@ -4,6 +4,7 @@ import type {
   CreateCourseRequest,
   GetCoursesParams,
   GetCoursesResponse,
+  GetVisitedShopsResponse,
   SharedCourseDto,
   StampResponse,
   UnstampResponse,
@@ -32,6 +33,11 @@ export const courseApi = {
 
   deleteCourse: async (courseId: number): Promise<void> => {
     await customFetch(`/courses/${courseId}`, { method: 'DELETE' })
+  },
+
+  getVisitedShops: async (page: number, limit: number): Promise<GetVisitedShopsResponse> => {
+    const result = await customFetch('/courses/visited-shops', { queryParams: { page, limit } })
+    return result.result
   },
 
   // ─── Share ───────────────────────────────────────────────────────────────
