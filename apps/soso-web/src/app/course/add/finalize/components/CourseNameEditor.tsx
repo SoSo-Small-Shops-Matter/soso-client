@@ -9,6 +9,8 @@ interface CourseNameEditorProps {
   onChange: (value: string) => void
 }
 
+const MAX_NAME_LENGTH = 30
+
 export default function CourseNameEditor({ value, onChange }: CourseNameEditorProps) {
   const [isOpen, setIsOpen] = useState(!value)
   const [draft, setDraft] = useState(value)
@@ -35,7 +37,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
     <>
       {/* 이름 표시 영역 */}
       <div className="flex items-start gap-8 py-4">
-        <p className="font-title_m flex-1 break-words text-gray-900">
+        <p className="flex-1 break-words text-gray-900 font-title_m">
           {value || <span className="text-gray-300">코스 이름을 입력해 주세요.</span>}
         </p>
         <button type="button" onClick={handleOpen} className="mt-2 flex-shrink-0">
@@ -49,6 +51,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
       </div>
 
       {/* 이름 편집 모달 */}
+      {/* TODO: DialogModal 수정 후 교체 */}
       {isOpen && (
         <>
           <Backdrop onClick={value ? handleCancel : undefined} />
@@ -61,14 +64,14 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
                 <input
                   ref={inputRef}
                   value={draft}
-                  onChange={(e) => setDraft(e.target.value.slice(0, 30))}
+                  onChange={(e) => setDraft(e.target.value.slice(0, MAX_NAME_LENGTH))}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleConfirm()
                   }}
                   placeholder="코스 이름을 입력해 주세요."
-                  maxLength={30}
+                  maxLength={MAX_NAME_LENGTH}
                   autoFocus
-                  className="font-body_m h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none placeholder:text-gray-300"
+                  className="h-48 w-full rounded-10 bg-gray-50 px-16 pr-40 text-gray-900 outline-none font-body_m placeholder:text-gray-300"
                 />
                 {draft && (
                   <button
@@ -84,7 +87,9 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
                 )}
               </div>
 
-              <p className="w-full text-right text-gray-300 font-caption">{draft.length}/30</p>
+              <p className="w-full text-right text-gray-300 font-caption">
+                {draft.length}/{MAX_NAME_LENGTH}
+              </p>
 
               {/* 버튼 */}
               <div className="flex w-full gap-9">

@@ -21,11 +21,10 @@ export default function ShopPreviewCard({ shop, index, onNavigate }: ShopPreview
           style={{ objectFit: 'cover' }}
           alt={shop.name}
           onError={handleImageError}
-          unoptimized
         />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-4">
-        <span className="font-subtitle_l truncate">{shop.name}</span>
+        <span className="truncate font-subtitle_l">{shop.name}</span>
         <button type="button" onClick={onNavigate} className="w-fit text-left text-main font-caption">
           상세보기
         </button>

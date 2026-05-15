@@ -1,24 +1,23 @@
 'use client'
 
-import { SelectedShop } from '@/shared/store/useCourseAddStore'
+import { useCourseEditStore } from '@/shared/store/useCourseEditStore'
 import Button from '@/shared/components/button/Button'
 import RefreshIcon from '@/shared/components/icons/RefreshIcon'
 import XIcon from '@/shared/components/icons/XIcon'
 import { useRouter } from 'next/navigation'
 
-interface SelectedShopsBottomProps {
-  selectedShops: SelectedShop[]
+interface EditSelectedShopsBottomProps {
+  courseId: number
   maxSelect: number
-  onRemove: (shopId: number) => void
-  onReset: () => void
 }
 
-export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove, onReset }: SelectedShopsBottomProps) {
+export default function EditSelectedShopsBottom({ courseId, maxSelect }: EditSelectedShopsBottomProps) {
   const router = useRouter()
+  const { selectedShops, removeShop, clearShops } = useCourseEditStore()
   const isEmpty = selectedShops.length === 0
 
   const handleNext = () => {
-    if (!isEmpty) router.push('/course/add/finalize')
+    if (!isEmpty) router.push(`/course/${courseId}/edit`)
   }
 
   return (
@@ -29,7 +28,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove
             <span className="text-gray-400 font-caption">
               <span className="text-main">{selectedShops.length}</span>/{maxSelect}
             </span>
-            <button type="button" onClick={onReset} className="flex items-center gap-2 text-gray-400 font-caption">
+            <button type="button" onClick={clearShops} className="flex items-center gap-2 text-gray-400 font-caption">
               <RefreshIcon width="16" height="16" fill="#7E848C" />
               초기화
             </button>
@@ -40,7 +39,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove
                 <button
                   key={shop.id}
                   type="button"
-                  onClick={() => onRemove(shop.id)}
+                  onClick={() => removeShop(shop.id)}
                   className="flex items-center gap-4 rounded-full bg-gray-50 px-12 py-6"
                 >
                   <span className="text-gray-700 font-caption">{shop.name}</span>

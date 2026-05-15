@@ -2,29 +2,32 @@
 
 import { useGetShopSearchListQuery } from '@/shared/api/search/queries'
 import { useGetMyWishQuery } from '@/shared/api/my/queries'
-import { SelectedShop, useCourseAddStore } from '@/shared/store/useCourseAddStore'
+import { SelectedShop, useCourseEditStore } from '@/shared/store/useCourseEditStore'
 import { useDialog } from '@/shared/context/DialogContext'
 import useDebounce from '@/shared/hooks/useDebounce'
-import { useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
-import ShopSelectHeader from './components/ShopSelectHeader'
-import ShopSearchInput from './components/ShopSearchInput'
-import ShopSelectTabs, { type FilterType } from './components/ShopSelectTabs'
-import ShopSelectContent from './components/ShopSelectContent'
-import SelectedShopsBottom from './components/SelectedShopsBottom'
+import { ChangeEvent, use, useState } from 'react'
+import Header from '@/shared/components/layout/Header'
+import ShopSearchInput from '@/app/course/add/shop-select/components/ShopSearchInput'
+import ShopSelectTabs, { type FilterType } from '@/app/course/add/shop-select/components/ShopSelectTabs'
+import ShopSelectContent from '@/app/course/add/shop-select/components/ShopSelectContent'
+import EditSelectedShopsBottom from './components/EditSelectedShopsBottom'
 
 const MAX_SELECT = 30
 const WISH_PAGE_SIZE = 50
 
-export default function CourseShopSelectPage() {
-  const router = useRouter()
+interface PageProps {
+  params: Promise<{ id: string }>
+}
+
+export default function CourseEditShopSelectPage({ params }: PageProps) {
+  const courseId = Number(use(params).id)
   const { openDialog, closeDialog } = useDialog()
   const [searchValue, setSearchValue] = useState('')
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null)
   const [locationGranted, setLocationGranted] = useState(false)
   const debouncedSearch = useDebounce(searchValue, 300)
 
-  const { selectedShops, toggleShop, removeShop, reset } = useCourseAddStore()
+  const { selectedShops, toggleShop } = useCourseEditStore()
 
   const { data: searchData, isLoading: isSearchLoading } = useGetShopSearchListQuery(debouncedSearch)
   const searchResults = searchData?.pages.flatMap((page) => page.data) ?? []
@@ -92,7 +95,7 @@ export default function CourseShopSelectPage() {
 
   return (
     <div className="flex h-[calc(var(--vh,1vh)*100)] flex-col bg-white">
-      <ShopSelectHeader onBack={() => router.back()} />
+      <Header type="back" title="코스 수정" />
 
       <div className="fixed left-0 top-56 z-sticky w-full bg-white layout-center">
         <ShopSearchInput value={searchValue} onChange={handleChangeSearch} />
@@ -115,7 +118,7 @@ export default function CourseShopSelectPage() {
         />
       </div>
 
-      <SelectedShopsBottom selectedShops={selectedShops} maxSelect={MAX_SELECT} onRemove={removeShop} onReset={reset} />
+      <EditSelectedShopsBottom courseId={courseId} maxSelect={MAX_SELECT} />
     </div>
   )
 }

@@ -96,6 +96,11 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
     })
   }
 
+  const handleEditCourse = () => {
+    setIsMoreOpen(false)
+    router.push(`/course/${courseId}/edit`)
+  }
+
   const handleDeleteCourse = () => {
     setIsMoreOpen(false)
 
@@ -151,12 +156,16 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>
         <div className="flex flex-col">
-          <button type="button" className="px-[4px] py-[18px] text-left font-subtitle_l text-black">
+          <button
+            type="button"
+            className="px-[4px] py-[18px] text-left text-black font-subtitle_l"
+            onClick={handleEditCourse}
+          >
             수정
           </button>
           <button
             type="button"
-            className="px-[4px] py-[18px] text-left font-subtitle_l text-gray-900"
+            className="px-[4px] py-[18px] text-left text-gray-900 font-subtitle_l"
             onClick={handleDeleteCourse}
           >
             삭제

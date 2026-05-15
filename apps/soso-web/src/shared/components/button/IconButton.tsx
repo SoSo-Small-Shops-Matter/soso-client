@@ -28,7 +28,7 @@ const variantStyles: Record<IconButtonVariant, Record<IconButtonState, string>> 
     disabled: 'bg-transparent text-gray-200 border border-gray-100 cursor-not-allowed',
   },
   tertiary: {
-    default: 'bg-gray-50 text-gray-500',
+    default: 'bg-white text-gray-500',
     hover: 'bg-gray-100 text-gray-500',
     press: 'bg-gray-200 text-gray-500',
     disabled: 'bg-gray-50 text-gray-200 cursor-not-allowed',

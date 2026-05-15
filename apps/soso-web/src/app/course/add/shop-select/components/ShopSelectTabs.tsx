@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-type FilterType = 'wish' | 'recommend'
+export type FilterType = 'wish' | 'recommend'
 
 interface ShopSelectTabsProps {
   activeTab: FilterType | null

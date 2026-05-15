@@ -1,6 +1,6 @@
 'use client'
 
-import { useCourseAddStore } from '@/shared/store/useCourseAddStore'
+import { useCourseEditStore } from '@/shared/store/useCourseEditStore'
 import {
   DndContext,
   DragEndEvent,
@@ -10,16 +10,30 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import type { Modifier } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import SortableShopItem from './SortableShopItem'
+import EditSortableShopItem from './EditSortableShopItem'
 
-interface SelectedShopListProps {
-  selectedIds: Set<number>
+interface EditSelectedShopListProps {
+  selectedIds: number[]
   onToggleSelect: (id: number) => void
 }
 
-export default function SelectedShopList({ selectedIds, onToggleSelect }: SelectedShopListProps) {
-  const { selectedShops: shops, reorderShops } = useCourseAddStore()
+const restrictToParent: Modifier = ({ transform, containerNodeRect, draggingNodeRect }) => {
+  if (!containerNodeRect || !draggingNodeRect) return transform
+
+  const top = containerNodeRect.top - draggingNodeRect.top + transform.y
+  const bottom = containerNodeRect.bottom - draggingNodeRect.bottom + transform.y
+
+  return {
+    ...transform,
+    x: 0,
+    y: Math.min(Math.max(transform.y, top), bottom),
+  }
+}
+
+export default function EditSelectedShopList({ selectedIds, onToggleSelect }: EditSelectedShopListProps) {
+  const { selectedShops: shops, reorderShops } = useCourseEditStore()
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -39,15 +53,14 @@ export default function SelectedShopList({ selectedIds, onToggleSelect }: Select
 
   return (
     <div className="px-20">
-      <p className="mb-12 font-subtitle_l">선택된 소품샵 ({shops.length}개)</p>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToParent]} onDragEnd={handleDragEnd}>
         <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
           {shops.map((shop, index) => (
-            <SortableShopItem
+            <EditSortableShopItem
               key={shop.id}
               shop={shop}
               index={index}
-              isSelected={selectedIds.has(shop.id)}
+              isSelected={selectedIds.includes(shop.id)}
               onToggleSelect={onToggleSelect}
             />
           ))}
