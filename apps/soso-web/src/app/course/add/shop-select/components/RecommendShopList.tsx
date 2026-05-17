@@ -44,10 +44,8 @@ export default function RecommendShopList({
           key={shop.id}
           id={shop.id}
           name={shop.name}
-          location={shop.location}
           mainImage={shop.mainImage}
           selected={isSelected(shop.id)}
-          order={selectedOrder(shop.id)}
           disabled={!isSelected(shop.id) && selectedCount >= maxSelect}
           onToggle={() => onToggle(shop)}
         />

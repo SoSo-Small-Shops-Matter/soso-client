@@ -1,28 +1,18 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
+import Control from '@/shared/components/inputs/Control'
 import { handleImageError } from '@/shared/utils/handleImageError'
 
 export interface ShopListItemProps {
   id: number
   name: string
-  location?: string
   mainImage: string | null
   selected: boolean
-  order: number
   disabled: boolean
   onToggle: () => void
 }
 
-export default function ShopListItem({
-  name,
-  location,
-  mainImage,
-  selected,
-  order,
-  disabled,
-  onToggle,
-}: ShopListItemProps) {
+export default function ShopListItem({ name, mainImage, selected, disabled, onToggle }: ShopListItemProps) {
   return (
     <button
       type="button"
@@ -42,15 +32,13 @@ export default function ShopListItem({
               onError={handleImageError}
             />
           </div>
-          {/* 이름 + 위치 */}
+          {/* 이름 */}
           <div className="flex flex-col gap-4">
             <span className="text-left font-subtitle_l">{name}</span>
           </div>
         </div>
         {/* 체크박스 */}
-        <div className="flex-shrink-0">
-          <CheckBoxIcon checked={selected} width="24" height="24" />
-        </div>
+        <Control label={`${name}_${selected ? '선택됨' : '선택안됨'}`} checked={selected} />
       </div>
     </button>
   )

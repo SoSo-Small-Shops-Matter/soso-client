@@ -82,9 +82,8 @@ export default function CourseEditContent({ courseId }: CourseEditContentProps) 
   return (
     <div className="flex h-[calc(var(--vh,1vh)*100)] flex-col bg-white">
       <Header
-        type="customBack"
         title="코스 수정"
-        customBtn={
+        rightIcon={
           <IconButton variant={'tertiary'} icon={<MapIcon width="24" height="24" />} onClick={onClickMap} label={''} />
         }
       />

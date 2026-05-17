@@ -10,8 +10,22 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import type { Modifier } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import SortableShopItem from './SortableShopItem'
+
+const restrictToParent: Modifier = ({ transform, containerNodeRect, draggingNodeRect }) => {
+  if (!containerNodeRect || !draggingNodeRect) return transform
+
+  const top = containerNodeRect.top - draggingNodeRect.top + transform.y
+  const bottom = containerNodeRect.bottom - draggingNodeRect.bottom + transform.y
+
+  return {
+    ...transform,
+    x: 0,
+    y: Math.min(Math.max(transform.y, top), bottom),
+  }
+}
 
 interface SelectedShopListProps {
   selectedIds: Set<number>
@@ -38,9 +52,8 @@ export default function SelectedShopList({ selectedIds, onToggleSelect }: Select
   }
 
   return (
-    <div className="px-20">
-      <p className="mb-12 font-subtitle_l">선택된 소품샵 ({shops.length}개)</p>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <div>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToParent]} onDragEnd={handleDragEnd}>
         <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
           {shops.map((shop, index) => (
             <SortableShopItem

@@ -7,6 +7,7 @@ interface DialogModalProps {
   type: 'alert' | 'confirm'
   title: string
   message?: string | ReactNode
+  children?: ReactNode
   onConfirm?: () => void
   onClose: () => void
   onCancel?: () => void
@@ -18,6 +19,7 @@ const DialogModal = ({
   type,
   title,
   message,
+  children,
   leftLabel,
   rightLabel,
   onConfirm,
@@ -33,6 +35,7 @@ const DialogModal = ({
             {title && <h3 className="text-gray-900 font-subtitle_l">{title}</h3>}
             {message && <p className="text-center text-gray-500 font-body_m">{message}</p>}
           </Flex>
+          {children}
           <Flex gap={9} className="w-full">
             {type === 'confirm' && (
               <Button

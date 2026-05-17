@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
 import { useRouter } from 'next/navigation'
-import BackIcon from '@/shared/components/icons/BackIcon'
+import Header from '@/shared/components/layout/Header'
 import { useCourseAddStore, SelectedShop } from '@/shared/store/useCourseAddStore'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -135,7 +135,7 @@ export default function CourseAddMapPage() {
   if (selectedShops.length === 0) return null
 
   return (
-    <div className="relative h-[calc(var(--vh,1vh)*100)] w-full overflow-hidden">
+    <div className="relative h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
       <Script
         strategy="lazyOnload"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
@@ -143,16 +143,10 @@ export default function CourseAddMapPage() {
       />
 
       {/* 헤더 */}
-      <div className="absolute left-0 top-0 z-10 flex h-56 w-full items-center justify-between bg-white px-20 layout-center">
-        <button type="button" onClick={() => router.back()}>
-          <BackIcon />
-        </button>
-        <h2 className="min-w-[200px] text-center font-subtitle_l position-center">코스 추가하기</h2>
-        <div className="w-24" />
-      </div>
+      <Header title="코스 추가하기" />
 
       {/* 지도 */}
-      <div ref={mapDivRef} className="h-full w-full pt-56" />
+      <div ref={mapDivRef} className="h-full w-full" />
 
       {/* 하단 스와이퍼 */}
       {shopsWithCoords.length > 0 && (

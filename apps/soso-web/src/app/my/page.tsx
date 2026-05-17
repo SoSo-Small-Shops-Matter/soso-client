@@ -4,7 +4,6 @@ import Divider from '@/shared/components/divider/Divider'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
 import SettingIcon from '@/shared/components/icons/SettingIcon'
 import Flex from '@/shared/components/layout/Flex'
-import Header from '@/shared/components/layout/Header'
 import Link from 'next/link'
 
 const MENU_LINKS = [
@@ -17,15 +16,12 @@ const MENU_LINKS = [
 export default function MyPage() {
   return (
     <div>
-      <Header
-        title="마이페이지"
-        type="customBtn"
-        customBtn={
-          <Link href="/my/setting">
-            <SettingIcon />
-          </Link>
-        }
-      />
+      <div className="fixed left-0 top-0 z-sticky flex h-56 w-full items-center justify-between bg-white px-20 layout-center">
+        <h1 className="font-title_s">마이페이지</h1>
+        <Link href="/my/setting">
+          <SettingIcon />
+        </Link>
+      </div>
       <div className="w-full">
         <MyProfile />
       </div>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useCreateCourseMutation } from '@/shared/api/course/queries'
-import BackIcon from '@/shared/components/icons/BackIcon'
 import MapIcon from '@/shared/components/icons/MapIcon'
 import { useCourseAddStore } from '@/shared/store/useCourseAddStore'
 import { useDialog } from '@/shared/context/DialogContext'
@@ -11,6 +10,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import CourseNameEditor from './components/CourseNameEditor'
 import SelectedShopList from './components/SelectedShopList'
+import TextButton from '@/shared/components/button/TextButton'
+import IconButton from '@/shared/components/button/IconButton'
+import Button from '@/shared/components/button/Button'
+import Header from '@/shared/components/layout/Header'
 
 export default function CourseFinalizePage() {
   const router = useRouter()
@@ -83,17 +86,14 @@ export default function CourseFinalizePage() {
   return (
     <div className="flex h-[calc(var(--vh,1vh)*100)] flex-col bg-white">
       {/* 헤더 */}
-      <div className="fixed left-0 top-0 z-sticky h-56 w-full bg-white layout-center">
-        <div className="relative flex h-full w-full items-center justify-between px-20">
-          <button type="button" onClick={() => router.back()}>
-            <BackIcon />
-          </button>
-          <h2 className="min-w-[200px] text-center font-subtitle_l position-center">코스 추가하기</h2>
+      <Header
+        title="코스 추가하기"
+        rightIcon={
           <button type="button" onClick={() => router.push('/course/add/map')}>
             <MapIcon width="24" height="24" />
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* 콘텐츠 */}
       <div className="flex-1 overflow-y-auto pb-80 pt-56">
@@ -101,13 +101,12 @@ export default function CourseFinalizePage() {
         <div className="px-20">
           <CourseNameEditor value={courseName} onChange={setCourseName} />
           <div className="flex justify-end pb-8 pt-4">
-            <button
-              type="button"
+            <TextButton
+              label={'추가하기'}
+              variant={'tertiary'}
+              size={'small'}
               onClick={() => router.push('/course/add/shop-select')}
-              className="text-main font-body_s"
-            >
-              추가하기
-            </button>
+            />
           </div>
         </div>
 
@@ -116,29 +115,23 @@ export default function CourseFinalizePage() {
 
       {/* 하단 버튼 */}
       <div className="fixed bottom-0 left-0 w-full bg-white px-20 pb-24 pt-8 layout-center">
-        <div className="flex w-full gap-12">
-          <button
-            type="button"
+        <div className="flex w-full gap-9">
+          <Button
+            variant="tertiary"
+            title="삭제"
+            size="xLarge"
+            width="30%"
             onClick={handleDelete}
             disabled={selectedIds.size === 0}
-            className={clsx(
-              'h-56 rounded-16 px-20 transition-opacity font-body_l',
-              selectedIds.size > 0 ? 'bg-gray-100 text-gray-600 opacity-100' : 'bg-gray-100 text-gray-400 opacity-50'
-            )}
-          >
-            삭제
-          </button>
-          <button
-            type="button"
+          />
+
+          <Button
+            variant="primary"
+            title={isPending ? '생성 중...' : '코스 추가하기'}
+            size="xLarge"
             onClick={handleCreate}
             disabled={!courseName.trim() || isPending}
-            className={clsx(
-              'h-56 flex-1 rounded-16 text-white transition-opacity font-body_l',
-              courseName.trim() && !isPending ? 'bg-main opacity-100' : 'bg-main opacity-30'
-            )}
-          >
-            {isPending ? '생성 중...' : '코스 추가하기'}
-          </button>
+          />
         </div>
       </div>
     </div>
