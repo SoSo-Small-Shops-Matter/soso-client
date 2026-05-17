@@ -41,16 +41,10 @@ export default function ShopListItem({
               alt={name}
               onError={handleImageError}
             />
-            {selected && (
-              <div className="absolute left-4 top-4 flex h-18 w-18 items-center justify-center rounded-full bg-main">
-                <span className="text-white font-subtitle_m">{order}</span>
-              </div>
-            )}
           </div>
           {/* 이름 + 위치 */}
           <div className="flex flex-col gap-4">
             <span className="text-left font-subtitle_l">{name}</span>
-            {location && <span className="text-left text-gray-400 font-caption">{location}</span>}
           </div>
         </div>
         {/* 체크박스 */}

@@ -1,4 +1,5 @@
 import Chip from '@/shared/components/button/Chip'
+import WishIcon from '@/shared/components/icons/WishIcon'
 
 export type FilterType = 'wish' | 'recommend'
 
@@ -13,14 +14,17 @@ export default function ShopSelectTabs({ activeTab, onTabChange }: ShopSelectTab
       <Chip
         label="찜"
         isActive={activeTab === 'wish'}
-        leftIcon={activeTab === 'wish' ? <span>♥</span> : undefined}
+        leftIcon={
+          <WishIcon
+            width="16"
+            height="16"
+            isActive={activeTab === 'wish'}
+            fill={activeTab === 'wish' ? 'var(--main-color)' : 'var(--gray-900)'}
+          />
+        }
         onClick={() => onTabChange('wish')}
       />
-      <Chip
-        label="추천"
-        isActive={activeTab === 'recommend'}
-        onClick={() => onTabChange('recommend')}
-      />
+      <Chip label="추천" isActive={activeTab === 'recommend'} onClick={() => onTabChange('recommend')} />
     </div>
   )
 }
