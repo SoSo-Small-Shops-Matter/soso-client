@@ -1,13 +1,8 @@
 import { create } from 'zustand'
 import type { CourseDetailDto } from '@/shared/api/course/types'
+import type { SelectedShop } from './useCourseAddStore'
 
-export interface SelectedShop {
-  id: number
-  name: string
-  mainImage: string | null
-  lat?: number
-  lng?: number
-}
+export type { SelectedShop }
 
 interface CourseEditState {
   courseId: number | null

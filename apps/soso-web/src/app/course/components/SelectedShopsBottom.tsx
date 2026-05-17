@@ -10,16 +10,17 @@ import { useRouter } from 'next/navigation'
 interface SelectedShopsBottomProps {
   selectedShops: SelectedShop[]
   maxSelect: number
+  nextPath: string
   onRemove: (shopId: number) => void
   onReset: () => void
 }
 
-export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove, onReset }: SelectedShopsBottomProps) {
+export default function SelectedShopsBottom({ selectedShops, maxSelect, nextPath, onRemove, onReset }: SelectedShopsBottomProps) {
   const router = useRouter()
   const isEmpty = selectedShops.length === 0
 
   const handleNext = () => {
-    if (!isEmpty) router.push('/course/add/finalize')
+    if (!isEmpty) router.push(nextPath)
   }
 
   return (
@@ -51,7 +52,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, onRemove
       )}
 
       <div className="w-full py-10">
-        <Button title="다음" outlined={false} variant="primary" onClick={handleNext} disabled={isEmpty} />
+        <Button title="다음" variant="primary" onClick={handleNext} disabled={isEmpty} />
       </div>
     </div>
   )

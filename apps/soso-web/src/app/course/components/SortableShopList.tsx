@@ -1,6 +1,6 @@
 'use client'
 
-import { useCourseEditStore } from '@/shared/store/useCourseEditStore'
+import { SelectedShop } from '@/shared/store/useCourseAddStore'
 import {
   DndContext,
   DragEndEvent,
@@ -12,12 +12,7 @@ import {
 } from '@dnd-kit/core'
 import type { Modifier } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import EditSortableShopItem from './EditSortableShopItem'
-
-interface EditSelectedShopListProps {
-  selectedIds: number[]
-  onToggleSelect: (id: number) => void
-}
+import SortableShopItem from './SortableShopItem'
 
 const restrictToParent: Modifier = ({ transform, containerNodeRect, draggingNodeRect }) => {
   if (!containerNodeRect || !draggingNodeRect) return transform
@@ -32,9 +27,14 @@ const restrictToParent: Modifier = ({ transform, containerNodeRect, draggingNode
   }
 }
 
-export default function EditSelectedShopList({ selectedIds, onToggleSelect }: EditSelectedShopListProps) {
-  const { selectedShops: shops, reorderShops } = useCourseEditStore()
+interface SortableShopListProps {
+  shops: SelectedShop[]
+  selectedIds: Set<number>
+  onToggleSelect: (id: number) => void
+  onReorder: (fromIndex: number, toIndex: number) => void
+}
 
+export default function SortableShopList({ shops, selectedIds, onToggleSelect, onReorder }: SortableShopListProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 5 } })
@@ -47,25 +47,23 @@ export default function EditSelectedShopList({ selectedIds, onToggleSelect }: Ed
     const fromIndex = shops.findIndex((s) => s.id === active.id)
     const toIndex = shops.findIndex((s) => s.id === over.id)
     if (fromIndex !== -1 && toIndex !== -1) {
-      reorderShops(fromIndex, toIndex)
+      onReorder(fromIndex, toIndex)
     }
   }
 
   return (
-    <div className="px-20">
-      <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToParent]} onDragEnd={handleDragEnd}>
-        <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
-          {shops.map((shop, index) => (
-            <EditSortableShopItem
-              key={shop.id}
-              shop={shop}
-              index={index}
-              isSelected={selectedIds.includes(shop.id)}
-              onToggleSelect={onToggleSelect}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-    </div>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToParent]} onDragEnd={handleDragEnd}>
+      <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+        {shops.map((shop, index) => (
+          <SortableShopItem
+            key={shop.id}
+            shop={shop}
+            index={index}
+            isSelected={selectedIds.has(shop.id)}
+            onToggleSelect={onToggleSelect}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
   )
 }
