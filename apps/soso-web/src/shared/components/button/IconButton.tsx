@@ -3,42 +3,23 @@ import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 type IconButtonVariant = 'primary' | 'secondary' | 'tertiary'
 type IconButtonSize = 'large' | 'medium' | 'small'
-type IconButtonState = 'default' | 'hover' | 'press' | 'disabled'
 
-interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: ReactNode
-  label: string // 접근성용 aria-label
-  variant?: IconButtonVariant
-  size?: IconButtonSize
-  state?: IconButtonState
-  className?: string
-}
-
-const variantStyles: Record<IconButtonVariant, Record<IconButtonState, string>> = {
+const variantStyles: Record<IconButtonVariant, { base: string; interactive: string; disabled: string }> = {
   primary: {
-    default: 'bg-orange-normal text-white',
-    hover: 'bg-orange-normalHover text-white',
-    press: 'bg-orange-normalActive text-white',
-    disabled: 'bg-orange-light text-orange-normal cursor-not-allowed',
+    base: 'bg-orange-500 text-white',
+    interactive: 'hover:bg-orange-600 active:bg-orange-700',
+    disabled: 'bg-orange-500 text-white opacity-30 cursor-not-allowed',
   },
   secondary: {
-    default: 'bg-transparent text-gray-500 border border-gray-200',
-    hover: 'bg-gray-50 text-gray-500 border border-gray-200',
-    press: 'bg-gray-100 text-gray-500 border border-gray-400',
+    base: 'bg-transparent text-gray-900 border border-gray-100',
+    interactive: 'hover:bg-gray-50 hover:border-gray-100 active:bg-gray-100 active:border-gray-100',
     disabled: 'bg-transparent text-gray-200 border border-gray-100 cursor-not-allowed',
   },
   tertiary: {
-    default: 'bg-white text-gray-500',
-    hover: 'bg-gray-100 text-gray-500',
-    press: 'bg-gray-200 text-gray-500',
+    base: 'bg-white text-gray-500',
+    interactive: 'hover:bg-gray-50 active:bg-gray-200',
     disabled: 'bg-gray-50 text-gray-200 cursor-not-allowed',
   },
-}
-
-const interactiveStyles: Record<IconButtonVariant, string> = {
-  primary: 'hover:bg-orange-normalHover active:bg-orange-normalActive',
-  secondary: 'hover:bg-gray-50 hover:border-gray-200 active:bg-gray-100 active:border-gray-400',
-  tertiary: 'hover:bg-gray-100 active:bg-gray-200',
 }
 
 const sizeStyles: Record<IconButtonSize, { box: string; iconSize: number; radius: string }> = {
@@ -47,20 +28,25 @@ const sizeStyles: Record<IconButtonSize, { box: string; iconSize: number; radius
   small: { box: 'w-32 h-32', iconSize: 16, radius: 'rounded-10' },
 }
 
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: ReactNode
+  label: string
+  variant?: IconButtonVariant
+  size?: IconButtonSize
+  className?: string
+}
+
 export default function IconButton({
   icon,
   label,
   variant = 'primary',
   size = 'medium',
-  state,
   className,
   disabled,
   ...props
 }: IconButtonProps) {
-  const resolvedState: IconButtonState = state ?? (disabled ? 'disabled' : 'default')
-  const isDisabled = resolvedState === 'disabled' || disabled
-
   const { box, iconSize, radius } = sizeStyles[size]
+  const styles = variantStyles[variant]
 
   return (
     <button
@@ -69,11 +55,10 @@ export default function IconButton({
         'inline-flex items-center justify-center transition-colors',
         box,
         radius,
-        variantStyles[variant][resolvedState],
-        !state && !isDisabled && interactiveStyles[variant],
+        disabled ? styles.disabled : [styles.base, styles.interactive],
         className
       )}
-      disabled={isDisabled}
+      disabled={disabled}
       {...props}
     >
       <span className="flex items-center" style={{ width: iconSize, height: iconSize }}>

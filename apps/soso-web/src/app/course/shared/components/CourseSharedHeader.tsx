@@ -15,7 +15,7 @@ export function CourseSharedHeader({ title, onSaveCourse, onShare, nickname, pro
   return (
     <div className="flex flex-col bg-white">
       <div className="flex h-[52px] items-center justify-between px-20 py-13">
-        <span className="flex-1 truncate font-title_s text-black">{title.trim()}</span>
+        <span className="flex-1 truncate font-title_s text-gray-900">{title.trim()}</span>
         <div className="flex items-center gap-12">
           <button type="button" onClick={onSaveCourse} className="flex items-center justify-center">
             <CopyIcon />

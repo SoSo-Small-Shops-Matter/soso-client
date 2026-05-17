@@ -39,7 +39,7 @@ export default function CoursePage() {
                 className={clsx(
                   'flex-1 py-12 transition-colors',
                   activeTab === tab.value
-                    ? 'border-b-2 border-black text-black font-subtitle_m'
+                    ? 'border-b-2 border-gray-900 text-gray-900 font-subtitle_m'
                     : 'border-b-2 border-transparent text-gray-500 font-body_m'
                 )}
               >

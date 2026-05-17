@@ -56,7 +56,7 @@ export default function MyShopStatusBadge({ submitStatus }: MyShopStatusBadgePro
       className={clsx(
         'block w-86 py-6 font-caption',
         'rounded-8 text-center',
-        isPending ? 'bg-orange-light text-main' : 'bg-gray-50 text-gray-500'
+        isPending ? 'bg-orange-50 text-main' : 'bg-gray-50 text-gray-500'
       )}
     >
       {SUBMIT_STATUS_CONTENT[submitStatus]}

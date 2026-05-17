@@ -158,7 +158,7 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
         <div className="flex flex-col">
           <button
             type="button"
-            className="px-[4px] py-[18px] text-left text-black font-subtitle_l"
+            className="px-[4px] py-[18px] text-left text-gray-900 font-subtitle_l"
             onClick={handleEditCourse}
           >
             수정

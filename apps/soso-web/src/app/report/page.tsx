@@ -99,7 +99,7 @@ export default function ReportPage() {
           </Flex>
         </Flex>
         <Flex direction="col" gap={12} className="w-full px-16">
-          <h4 className="text-black font-subtitle_l">이 위치가 맞나요?</h4>
+          <h4 className="text-gray-900 font-subtitle_l">이 위치가 맞나요?</h4>
           <Flex direction="col" gap={12} className="w-full">
             <Flex
               justify="center"

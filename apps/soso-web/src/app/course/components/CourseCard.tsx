@@ -77,13 +77,13 @@ export default function CourseCard({ course }: CourseCardProps) {
             <div
               className={clsx(
                 'flex w-[68px] flex-shrink-0 flex-col items-center justify-center rounded-10 px-12 py-6',
-                isInProgress ? 'bg-orange-light' : 'bg-gray-50'
+                isInProgress ? 'bg-orange-50' : 'bg-gray-50'
               )}
             >
-              <span className={clsx('font-subtitle_s', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
+              <span className={clsx('font-subtitle_s', isInProgress ? 'text-orange-500' : 'text-gray-400')}>
                 {course.progress}%
               </span>
-              <span className={clsx('font-caption', isInProgress ? 'text-orange-normal' : 'text-gray-400')}>
+              <span className={clsx('font-caption', isInProgress ? 'text-orange-500' : 'text-gray-400')}>
                 {isInProgress ? '진행 중' : '완료'}
               </span>
             </div>

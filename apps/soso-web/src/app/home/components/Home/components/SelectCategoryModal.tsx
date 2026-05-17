@@ -79,7 +79,7 @@ export default function SelectCategoryModal({
               ) : (
                 <div className="h-24 w-24 rounded-4 border-2 border-gray-200"></div>
               )}
-              <span className="ml-4 text-black font-body_s">전체 선택</span>
+              <span className="ml-4 text-gray-900 font-body_s">전체 선택</span>
             </div>
           </Flex>
           <ModalCloseButton onClick={handleCloseModal} />

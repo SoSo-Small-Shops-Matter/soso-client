@@ -2,6 +2,7 @@
 
 import { useCourseEditStore } from '@/shared/store/useCourseEditStore'
 import Button from '@/shared/components/button/Button'
+import Chip from '@/shared/components/button/Chip'
 import RefreshIcon from '@/shared/components/icons/RefreshIcon'
 import XIcon from '@/shared/components/icons/XIcon'
 import { useRouter } from 'next/navigation'
@@ -36,15 +37,12 @@ export default function EditSelectedShopsBottom({ courseId, maxSelect }: EditSel
           <div className="w-full">
             <div className="flex flex-wrap gap-8">
               {selectedShops.map((shop) => (
-                <button
+                <Chip
                   key={shop.id}
-                  type="button"
+                  label={shop.name}
+                  rightIcon={<XIcon width="16" height="16" fill="var(--gray-400)" />}
                   onClick={() => removeShop(shop.id)}
-                  className="flex items-center gap-4 rounded-full bg-gray-50 px-12 py-6"
-                >
-                  <span className="text-gray-700 font-caption">{shop.name}</span>
-                  <XIcon width="16" height="16" fill="#9EA4AA" />
-                </button>
+                />
               ))}
             </div>
           </div>

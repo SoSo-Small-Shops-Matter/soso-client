@@ -251,7 +251,7 @@ export default function MapView({
         <Link href="/search" onClick={() => setSearchValue('')}>
           <div className="relative h-46 w-full">
             <div className="absolute left-10 top-[52%] -translate-y-1/2">
-              <SearchIcon fill="#9EA4AA" />
+              <SearchIcon fill="var(--gray-400)" />
             </div>
             <div className="flex h-full w-full items-center rounded-12 bg-white pl-46 text-gray-400 shadow-search-bar font-body_m focus:outline-main">
               찾고있는 소품샵이 있나요?
@@ -305,7 +305,7 @@ export default function MapView({
                 <p className="text-gray-500 font-body_m">찾고 계신 장소가 없으신가요?</p>
                 <Link
                   href="/report"
-                  className="flex w-full items-center justify-center rounded-8 bg-orange-light py-9 text-main font-body_s"
+                  className="flex w-full items-center justify-center rounded-8 bg-orange-50 py-9 text-main font-body_s"
                 >
                   소품샵 등록하기
                 </Link>

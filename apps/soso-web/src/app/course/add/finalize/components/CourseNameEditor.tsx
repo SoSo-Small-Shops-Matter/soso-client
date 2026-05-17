@@ -44,7 +44,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path
               d="M2 13.5V16h2.5l7.38-7.38-2.5-2.5L2 13.5zM15.71 4.04a.996.996 0 0 0 0-1.41l-1.34-1.34a.996.996 0 0 0-1.41 0l-1.05 1.05 2.75 2.75 1.05-1.05z"
-              fill="#9EA4AA"
+              fill="var(--gray-400)"
             />
           </svg>
         </button>

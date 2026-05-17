@@ -43,7 +43,7 @@ export default function MyWishShopList() {
   return (
     <Flex direction="col" gap={12} className="w-full">
       <Flex justify="between" align="center" className="w-full">
-        <h3 className="text-black font-subtitle_l">{WISH_TITLE}</h3>
+        <h3 className="text-gray-900 font-subtitle_l">{WISH_TITLE}</h3>
         <Link href={WISH_LINK} className="flex items-center">
           <LinkIcon />
         </Link>

@@ -52,7 +52,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onConfirm, onCancel, value }) =
     <div className="flex items-center justify-center">
       <div className="relative w-[320px] rounded-[16px] bg-white p-[20px] shadow-lg">
         <div className="mb-[16px] flex items-center justify-end">
-          <button onClick={onCancel} className="font-body_l text-black focus:outline-none">
+          <button onClick={onCancel} className="font-body_l text-gray-900 focus:outline-none">
             <XIcon />
           </button>
         </div>

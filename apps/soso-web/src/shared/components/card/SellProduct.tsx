@@ -43,7 +43,7 @@ export default function SellProduct({ product, checkbox, isCheck, onClick: onCli
             style={{ zIndex: -1 }}
             className={clsx(
               'absolute h-full w-full rounded-12',
-              isCheck ? 'border border-main bg-orange-light' : 'bg-gray-50'
+              isCheck ? 'border border-main bg-orange-50' : 'bg-gray-50'
             )}
           ></div>
         </Flex>
