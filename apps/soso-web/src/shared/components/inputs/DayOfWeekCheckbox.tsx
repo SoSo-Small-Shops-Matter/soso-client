@@ -27,7 +27,7 @@ const DayOfWeekCheckbox = ({ id, checked, onChange, size = 40, label, disabled, 
         htmlFor={id}
         className={clsx(
           'flex items-center justify-center rounded-full border transition-all duration-200',
-          `${checked ? 'border-main bg-orange-light' : 'border-gray-100 bg-white'} ${disabled ? 'cursor-default' : 'cursor-pointer'}`
+          `${checked ? 'border-main bg-orange-50' : 'border-gray-100 bg-white'} ${disabled ? 'cursor-default' : 'cursor-pointer'}`
         )}
         style={{ width: size, height: size }}
       >

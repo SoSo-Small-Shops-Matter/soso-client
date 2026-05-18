@@ -2,9 +2,9 @@ import { SearchedShopType } from '@/shared/api/search/types'
 import { MyWishType } from '@/shared/api/my/types'
 import { SelectedShop } from '@/shared/store/useCourseAddStore'
 import { type FilterType } from './ShopSelectTabs'
-import ShopSearchResults from './ShopSearchResults'
-import WishShopList from './WishShopList'
-import RecommendShopList from './RecommendShopList'
+import ShopSearchResults from '@/app/course/add/shop-select/components/ShopSearchResults'
+import WishShopList from '@/app/course/add/shop-select/components/WishShopList'
+import RecommendShopList from '@/app/course/add/shop-select/components/RecommendShopList'
 
 interface ShopSelectContentProps {
   isSearchMode: boolean

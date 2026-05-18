@@ -48,7 +48,6 @@ export default function WishShopList({
             name={shop.name}
             mainImage={shop.mainImage}
             selected={isSelected(shop.id)}
-            order={selectedOrder(shop.id)}
             disabled={!isSelected(shop.id) && selectedCount >= maxSelect}
             onToggle={() => onToggle(wish)}
           />

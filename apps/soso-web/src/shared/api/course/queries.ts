@@ -5,10 +5,11 @@ import { MINUTE } from '@repo/utils'
 
 export const courseKeys = {
   all: ['courses'] as const,
+  listAll: () => [...courseKeys.all, 'list'] as const,
   list: (params: GetCoursesParams) => [...courseKeys.all, 'list', params] as const,
   detail: (courseId: number) => [...courseKeys.all, 'detail', courseId] as const,
   shared: (token: string) => [...courseKeys.all, 'shared', token] as const,
-  visitedShopsAll: ['courses', 'visitedShops'] as const,
+  visitedShopsAll: () => [...courseKeys.all, 'visitedShops'] as const,
   visitedShops: (limit: number) => [...courseKeys.all, 'visitedShops', limit] as const,
 }
 
@@ -115,7 +116,8 @@ export const useStampMutation = (courseId: number) => {
     mutationFn: (shopId: number) => courseApi.stamp(courseId, shopId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: courseKeys.detail(courseId) })
-      queryClient.invalidateQueries({ queryKey: courseKeys.visitedShopsAll })
+      queryClient.invalidateQueries({ queryKey: courseKeys.listAll() })
+      queryClient.invalidateQueries({ queryKey: courseKeys.visitedShopsAll() })
     },
   })
 }

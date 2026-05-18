@@ -76,7 +76,7 @@ export function CourseStopCard({
             <img src={stop.shop.mainImage} alt={stop.shop.name} className="h-full w-full object-cover" />
           )}
           <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px]">
-            {isLiked ? <FavoriteFillIcon fill="#F94E51" /> : <FavoriteIcon />}
+            {isLiked ? <FavoriteFillIcon fill="var(--etc-red)" /> : <FavoriteIcon />}
           </button>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">

@@ -196,8 +196,8 @@ export default function ReportWrite() {
               className="flex aspect-square w-[calc(25%-6px)] cursor-pointer items-center justify-center rounded-12 bg-gray-50"
             >
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 1V21" stroke="#C9CDD2" strokeWidth="1.3" strokeLinecap="round" />
-                <path d="M21 11L1 11" stroke="#C9CDD2" strokeWidth="1.3" strokeLinecap="round" />
+                <path d="M11 1V21" stroke="var(--gray-200)" strokeWidth="1.3" strokeLinecap="round" />
+                <path d="M21 11L1 11" stroke="var(--gray-200)" strokeWidth="1.3" strokeLinecap="round" />
               </svg>
             </button>
           </Flex>

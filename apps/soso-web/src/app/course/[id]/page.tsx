@@ -131,7 +131,7 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
         onLoad={onNaverMapsLoad}
       />
-      <div className="relative h-full w-full">
+      <div className="relative -mb-60 h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
         <div className="absolute left-0 right-0 top-0 z-10">
           <CourseDetailHeader
             title={course.name}
@@ -158,7 +158,7 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
         <div className="flex flex-col">
           <button
             type="button"
-            className="px-[4px] py-[18px] text-left text-black font-subtitle_l"
+            className="px-[4px] py-[18px] text-left text-gray-900 font-subtitle_l"
             onClick={handleEditCourse}
           >
             수정

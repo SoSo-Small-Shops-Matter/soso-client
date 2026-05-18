@@ -65,7 +65,7 @@ export default function MyReviewPage() {
           >
             최신순
           </button>
-          <Divider width="1px" height="11px" bgColor="#9EA4AA" />
+          <Divider width="1px" height="11px" bgColor="var(--gray-400)" />
           <button
             onClick={handleClickFilter}
             name="old"

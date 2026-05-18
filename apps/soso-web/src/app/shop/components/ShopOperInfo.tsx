@@ -193,7 +193,7 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
                 <span className="text-gray-400">open</span>
                 <span className="text-gray-800">{operData?.[0]?.startTime || '-'}</span>
               </Flex>
-              <Divider width="1px" height="12px" bgColor="#C9CDD2" />
+              <Divider width="1px" height="12px" bgColor="var(--gray-200)" />
               <Flex align="center" gap={12} className="font-body_m">
                 <span className="text-gray-400">closed</span>
                 <span className="text-gray-800">{operData?.[0]?.endTime || '-'}</span>

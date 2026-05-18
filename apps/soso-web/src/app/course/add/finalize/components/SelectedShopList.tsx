@@ -1,17 +1,7 @@
 'use client'
 
 import { useCourseAddStore } from '@/shared/store/useCourseAddStore'
-import {
-  DndContext,
-  DragEndEvent,
-  PointerSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import SortableShopItem from './SortableShopItem'
+import SortableShopList from '@/app/course/components/SortableShopList'
 
 interface SelectedShopListProps {
   selectedIds: Set<number>
@@ -21,38 +11,12 @@ interface SelectedShopListProps {
 export default function SelectedShopList({ selectedIds, onToggleSelect }: SelectedShopListProps) {
   const { selectedShops: shops, reorderShops } = useCourseAddStore()
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 5 } })
-  )
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-    if (!over || active.id === over.id) return
-
-    const fromIndex = shops.findIndex((s) => s.id === active.id)
-    const toIndex = shops.findIndex((s) => s.id === over.id)
-    if (fromIndex !== -1 && toIndex !== -1) {
-      reorderShops(fromIndex, toIndex)
-    }
-  }
-
   return (
-    <div className="px-20">
-      <p className="mb-12 font-subtitle_l">선택된 소품샵 ({shops.length}개)</p>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={shops.map((s) => s.id)} strategy={verticalListSortingStrategy}>
-          {shops.map((shop, index) => (
-            <SortableShopItem
-              key={shop.id}
-              shop={shop}
-              index={index}
-              isSelected={selectedIds.has(shop.id)}
-              onToggleSelect={onToggleSelect}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-    </div>
+    <SortableShopList
+      shops={shops}
+      selectedIds={selectedIds}
+      onToggleSelect={onToggleSelect}
+      onReorder={reorderShops}
+    />
   )
 }

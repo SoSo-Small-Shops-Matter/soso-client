@@ -84,7 +84,7 @@ export function LoginPage() {
             <button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full bg-main hover:bg-orange-normalHover active:bg-orange-normalActive text-white font-medium py-12 rounded-8"
+              className="w-full bg-main hover:bg-orange-600 active:bg-orange-700 text-white font-medium py-12 rounded-8"
             >
               {loginMutation.isPending ? "로그인 중..." : "로그인"}
             </button>

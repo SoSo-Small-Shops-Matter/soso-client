@@ -48,7 +48,7 @@ export default function UnsubscribePage() {
       <Header title="탈퇴하기" type="back" />
       <Flex direction="col" gap={28} className="px-16 py-20">
         <Flex direction="col" gap={4}>
-          <p className="text-black font-title_m">
+          <p className="text-gray-900 font-title_m">
             소중한 {userData?.nickName}님
             <br />
             떠나신다니 너무 아쉬워요.

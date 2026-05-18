@@ -204,7 +204,7 @@ export default function SearchList() {
               <p className="text-gray-500 font-body_m">찾고 계신 장소가 없으신가요?</p>
               <Link
                 href="/report"
-                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body_m"
+                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-50 text-main font-body_m"
               >
                 소중한 소품샵 제보하기
               </Link>
@@ -215,7 +215,7 @@ export default function SearchList() {
               <p className="text-gray-500 font-body_m">내 주변 소품샵이 없어요</p>
               <Link
                 href="/report"
-                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-light text-main font-body_m"
+                className="flex h-56 w-[263px] items-center justify-center rounded-16 bg-orange-50 text-main font-body_m"
               >
                 소중한 소품샵 제보하기
               </Link>

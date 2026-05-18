@@ -51,6 +51,7 @@ function InnerProvider({ children }: { children: ReactNode }) {
     <TanstackQueryProvider onMutationError={handleMutationError}>
       <DialogProvider>
         <AuthComponent />
+        {/* TODO: ${pathname === '/' ? 'pt-0' : 'pt-56'} 분기 처리 삭제 필요*/}
         <div
           ref={contentRef}
           className={`m-auto h-screenVh w-full max-w-screen overflow-y-auto pb-60 ${pathname === '/' ? 'pt-0' : 'pt-56'} shadow-md`}

@@ -8,6 +8,7 @@ interface DialogOptions {
   type: DialogType
   title: string
   message?: string | ReactNode
+  children?: ReactNode
   onConfirm?: () => void
   onCancel?: () => void
   leftLabel?: string

@@ -3,36 +3,18 @@ import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 type TextButtonVariant = 'primary' | 'tertiary'
 type TextButtonSize = 'large' | 'medium' | 'small'
-type TextButtonState = 'default' | 'hover' | 'press' | 'disabled'
 
-interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string
-  variant?: TextButtonVariant
-  size?: TextButtonSize
-  state?: TextButtonState
-  leftIcon?: ReactNode
-  rightIcon?: ReactNode
-  className?: string
-}
-
-const variantStyles: Record<TextButtonVariant, Record<TextButtonState, string>> = {
+const variantStyles: Record<TextButtonVariant, { base: string; interactive: string; disabled: string }> = {
   primary: {
-    default: 'text-orange-normal',
-    hover: 'text-orange-normalHover',
-    press: 'text-orange-normalActive',
+    base: 'text-orange-500',
+    interactive: 'hover:text-orange-600 active:text-orange-700',
     disabled: 'text-gray-200 cursor-not-allowed',
   },
   tertiary: {
-    default: 'text-gray-500',
-    hover: 'text-gray-600',
-    press: 'text-gray-800',
+    base: 'text-gray-500',
+    interactive: 'hover:text-gray-600 active:text-gray-800',
     disabled: 'text-gray-200 cursor-not-allowed',
   },
-}
-
-const interactiveStyles: Record<TextButtonVariant, string> = {
-  primary: 'hover:text-orange-normalHover active:text-orange-normalActive',
-  tertiary: 'hover:text-gray-600 active:text-gray-800',
 }
 
 const sizeStyles: Record<TextButtonSize, { font: string; iconSize: number }> = {
@@ -41,32 +23,37 @@ const sizeStyles: Record<TextButtonSize, { font: string; iconSize: number }> = {
   small: { font: 'font-caption', iconSize: 16 },
 }
 
+interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  label: string
+  variant?: TextButtonVariant
+  size?: TextButtonSize
+  leftIcon?: ReactNode
+  rightIcon?: ReactNode
+  className?: string
+}
+
 export default function TextButton({
   label,
   variant = 'primary',
   size = 'medium',
-  state,
   leftIcon,
   rightIcon,
   className,
   disabled,
   ...props
 }: TextButtonProps) {
-  const resolvedState: TextButtonState = state ?? (disabled ? 'disabled' : 'default')
-  const isDisabled = resolvedState === 'disabled' || disabled
-
   const { font, iconSize } = sizeStyles[size]
+  const styles = variantStyles[variant]
 
   return (
     <button
       className={clsx(
         'inline-flex items-center gap-1 bg-transparent transition-colors',
         font,
-        variantStyles[variant][resolvedState],
-        !state && !isDisabled && interactiveStyles[variant],
+        disabled ? styles.disabled : [styles.base, styles.interactive],
         className
       )}
-      disabled={isDisabled}
+      disabled={disabled}
       {...props}
     >
       {leftIcon && (

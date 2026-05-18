@@ -36,15 +36,15 @@ export default function ShopDetailPage({ params }: PageProps) {
     <div>
       <Header type="back" />
       <ShopTopInfo shopData={shopDetailData} />
-      <Divider height="10px" bgColor="#F7F8F9" />
+      <Divider height="10px" bgColor="var(--gray-50)" />
       <ShopLocation location={shopDetailData?.shop.location} />
-      <Divider height="10px" bgColor="#F7F8F9" />
+      <Divider height="10px" bgColor="var(--gray-50)" />
       <ShopOperInfo operData={shopDetailData?.shop.operatingHours} />
-      <Divider height="10px" bgColor="#F7F8F9" />
+      <Divider height="10px" bgColor="var(--gray-50)" />
       <SnsInfo instaId={shopDetailData?.shop.instagramId || ''} />
-      <Divider height="10px" bgColor="#F7F8F9" />
+      <Divider height="10px" bgColor="var(--gray-50)" />
       <ShopProducts productData={shopDetailData?.shop.products} />
-      <Divider height="10px" bgColor="#F7F8F9" />
+      <Divider height="10px" bgColor="var(--gray-50)" />
       <ShopReview id={id} shopData={shopDetailData} />
     </div>
   )

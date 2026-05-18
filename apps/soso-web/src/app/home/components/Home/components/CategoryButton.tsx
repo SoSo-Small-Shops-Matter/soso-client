@@ -1,5 +1,5 @@
 import ListIcon from '@/shared/components/icons/ListIcon'
-import clsx from 'clsx'
+import Chip from '@/shared/components/button/Chip'
 import { ButtonHTMLAttributes } from 'react'
 
 interface CategoryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,20 +9,12 @@ interface CategoryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function CategoryButton({ className, isActive, ...props }: CategoryButtonProps) {
   return (
-    <button
-      className={clsx(
-        'flex items-center justify-center gap-4 rounded-full border bg-white px-10 py-6',
-        isActive ? 'border-main' : 'border-gray-100',
-        className
-      )}
+    <Chip
+      label="카테고리"
+      isActive={isActive}
+      leftIcon={<ListIcon fill={isActive ? 'var(--main-color)' : '#191919'} />}
+      className={className}
       {...props}
-    >
-      <ListIcon fill={isActive ? 'var(--main-color)' : '#191919'} />
-      <span
-        className={clsx('text-black font-body_s', isActive ? 'border-main text-main' : 'border-gray-100 text-black')}
-      >
-        카테고리
-      </span>
-    </button>
+    />
   )
 }
