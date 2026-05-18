@@ -18,11 +18,10 @@ interface CourseShopMapViewProps {
  */
 export default function CourseShopMapView({ shops, header }: CourseShopMapViewProps) {
   const shopsWithCoords = shops.filter((s) => s.lat && s.lng)
-  const { mapDivRef, swiperRef, handleScriptLoad, onSlideChange } =
-    useCourseShopMap(shopsWithCoords)
+  const { mapDivRef, swiperRef, handleScriptLoad, onSlideChange } = useCourseShopMap(shopsWithCoords)
 
   return (
-    <div className="relative h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
+    <div className="relative -mb-60 h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
       <Script
         strategy="lazyOnload"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
