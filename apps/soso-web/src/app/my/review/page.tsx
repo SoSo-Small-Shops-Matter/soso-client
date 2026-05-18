@@ -2,10 +2,10 @@
 
 import { useGetMyReviewQuery } from '@/shared/api/my/queries'
 import MyReview from '@/app/my/review/components/MyReview'
+import MyReviewSkeleton from '@/app/my/review/components/MyReviewSkeleton'
 import Divider from '@/shared/components/divider/Divider'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
-import Loading from '@/shared/components/loading/Loading'
 import { useInView } from 'react-intersection-observer'
 import clsx from 'clsx'
 import { MouseEvent, useState, useEffect } from 'react'
@@ -87,11 +87,11 @@ export default function MyReviewPage() {
 
           {!isLoading && <div ref={ref} className="h-40" />}
 
-          {isLoading && <Loading />}
+          {isLoading && <MyReviewSkeleton />}
 
           {myReviewData && allReviews.length === 0 && (
             <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-              <p className="font-body_m text-center text-gray-400">
+              <p className="text-center text-gray-400 font-body_m">
                 아직 후기가 없어요.
                 <br />
                 소소하게 써주신 한 줄이 큰 도움이 돼요!
