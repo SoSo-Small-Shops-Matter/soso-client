@@ -8,7 +8,7 @@ import { CourseStopStepper } from './components/courseStop/stepper/CourseStopSte
 import { CourseStopSwiper } from './components/courseStop/swiper/CourseStopSwiper'
 import { CourseDetailHeader } from './components/CourseDetailHeader'
 import { useDialog } from '@/shared/context/DialogContext'
-import { useCourseMap } from './hooks/useCourseMap'
+
 import { use } from 'react'
 import {
   useCreateShareLinkMutation,
@@ -21,6 +21,7 @@ import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
 import { shareData } from '../shared/[shareToken]/constants'
 import { CourseDetailDto } from '@/shared/api/course/types'
+import { ShopCoord, useCourseShopMap } from '../hooks/useCourseShopMap'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -56,7 +57,12 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
   const { mutate: stampMutate } = useStampMutation(courseId)
   const { mutate: unStampMutate } = useUnstampMutation(courseId)
   const { mutateAsync: shareLinkMutate } = useCreateShareLinkMutation(courseId)
-  const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
+  const shopsWithCoords: ShopCoord[] = course.stops
+    .map(({ shop }) => {
+      return { id: shop.id, name: shop.name, mainImage: shop.mainImage, lat: shop.lat, lng: shop.lng }
+    })
+    .filter(({ lat, lng }) => lat && lng)
+  const { mapDivRef, swiperRef, selectedIndex, handleScriptLoad, onSlideChange } = useCourseShopMap(shopsWithCoords)
   const { openDialog, closeDialog } = useDialog()
 
   const [isMoreOpen, setIsMoreOpen] = useState(false)
@@ -129,7 +135,7 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
         strategy="lazyOnload"
         type="text/javascript"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
-        onLoad={onNaverMapsLoad}
+        onLoad={handleScriptLoad}
       />
       <div className="relative -mb-60 h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
         <div className="absolute left-0 right-0 top-0 z-10">
@@ -139,19 +145,20 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
             onMore={() => setIsMoreOpen(true)}
             onShare={share}
           />
-          <CourseStopStepper stops={course.stops} onSelect={selectCourseStop} stampedIds={stampedIds} />
+          <CourseStopStepper stops={course.stops} onSelect={onSlideChange} stampedIds={stampedIds} />
         </div>
 
-        <div ref={courseMapRef} className="h-full w-full" />
+        <div ref={mapDivRef} className="h-full w-full" />
 
         <CourseStopSwiper
           stops={course.stops}
-          selectedIndex={selectedStopIndex ?? 0}
-          onSelect={selectCourseStop}
+          selectedIndex={selectedIndex ?? 0}
+          onSelect={onSlideChange}
           stampedIds={stampedIds}
           onToggleStamp={toggleStamp}
           onToggleLike={toggleLike}
           likedStopIds={likedStopIds}
+          swiperRef={swiperRef}
         />
       </div>
       <BottomModal isOpen={isMoreOpen} onClose={() => setIsMoreOpen(false)}>

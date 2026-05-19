@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import type { CourseStopDto, SharedStopDto } from '@/shared/api/course/types'
@@ -16,6 +16,7 @@ interface Props {
   showStamp?: boolean
   likedStopIds?: Set<number>
   onToggleLike?: (shopId?: number) => void
+  swiperRef: React.MutableRefObject<SwiperType | null>
 }
 
 export function CourseStopSwiper({
@@ -27,9 +28,8 @@ export function CourseStopSwiper({
   showStamp = true,
   likedStopIds,
   onToggleLike,
+  swiperRef,
 }: Props) {
-  const swiperRef = useRef<SwiperType | null>(null)
-
   useEffect(() => {
     const swiper = swiperRef.current
     if (swiper && swiper.activeIndex !== selectedIndex) {

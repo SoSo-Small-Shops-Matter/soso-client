@@ -7,7 +7,6 @@ import { useDialog } from '@/shared/context/DialogContext'
 import { use } from 'react'
 import Loading from '@/shared/components/loading/Loading'
 import { useToast } from '@/shared/context/ToastContext'
-import { useCourseMap } from '../../[id]/hooks/useCourseMap'
 import { CourseStopSwiper } from '../../[id]/components/courseStop/swiper/CourseStopSwiper'
 import { CourseStopStepper } from '../../[id]/components/courseStop/stepper/CourseStopStepper'
 import { CourseSharedHeader } from '../components/CourseSharedHeader'
@@ -16,6 +15,7 @@ import { useGetSharedCourseQuery, useImportSharedCourseMutation } from '@/shared
 import { shareData } from './constants'
 import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
 import { SharedCourseDto } from '@/shared/api/course/types'
+import { ShopCoord, useCourseShopMap } from '../../hooks/useCourseShopMap'
 
 interface PageProps {
   params: Promise<{ shareToken: string }>
@@ -52,7 +52,12 @@ function CourseSharedContent({ course, shareToken }: CourseSharedContentProps) {
   const { token } = useAuthStore()
   const { mutateAsync: mutateImportSharedCourse } = useImportSharedCourseMutation()
   const { openToast } = useToast()
-  const { courseMapRef, selectCourseStop, onNaverMapsLoad, selectedStopIndex } = useCourseMap(course)
+  const shopsWithCoords: ShopCoord[] = course.stops
+    .map(({ shop }) => {
+      return { id: shop.id, name: shop.name, mainImage: shop.mainImage, lat: shop.lat, lng: shop.lng }
+    })
+    .filter(({ lat, lng }) => lat && lng)
+  const { mapDivRef, swiperRef, selectedIndex, handleScriptLoad, onSlideChange } = useCourseShopMap(shopsWithCoords)
   const { openDialog, closeDialog } = useDialog()
 
   const [likedStopIds, setLikedStopIds] = useState<Set<number>>(new Set())
@@ -128,7 +133,7 @@ function CourseSharedContent({ course, shareToken }: CourseSharedContentProps) {
         strategy="lazyOnload"
         type="text/javascript"
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
-        onLoad={onNaverMapsLoad}
+        onLoad={handleScriptLoad}
       />
       <div className="relative h-full w-full">
         <div className="absolute left-0 right-0 top-0 z-10">
@@ -138,18 +143,19 @@ function CourseSharedContent({ course, shareToken }: CourseSharedContentProps) {
             nickname={course.ownerNickname}
             onShare={share}
           />
-          <CourseStopStepper stops={course.stops} onSelect={selectCourseStop} selectedStopIndex={selectedStopIndex} />
+          <CourseStopStepper stops={course.stops} onSelect={onSlideChange} selectedStopIndex={selectedIndex} />
         </div>
 
-        <div ref={courseMapRef} className="h-full w-full" />
+        <div ref={mapDivRef} className="h-full w-full" />
 
         <CourseStopSwiper
           stops={course.stops}
-          selectedIndex={selectedStopIndex ?? 0}
-          onSelect={selectCourseStop}
+          selectedIndex={selectedIndex ?? 0}
+          onSelect={onSlideChange}
           showStamp={false}
           likedStopIds={likedStopIds}
           onToggleLike={toggleLike}
+          swiperRef={swiperRef}
         />
       </div>
     </>
