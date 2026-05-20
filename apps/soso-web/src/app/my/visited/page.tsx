@@ -4,7 +4,7 @@ import Header from '@/shared/components/layout/Header'
 import Flex from '@/shared/components/layout/Flex'
 import { useGetVisitedShopsQuery } from '@/shared/api/course/queries'
 import { GetVisitedShopsResponse, VisitedShop } from '@/shared/api/course/types'
-import Loading from '@/shared/components/loading/Loading'
+import MyVisitedSkeleton from './components/MyVisitedSkeleton'
 import ArrowRightIcon from '@/shared/components/icons/ArrowRightIcon'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -15,11 +15,7 @@ import { useEffect } from 'react'
 export default function MyVisitedPage() {
   const { data, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetVisitedShopsQuery(10)
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError || !data) {
+  if (!isLoading && (isError || !data)) {
     return (
       <div>
         <Header title="방문한 소품샵" type="back" />
@@ -30,7 +26,7 @@ export default function MyVisitedPage() {
     )
   }
 
-  if (!data.pages.length) {
+  if (!isLoading && !data?.pages.length) {
     return (
       <div>
         <Header title="방문한 소품샵" type="back" />
@@ -44,7 +40,7 @@ export default function MyVisitedPage() {
 
   return (
     <MyVisitedContent
-      paginatedVisitedShops={data}
+      paginatedVisitedShops={data!}
       fetchNextPage={fetchNextPage}
       isLoading={isLoading}
       hasNextPage={hasNextPage}
@@ -66,9 +62,7 @@ function MyVisitedContent({
   hasNextPage?: boolean
   isFetchingNextPage?: boolean
 }) {
-  const { pages } = paginatedVisitedShops
-
-  const visitedShops = pages.flatMap((page) => page.items)
+  const visitedShops = isLoading ? [] : paginatedVisitedShops.pages.flatMap((page) => page.items)
 
   const { ref, inView } = useInView({
     threshold: 0.2,
@@ -87,17 +81,28 @@ function MyVisitedContent({
         <span className="font-body-s text-gray-500">전체 지역</span>
         <ArrowRightIcon rotate={90} fill={'rgba(126, 132, 140, 1)'} />
       </div>
-      <div className="grid w-full grid-cols-3 gap-11">
-        {visitedShops.map(({ shopId, mainImage, name }: VisitedShop) => (
-          <Link key={shopId} href={`/shop/${shopId}`} className="flex w-full flex-col items-start gap-8">
-            <div className="relative aspect-square w-full">
-              <Image src={mainImage} alt={name || '방문한 소품샵 이미지'} fill className="rounded-lg object-cover" />
-            </div>
-            <span className="max-w-[95%] truncate text-gray-500 font-body_m">{name}</span>
-          </Link>
-        ))}
-      </div>
-      {!isLoading && <div ref={ref} className="h-40" />}
+      {isLoading ? (
+        <MyVisitedSkeleton />
+      ) : (
+        <>
+          <div className="grid w-full grid-cols-3 gap-11">
+            {visitedShops.map(({ shopId, mainImage, name }: VisitedShop) => (
+              <Link key={shopId} href={`/shop/${shopId}`} className="flex w-full flex-col items-start gap-8">
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={mainImage}
+                    alt={name || '방문한 소품샵 이미지'}
+                    fill
+                    className="rounded-lg object-cover"
+                  />
+                </div>
+                <span className="max-w-[95%] truncate text-gray-500 font-body_m">{name}</span>
+              </Link>
+            ))}
+          </div>
+          <div ref={ref} className="h-40" />
+        </>
+      )}
     </div>
   )
 }
