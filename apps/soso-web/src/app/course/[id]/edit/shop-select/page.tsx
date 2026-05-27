@@ -19,7 +19,7 @@ export default function CourseEditShopSelectPage({ params }: PageProps) {
       header={<Header title="코스 수정" />}
       selectedShops={selectedShops}
       toggleShop={toggleShop}
-      bottom={
+      footer={
         <SelectedShopsBottom
           selectedShops={selectedShops}
           maxSelect={30}

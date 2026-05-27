@@ -24,7 +24,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, nextPath
   }
 
   return (
-    <div className="fixed bottom-0 left-0 w-full gap-6 bg-white px-16 py-8 layout-center">
+    <div className="w-full gap-6 bg-white px-16 py-8">
       {!isEmpty && (
         <>
           <div className="flex flex-shrink-0 items-center justify-between">
