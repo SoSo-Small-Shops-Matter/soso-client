@@ -1,6 +1,5 @@
 'use client'
 
-import IconButton from '@/shared/components/button/IconButton'
 import CancelIcon from '@/shared/components/icons/CancelIcon'
 import EditIcon from '@/shared/components/icons/EditIcon'
 import TextField from '@/shared/components/inputs/TextField'
@@ -44,17 +43,12 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
   }
 
   return (
-    <div className="flex items-center gap-8 py-4">
+    <button className="flex items-center gap-8 py-4" onClick={handleOpen} aria-label="코스 이름 수정">
       <p className="break-words text-gray-900 font-title_m">
         {value || <span className="text-gray-300">코스 이름</span>}
       </p>
-      <IconButton
-        variant="tertiary"
-        icon={<EditIcon width={'20'} height={'20'} fill="var(--gray-400)" />}
-        onClick={handleOpen}
-        label="코스 이름 수정"
-      />
-    </div>
+      <EditIcon width={'20'} height={'20'} fill="var(--gray-400)" />
+    </button>
   )
 }
 
