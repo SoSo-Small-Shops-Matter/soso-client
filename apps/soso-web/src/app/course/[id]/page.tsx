@@ -137,8 +137,8 @@ function CourseDetailContent({ course, courseId }: CourseDetailContentProps) {
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
         onLoad={handleScriptLoad}
       />
-      <div className="relative -mb-60 h-[calc(var(--vh,1vh)*100-56px)] w-full overflow-hidden">
-        <div className="absolute left-0 right-0 top-0 z-10">
+      <div className="relative -mt-56 -mb-60 h-[calc(var(--vh,1vh)*100)] w-full overflow-hidden">
+        <div className="bg-white [box-shadow: 0px 5px 6px 3px rgba(0, 0, 0, 0.08)] rounded-b-xl  absolute left-0 right-0 top-0 z-10">
           <CourseDetailHeader
             title={course.name}
             onBack={() => router.back()}

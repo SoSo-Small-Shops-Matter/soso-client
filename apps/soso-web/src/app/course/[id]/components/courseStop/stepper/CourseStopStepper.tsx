@@ -12,8 +12,8 @@ interface Props {
 
 export function CourseStopStepper({ stops, onSelect, stampedIds, selectedStopIndex }: Props) {
   return (
-    <div className="[box-shadow: 0px 5px 6px 3px rgba(0, 0, 0, 0.08)] rounded-b-xl bg-white px-16 py-16">
-      <div className="no-scrollbar overflow-x-auto">
+    <div className="py-16">
+      <div className="no-scrollbar overflow-x-auto px-16">
         <div className="flex w-max items-start">
           {stops.map((stop, index) => {
             const shopId = getStopShopId(stop)

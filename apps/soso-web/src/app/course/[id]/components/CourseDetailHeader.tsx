@@ -10,7 +10,7 @@ interface Props {
 
 export function CourseDetailHeader({ title, onBack, onMore, onShare }: Props) {
   return (
-    <div className="row-gap-10 flex h-[52px] items-center justify-between bg-white px-16">
+    <div className="row-gap-10 flex h-[52px] items-center justify-between px-16">
       <button type="button" onClick={onBack} className="flex items-center justify-center">
         <BackIcon />
       </button>
