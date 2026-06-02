@@ -34,7 +34,7 @@ export default function ShopSearchResults({
     return (
       <div className="flex flex-col items-center justify-center gap-20 py-80">
         <p className="text-center text-gray-500 font-body_m">
-          검색하신 소품샵이 없습니다.
+          검색하신 소품샵이 없어요.
           <br />
           소품샵을 등록해보세요!
         </p>
