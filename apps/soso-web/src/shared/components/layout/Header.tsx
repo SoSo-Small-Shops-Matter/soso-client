@@ -27,9 +27,9 @@ export default function Header({ type, title, leftIcon, rightIcon, top }: Header
       className={`fixed left-0 top-0 z-sticky h-56 w-full px-20 layout-center ${pathname === '/' ? 'bg-transparent' : 'bg-white'}`}
     >
       <Flex justify="between" align="center" className="relative h-full w-full">
-        <div>{leftIcon ?? <DefaultLeftIcon type={type} handleBack={handleBack} />}</div>
+        {leftIcon ?? <DefaultLeftIcon type={type} handleBack={handleBack} />}
         <h2 className="min-w-[200px] text-center font-subtitle_l position-center">{title}</h2>
-        <div>{rightIcon ?? <div className="w-24" />}</div>
+        {rightIcon ?? <div className="w-24" />}
       </Flex>
     </div>
   )
