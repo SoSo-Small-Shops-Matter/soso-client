@@ -16,8 +16,8 @@ export default function ShopSearchInput({ value, onChange }: ShopSearchInputProp
         onChange={onChange}
         className="h-44 w-full rounded-10 bg-gray-50 py-12 pl-16 pr-44 text-gray-800 outline-none font-body_m placeholder:text-gray-300"
       />
-      <div className="absolute right-36 top-1/2 -translate-y-1/2 pt-6">
-        <SearchIcon fill="var(--gray-400)" />
+      <div className="absolute right-36 top-1/2 -translate-y-1/2 pt-12">
+        <SearchIcon fill="var(--gray-900)" />
       </div>
     </div>
   )
