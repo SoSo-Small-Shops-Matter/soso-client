@@ -15,7 +15,13 @@ interface SelectedShopsBottomProps {
   onReset: () => void
 }
 
-export default function SelectedShopsBottom({ selectedShops, maxSelect, nextPath, onRemove, onReset }: SelectedShopsBottomProps) {
+export default function SelectedShopsBottom({
+  selectedShops,
+  maxSelect,
+  nextPath,
+  onRemove,
+  onReset,
+}: SelectedShopsBottomProps) {
   const router = useRouter()
   const isEmpty = selectedShops.length === 0
 
@@ -24,7 +30,7 @@ export default function SelectedShopsBottom({ selectedShops, maxSelect, nextPath
   }
 
   return (
-    <div className="w-full gap-6 bg-white px-16 py-8">
+    <div className="w-full gap-6 bg-white px-16 py-8 shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)]">
       {!isEmpty && (
         <>
           <div className="flex flex-shrink-0 items-center justify-between">
