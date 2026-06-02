@@ -26,7 +26,7 @@ export default function MyVisitedPage() {
     )
   }
 
-  if (!isLoading && !data?.pages.length) {
+  if (!isLoading && !data?.pages[0].total) {
     return (
       <div>
         <Header title="방문한 소품샵" type="back" />
