@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import Control from '@/shared/components/inputs/Control'
+import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 import { handleImageError } from '@/shared/utils/handleImageError'
 
 export interface ShopListItemProps {
@@ -18,12 +18,12 @@ export default function ShopListItem({ name, mainImage, selected, disabled, onTo
       type="button"
       onClick={onToggle}
       disabled={disabled}
-      className={clsx('w-full border-b border-gray-100 px-20 py-16 transition-colors', disabled && 'opacity-40')}
+      className={clsx('w-full border-b border-gray-50 px-20 py-16 transition-colors', disabled && 'opacity-40')}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-12">
           {/* 썸네일 + 순서 번호 */}
-          <div className="relative h-56 w-56 flex-shrink-0 overflow-hidden rounded-8">
+          <div className="relative h-56 w-56 flex-shrink-0 overflow-hidden rounded-8 border border-gray-100">
             <Image
               src={mainImage || '/images/default_item.svg'}
               fill
@@ -38,7 +38,7 @@ export default function ShopListItem({ name, mainImage, selected, disabled, onTo
           </div>
         </div>
         {/* 체크박스 */}
-        <Control label={`${name}_${selected ? '선택됨' : '선택안됨'}`} checked={selected} />
+        <CheckBoxIcon width="24" height="24" checked={selected} />
       </div>
     </button>
   )
