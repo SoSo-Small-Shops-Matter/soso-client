@@ -90,7 +90,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           </div>
 
           {/* 구분선 */}
-          <div className="mx-20 h-[1px] bg-gray-100" />
+          <div className="h-[1px] bg-gray-100" />
         </Link>
       </SwipeableListItem>
     </SwipeableList>
