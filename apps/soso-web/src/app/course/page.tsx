@@ -51,12 +51,18 @@ export default function CoursePage() {
       </div>
 
       {/* 코스 목록 — 헤더(56px) + 탭바(~48px) 높이만큼 패딩 */}
-      <div className="pb-[72px] pt-48">
+      <div className="pt-48">
         <CourseList items={data?.items ?? []} isLoading={isLoading} />
       </div>
 
       {/* 코스 추가 버튼 */}
-      <div className="fixed bottom-[72px] left-1/2 z-sticky max-w-screen -translate-x-1/2 px-20">
+      <div
+        className={
+          data?.items?.length
+            ? 'fixed bottom-[72px] left-1/2 z-sticky max-w-screen -translate-x-1/2 px-20'
+            : 'mt-24 flex justify-center'
+        }
+      >
         <Link href="/course/add">
           <Button title="+ 코스 추가하기" size="large" />
         </Link>
