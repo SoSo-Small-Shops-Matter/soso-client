@@ -13,7 +13,7 @@ export default function CourseShopSelectPage() {
       header={<Header title="코스 추가하기" />}
       selectedShops={selectedShops}
       toggleShop={toggleShop}
-      bottom={
+      footer={
         <SelectedShopsBottom
           selectedShops={selectedShops}
           maxSelect={30}

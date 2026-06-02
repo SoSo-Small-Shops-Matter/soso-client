@@ -66,7 +66,7 @@ export default function CourseEditorView({
   }
 
   return (
-    <div className="flex h-[calc(var(--vh,1vh)*100)] flex-col bg-white">
+    <div className="flex h-full flex-col bg-white">
       {header}
 
       <div className="flex-1 overflow-y-auto pb-80 pt-56">
