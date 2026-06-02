@@ -47,7 +47,7 @@ export default function CourseFinalizePage() {
           title="코스 추가하기"
           rightIcon={
             <button type="button" onClick={() => router.push('/course/add/map')}>
-              <MapIcon width="24" height="24" />
+              <MapIcon color="rgba(25, 25, 25, 1)" width="24" height="24" />
             </button>
           }
         />
@@ -61,7 +61,14 @@ export default function CourseFinalizePage() {
       onDeleteSuccess={() => openToast({ message: `${courseName} 코스가 삭제되었습니다.` })}
       bottomButtons={({ selectedIds, onDelete }) => (
         <div className="flex w-full gap-9">
-          <Button variant="tertiary" title="삭제" size="xLarge" width="30%" onClick={onDelete} disabled={selectedIds.size === 0} />
+          <Button
+            variant="tertiary"
+            title="삭제"
+            size="xLarge"
+            width="30%"
+            onClick={onDelete}
+            disabled={selectedIds.size === 0}
+          />
           <Button
             variant="primary"
             title={isPending ? '생성 중...' : '코스 추가하기'}
