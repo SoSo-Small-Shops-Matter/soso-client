@@ -46,7 +46,7 @@ export default function BottomNavigation() {
   }
 
   return (
-    <Flex className="fixed bottom-0 left-0 z-sticky w-full bg-white layout-center">
+    <Flex className="fixed bottom-0 left-0 z-sticky w-full rounded-t-20 bg-white shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)] layout-center">
       {MENU.map((menu: MenuType) => (
         <Link href={menu.href} key={menu.href} className="flex-1 pb-6 pt-7">
           <Flex direction="col" gap={5} align="center" className="h-full w-full">
