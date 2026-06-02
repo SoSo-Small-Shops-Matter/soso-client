@@ -25,7 +25,7 @@ interface ShopSelectViewProps {
 export default function ShopSelectView({ header, footer, selectedShops, toggleShop }: ShopSelectViewProps) {
   const { openDialog, closeDialog } = useDialog()
   const [searchValue, setSearchValue] = useState('')
-  const [activeFilter, setActiveFilter] = useState<FilterType | null>(null)
+  const [activeFilter, setActiveFilter] = useState<FilterType | null>('wish')
   const [locationGranted, setLocationGranted] = useState(false)
   const debouncedSearch = useDebounce(searchValue, 300)
 
@@ -46,7 +46,6 @@ export default function ShopSelectView({ header, footer, selectedShops, toggleSh
   const { ref: inViewRef, inView } = useInView({ threshold: 0.2 })
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
-
 
   const isSelected = (shopId: number) => selectedShops.some((s) => s.id === shopId)
   const selectedOrder = (shopId: number) => selectedShops.findIndex((s) => s.id === shopId) + 1
@@ -104,7 +103,6 @@ export default function ShopSelectView({ header, footer, selectedShops, toggleSh
     toggleShop(shop)
   }
 
-
   useEffect(() => {
     if (!footerRef.current) return
     setFooterHeight(footerRef.current.getBoundingClientRect().height)
@@ -139,7 +137,9 @@ export default function ShopSelectView({ header, footer, selectedShops, toggleSh
           selectedOrder={selectedOrder}
           onToggle={handleToggle}
         />
-        {isSearchMode && isFetchingNextPage && Array.from({ length: 3 }).map((_, i) => <ShopListItemSkeleton key={i} />)}
+        {isSearchMode &&
+          isFetchingNextPage &&
+          Array.from({ length: 3 }).map((_, i) => <ShopListItemSkeleton key={i} />)}
         {isSearchMode && !isSearchLoading && !isFetchingNextPage && <div ref={inViewRef} className="h-40" />}
       </div>
 
