@@ -75,17 +75,26 @@ export function CourseStopCard({
           {stop.shop.mainImage && (
             <img src={stop.shop.mainImage} alt={stop.shop.name} className="h-full w-full object-cover" />
           )}
-          <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px]">
-            {isLiked ? <FavoriteFillIcon fill="var(--etc-red)" /> : <FavoriteIcon />}
+          <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px] appearance-none bg-transparent p-0">
+            {isLiked ? (
+              <FavoriteFillIcon fill="var(--etc-red)" />
+            ) : (
+              <div className="relative">
+                <FavoriteFillIcon fill="rgba(0,0,0,0.5)" />
+                <div className="absolute inset-0">
+                  <FavoriteIcon fill="white" />
+                </div>
+              </div>
+            )}
           </button>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <span className="font-subtitle_m truncate text-gray-900">{stop.shop.name}</span>
+          <span className="truncate text-gray-900 font-subtitle_m">{stop.shop.name}</span>
           {showStamp && (
             <button
               type="button"
               onClick={handleNavigate}
-              className="font-body_s flex w-fit items-center gap-1 text-gray-400"
+              className="flex w-fit items-center gap-1 text-gray-400 font-body_s"
             >
               <NavigationArrowIcon width="12.67" height="12.67" fill="rgba(126, 132, 140, 1)" rotate={90} />
               <span className="color-gray-500 ml-4 font-caption">길찾기</span>
