@@ -38,8 +38,7 @@ export default function SortableShopItem({ shop, index, isSelected, onToggleSele
       <div className="flex items-center self-stretch">
         <Control
           label={`${shop.name}_${isSelected ? '선택됨' : '선택안됨'}`}
-          checked={isSelected}
-          size="s"
+          checked={isSelected ? true : 'none'}
           onClick={() => onToggleSelect(shop.id)}
         />
       </div>
@@ -48,7 +47,7 @@ export default function SortableShopItem({ shop, index, isSelected, onToggleSele
       <button
         type="button"
         onClick={() => onToggleSelect(shop.id)}
-        className="flex min-w-0 flex-1 items-center gap-8 rounded-16 bg-white p-16 shadow-[0px_0px_3px_rgba(0,0,0,0.08)]"
+        className="flex min-w-0 flex-1 items-center gap-8 rounded-16 bg-white p-16 shadow-[0px_0px_6px_rgba(0,0,0,0.08)]"
       >
         <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-10 bg-gray-100">
           <span className="text-13 font-bold leading-[12px] text-gray-400">{index + 1}</span>

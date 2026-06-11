@@ -45,7 +45,7 @@ export default function CourseNameEditor({ value, onChange }: CourseNameEditorPr
   return (
     <button className="flex items-center gap-8 py-4" onClick={handleOpen} aria-label="코스 이름 수정">
       <p className="break-words text-gray-900 font-title_m">
-        {value || <span className="text-gray-300">코스 이름</span>}
+        {value || <span className="text-gray-300">소품샵</span>}
       </p>
       <EditIcon width={'20'} height={'20'} fill="var(--gray-400)" />
     </button>
