@@ -1,7 +1,6 @@
 'use client'
 
 import { useAddShopProductMutation } from '@/shared/api/shops/queries'
-import IconButton from '@/shared/components/button/IconButton'
 import SellProduct from '@/shared/components/card/SellProduct'
 import ProposalIcon from '@/shared/components/icons/ProposalIcon'
 import ContentBox from '@/shared/components/layout/ContentBox'
@@ -83,7 +82,10 @@ export default function ShopProducts({ productData }: ShopProductsProps) {
     <ContentBox>
       <Flex justify="between" align="center" className="w-full">
         <ContentTitle title="판매 상품" />
-        <IconButton label="추가하기" icon={<ProposalIcon />} onClick={handleToggleBottomModal} />
+        <button aria-label='판매상품 추가하기' className="flex" onClick={handleToggleBottomModal}>
+          <span className='font-caption text-gray-400 mr-2'>추가하기</span>
+          <ProposalIcon />
+        </button>
       </Flex>
       {productData && productData?.length > 0 ? (
         <Flex align="center" wrap gap={8} className="w-full">
