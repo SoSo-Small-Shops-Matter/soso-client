@@ -72,10 +72,16 @@ export function CourseStopCard({
           {stop.orderIndex}
         </div>
         <div className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
-          {stop.shop.mainImage && (
-            <img src={stop.shop.mainImage} alt={stop.shop.name} className="h-full w-full object-cover" />
-          )}
-          <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px] appearance-none bg-transparent p-0">
+          <img
+            src={stop.shop.mainImage ?? '/images/default_item.svg'}
+            alt={stop.shop.name}
+            className="h-full w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={handleLike}
+            className="absolute left-[6px] top-[6px] appearance-none bg-transparent p-0"
+          >
             {isLiked ? (
               <FavoriteFillIcon fill="var(--etc-red)" />
             ) : (
