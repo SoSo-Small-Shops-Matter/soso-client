@@ -4,13 +4,13 @@ import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 interface Props {
   stop: CourseStopDto | SharedStopDto
   index: number
-  isLast: boolean
+  isFirst?: boolean
   isVisited?: boolean
   isSelected?: boolean
   onSelect: (index: number) => void
 }
 
-export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, onSelect }: Props) {
+export function CourseStopStep({ stop, index, isVisited, isSelected, onSelect }: Props) {
   return (
     <button
       type="button"
@@ -18,13 +18,6 @@ export function CourseStopStep({ stop, index, isLast, isVisited, isSelected, onS
       className="flex w-[60px] flex-shrink-0 flex-col items-center gap-8"
     >
       <div className="relative flex h-32 w-full items-center justify-center">
-        {!isLast && (
-          <div
-            className={`absolute left-1/2 top-1/2 h-0.5 h-1 w-full -translate-y-1/2 ${
-              isVisited ? 'bg-main' : 'bg-gray-200'
-            }`}
-          />
-        )}
         {isVisited ? (
           <div className="absolute z-10">
             <CheckBoxIcon checked={true} width="28" height="28" />

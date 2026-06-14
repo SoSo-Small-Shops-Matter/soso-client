@@ -14,7 +14,8 @@ export function CourseStopStepper({ stops, onSelect, stampedIds, selectedStopInd
   return (
     <div className="py-16">
       <div className="no-scrollbar overflow-x-auto px-16">
-        <div className="flex w-max items-start">
+        <div className="relative flex min-w-full items-start">
+          <div className="absolute left-[30px] right-0 top-[16px] h-1 bg-gray-100" />
           {stops.map((stop, index) => {
             const shopId = getStopShopId(stop)
             return (
@@ -22,7 +23,7 @@ export function CourseStopStepper({ stops, onSelect, stampedIds, selectedStopInd
                 key={shopId}
                 stop={stop}
                 index={index}
-                isLast={index === stops.length - 1}
+                isFirst={index === 0}
                 isVisited={stampedIds?.has(shopId)}
                 isSelected={selectedStopIndex === index}
                 onSelect={onSelect}
