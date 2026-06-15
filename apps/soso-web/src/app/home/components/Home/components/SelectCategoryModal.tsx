@@ -70,7 +70,7 @@ export default function SelectCategoryModal({
         <Flex className="w-full" justify="between" align="center">
           <Flex direction="col">
             <BottomModalTitle title="카테고리" />
-            <div className="text-gray-500 font-body2_m">원하는 카테고리를 선택해 주세요.</div>
+            <div className="text-gray-500 font-body_s">원하는 카테고리를 선택해 주세요.</div>
             <div className="row mt-20 flex items-center" onClick={togglekSelectAll}>
               {isSelectedAll ? (
                 <div className="h-24 w-24 rounded-4 border-main bg-main">
@@ -79,7 +79,7 @@ export default function SelectCategoryModal({
               ) : (
                 <div className="h-24 w-24 rounded-4 border-2 border-gray-200"></div>
               )}
-              <span className="ml-4 text-black font-body2_m">전체 선택</span>
+              <span className="ml-4 text-gray-900 font-body_s">전체 선택</span>
             </div>
           </Flex>
           <ModalCloseButton onClick={handleCloseModal} />

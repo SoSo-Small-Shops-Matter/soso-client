@@ -145,7 +145,7 @@ export default function ReviewWrite({ isOpen, onClose, isEdit }: ReviewWriteProp
                 removePrevFile={handleImageDelete}
                 maxLength={10}
               />
-              <p className="text-gray-400 font-body2_m">사진은 최대 10장까지 등록가능합니다.</p>
+              <p className="text-gray-400 font-body_s">사진은 최대 10장까지 등록가능합니다.</p>
             </Flex>
           </InputContent>
         </Flex>

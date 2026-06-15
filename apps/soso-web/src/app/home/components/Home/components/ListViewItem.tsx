@@ -34,8 +34,8 @@ export default function ListViewItem({ shop, currentLat, currentLng, onClick }: 
 
         <Flex className="flex-1 overflow-x-hidden" align="center">
           <div className="flex flex-1 flex-col overflow-x-hidden px-8">
-            <h4 className="mb-6 overflow-hidden text-ellipsis whitespace-nowrap font-title4_semi">{shop.name}</h4>
-            <p className="text-gray-400 font-body1_m">
+            <h4 className="mb-6 overflow-hidden text-ellipsis whitespace-nowrap font-subtitle_l">{shop.name}</h4>
+            <p className="text-gray-400 font-body_m">
               {currentLat === 0 ? '-' : getDistance(Number(currentLat), Number(currentLng), shop.lat, shop.lng)}
             </p>
           </div>

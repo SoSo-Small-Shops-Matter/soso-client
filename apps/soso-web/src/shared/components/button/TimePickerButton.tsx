@@ -14,7 +14,7 @@ export default function TimePickerButton({ width, height, label, ...props }: Tim
         width: width || 'auto',
         height: height || '52px',
       }}
-      className="flex-1 rounded-12 bg-gray-50 text-black font-body1_m"
+      className="flex-1 rounded-12 bg-gray-50 text-gray-900 font-body_m"
       {...props}
     >
       {label}

@@ -11,7 +11,7 @@ interface InputContentProps {
 export default function InputContent({ label, className, children }: InputContentProps) {
   return (
     <Flex direction="col" gap={8} className="w-full">
-      <h5 className={clsx('text-gray-500 font-body1_m', className)}>{label}</h5>
+      <h5 className={clsx('text-gray-500 font-body_m', className)}>{label}</h5>
       {children}
     </Flex>
   )

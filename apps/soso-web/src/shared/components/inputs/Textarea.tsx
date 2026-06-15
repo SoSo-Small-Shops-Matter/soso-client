@@ -27,7 +27,7 @@ export default function Textarea({
         style={{ width: width || '100%', height: height || '158px' }}
         placeholder={placeholder}
         className={clsx(
-          'resize-none rounded-12 bg-gray-50 px-16 py-14 text-gray-600 font-body1_m placeholder:text-gray-400',
+          'resize-none rounded-12 bg-gray-50 px-16 py-14 text-gray-600 font-body_m placeholder:text-gray-400',
           className
         )}
         value={value}

@@ -73,7 +73,7 @@ export default function ReportPage() {
       <Flex direction="col" gap={60} className="w-full py-20">
         <Flex direction="col" gap={20} className="w-full">
           <Flex direction="col" gap={12} className="w-full px-16">
-            <h4 className="text-gray-500 font-body1_m">소중한 소품샵을 등록해 주세요.</h4>
+            <h4 className="text-gray-500 font-body_m">소중한 소품샵을 등록해 주세요.</h4>
           </Flex>
           <Flex direction="col" gap={12} className="w-full px-16">
             {isFullMap ? (
@@ -90,7 +90,7 @@ export default function ReportPage() {
             <Flex justify="between" align="center" className="w-full">
               <button
                 onClick={handleAddressSearchLink}
-                className="flex h-58 w-full items-center justify-between rounded-12 border border-gray-100 bg-white px-16 text-gray-800 font-body1_m"
+                className="flex h-58 w-full items-center justify-between rounded-12 border border-gray-100 bg-white px-16 text-gray-800 font-body_m"
               >
                 <span>주소로 찾기</span>
                 <LinkIcon />
@@ -99,12 +99,12 @@ export default function ReportPage() {
           </Flex>
         </Flex>
         <Flex direction="col" gap={12} className="w-full px-16">
-          <h4 className="text-black font-title4_semi">이 위치가 맞나요?</h4>
+          <h4 className="text-gray-900 font-subtitle_l">이 위치가 맞나요?</h4>
           <Flex direction="col" gap={12} className="w-full">
             <Flex
               justify="center"
               align="center"
-              className="h-52 w-full rounded-14 bg-[#FBF6F4] text-gray-600 font-body1_m"
+              className="h-52 w-full rounded-14 bg-[#FBF6F4] text-gray-600 font-body_m"
             >
               {shop.location || currentAddress || '-'}
             </Flex>

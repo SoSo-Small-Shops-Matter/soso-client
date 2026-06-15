@@ -1,4 +1,3 @@
-import IconButton from '@/shared/components/button/IconButton'
 import PasteIcon from '@/shared/components/icons/PasteIcon'
 import ContentBox from '@/shared/components/layout/ContentBox'
 import Flex from '@/shared/components/layout/Flex'
@@ -42,9 +41,12 @@ export default function ShopLocation({ location }: ShopLocationProps) {
       <FullMap isOpen={isFullMap} onClose={handleToggleFullMap} />
 
       <Flex justify="between" align="center" className="w-full">
-        <p className="text-gray-600 font-body2_m">{location}</p>
-        <IconButton label="복사하기" icon={<PasteIcon />} onClick={() => copyToClipboard(String(location))} />
+        <p className="text-gray-600 font-body_s">{location}</p>
+        <button aria-label="위치 복사하기" className="flex" onClick={() => copyToClipboard(String(location))}>
+          <PasteIcon />
+          <span className='font-caption text-gray-400 ml-2'>복사하기</span>
+        </button>
       </Flex>
-    </ContentBox>
+    </ContentBox >
   )
 }

@@ -36,7 +36,7 @@ export default function AgreeView() {
     <div className="modal-page">
       <Header />
       <Flex direction="col" gap={38} className="px-20 pt-56">
-        <h2 className="text-[#191919] font-title2_bold">
+        <h2 className="text-[#191919] font-title_m">
           소소 서비스 이용약관에
           <br /> 동의해 주세요.
         </h2>
@@ -46,7 +46,7 @@ export default function AgreeView() {
             className="flex w-full cursor-pointer items-center gap-12 rounded-14 bg-gray-50 p-16"
           >
             <Checkbox id="all-check" checked={agreements.all} onChange={(value) => handleCheck('all', value)} />
-            <span className="font-title4_semi">전체 동의</span>
+            <span className="font-subtitle_l">전체 동의</span>
           </label>
           <Flex direction="col" gap={20} className="w-full">
             <AgreementItem

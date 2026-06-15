@@ -67,27 +67,27 @@ export default function ShopTopInfo({ shopData }: ShopTopInfoProps) {
 
   return (
     <ContentBox gap={32}>
-      <h2 className="w-full text-center text-black font-title1">{shopData?.shop.name}</h2>
+      <h2 className="w-full text-center text-gray-900 font-title_l">{shopData?.shop.name}</h2>
       <Flex justify="between" align="center" className="w-full">
         <button onClick={handleWishClick} className="flex flex-1 flex-col items-center justify-center gap-2">
           <WishIcon isActive={shopData?.wishlist} />
-          <span className="text-gray-500 font-body2_m">찜</span>
+          <span className="text-gray-500 font-body_s">찜</span>
         </button>
-        <Divider width="1px" height="56px" bgColor="#E8EBED" />
+        <Divider width="1px" height="56px" bgColor="var(--gray-100)" />
         <button onClick={handleOpenFindModal} className="flex flex-1 flex-col items-center justify-center gap-2">
           <LoadFindIcon />
-          <span className="text-gray-500 font-body2_m">길찾기</span>
+          <span className="text-gray-500 font-body_s">길찾기</span>
         </button>
-        <Divider width="1px" height="56px" bgColor="#E8EBED" />
+        <Divider width="1px" height="56px" bgColor="var(--gray-100)" />
         <button onClick={handleToggleReportModal} className="flex flex-1 flex-col items-center justify-center gap-2">
           <ReportIcon />
-          <span className="text-gray-500 font-body2_m">신고</span>
+          <span className="text-gray-500 font-body_s">신고</span>
         </button>
       </Flex>
       <BottomModal isOpen={isFindModal} onClose={handleCloseFindModal}>
         <Flex direction="col" gap={18} className="relative w-full">
           <Flex justify="between" align="center" className="w-full">
-            <h4 className="font-title3_bold">길찾기</h4>
+            <h4 className="font-title_s">길찾기</h4>
             <button onClick={handleCloseFindModal} className="">
               <XIcon />
             </button>

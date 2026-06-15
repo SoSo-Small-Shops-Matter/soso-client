@@ -11,7 +11,7 @@ interface SearchItemProps {
 export default function SearchItem({ label, onClick, id }: SearchItemProps) {
   return (
     <Link href={`/shop/${id}`} className="flex items-center gap-4 rounded-full border border-gray-100 px-10 py-6">
-      <span className="text-gray-600 font-body2_m">{label}</span>
+      <span className="text-gray-600 font-body_s">{label}</span>
       <button onClick={onClick}>
         <DeleteIcon />
       </button>

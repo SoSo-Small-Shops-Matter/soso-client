@@ -25,7 +25,7 @@ export default function ReviewPhoto({ data }: ReviewPhotoProps) {
 
   return (
     <Flex direction="col" gap={8} className="w-full">
-      <h4 className="text-gray-800 font-body1_m">사진/동영상</h4>
+      <h4 className="text-gray-800 font-body_m">사진/동영상</h4>
       <Swiper
         modules={[Navigation, FreeMode]}
         slidesPerView="auto"

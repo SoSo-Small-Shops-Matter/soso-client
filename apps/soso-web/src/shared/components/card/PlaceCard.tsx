@@ -43,10 +43,10 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
             />
           </div>
           <Flex direction="col" gap={8} className="min-w-0 flex-1">
-            <h4 className="block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-title4_semi">
+            <h4 className="block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-subtitle_l">
               {data.name}
             </h4>
-            <p className="text-gray-400 font-body1_m">{formatDistance(data?.distance)}</p>
+            <p className="text-gray-400 font-body_m">{formatDistance(data?.distance)}</p>
           </Flex>
         </Flex>
         <div className="absolute bottom-16 right-18">
@@ -80,8 +80,8 @@ export default function PlaceCard({ width, height, type, data }: PlaceCardProps)
             />
           </div>
           <Flex direction="col" gap={8}>
-            <h4 className="font-title4_semi">{data.name}</h4>
-            <p className="text-gray-400 font-body1_m">{formatDistance(data?.distance)}</p>
+            <h4 className="font-subtitle_l">{data.name}</h4>
+            <p className="text-gray-400 font-body_m">{formatDistance(data?.distance)}</p>
           </Flex>
         </Flex>
         <RoadFindButton

@@ -6,7 +6,7 @@ interface MapButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function MapButton({ title, ...props }: MapButtonProps) {
   return (
-    <button className="h-56 w-full rounded-16 bg-gray-50 font-body1_m" {...props}>
+    <button className="h-56 w-full rounded-16 bg-gray-50 font-body_m" {...props}>
       {title}
     </button>
   )

@@ -22,7 +22,7 @@ export default function MyReview({ data }: MyReviewProps) {
       />
       <MessageBox>
         <Flex direction="col" gap={16}>
-          <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body2_m">
+          <pre className="whitespace-pre-wrap break-all font-['Pretendard'] text-gray-600 font-body_s">
             {data?.content || ''}
           </pre>
           {data && data?.images?.length > 0 && (

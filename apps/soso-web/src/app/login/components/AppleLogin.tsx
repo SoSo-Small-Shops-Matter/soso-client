@@ -141,7 +141,7 @@ export default function AppleLogin() {
   return (
     <button
       onClick={loginWithApple}
-      className="relative flex h-56 w-full items-center justify-center gap-2 rounded-16 border border-black bg-black text-white font-body1_m"
+      className="relative flex h-56 w-full items-center justify-center gap-2 rounded-16 border border-black bg-black text-white font-body_m"
     >
       <AppleIcon />
       Apple로 시작하기

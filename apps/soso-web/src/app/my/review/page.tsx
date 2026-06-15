@@ -2,10 +2,10 @@
 
 import { useGetMyReviewQuery } from '@/shared/api/my/queries'
 import MyReview from '@/app/my/review/components/MyReview'
+import MyReviewSkeleton from '@/app/my/review/components/MyReviewSkeleton'
 import Divider from '@/shared/components/divider/Divider'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
-import Loading from '@/shared/components/loading/Loading'
 import { useInView } from 'react-intersection-observer'
 import clsx from 'clsx'
 import { MouseEvent, useState, useEffect } from 'react'
@@ -61,15 +61,15 @@ export default function MyReviewPage() {
           <button
             onClick={handleClickFilter}
             name="latest"
-            className={clsx('font-body2_m', isLatest ? 'text-main' : 'text-gray-400')}
+            className={clsx('font-body_s', isLatest ? 'text-main' : 'text-gray-400')}
           >
             최신순
           </button>
-          <Divider width="1px" height="11px" bgColor="#9EA4AA" />
+          <Divider width="1px" height="11px" bgColor="var(--gray-400)" />
           <button
             onClick={handleClickFilter}
             name="old"
-            className={clsx('font-body2_m', isLatest ? 'text-gray400' : 'text-main')}
+            className={clsx('font-body_s', isLatest ? 'text-gray400' : 'text-main')}
           >
             오래된 순
           </button>
@@ -79,7 +79,7 @@ export default function MyReviewPage() {
             <div
               key={review.id || index}
               className="group w-full cursor-pointer border-b-[10px] border-gray-50 py-20 last:border-none"
-              onClick={() => router.push(`/shop/${review.shop.id}/review`)}
+              onClick={() => router.push(`/shop/${review.shop.id}`)}
             >
               <MyReview data={review} />
             </div>
@@ -87,11 +87,11 @@ export default function MyReviewPage() {
 
           {!isLoading && <div ref={ref} className="h-40" />}
 
-          {isLoading && <Loading />}
+          {isLoading && <MyReviewSkeleton />}
 
           {myReviewData && allReviews.length === 0 && (
             <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-              <p className="text-center text-gray-400 font-body1_m">
+              <p className="text-center text-gray-400 font-body_m">
                 아직 후기가 없어요.
                 <br />
                 소소하게 써주신 한 줄이 큰 도움이 돼요!

@@ -10,7 +10,7 @@ declare namespace naver.maps {
     setOptions(key: string, value: any): void
     setCenter({ lat: number, lng: number }): void
     getCenter(): LatLng
-    setZoom(zoom: number): void
+    setZoom(zoom: number, animation?: boolean): void
     getZoom(): number
     panTo({ lat: number, lng: number }): void
     addOverlayMapTypeId(mapTypeId: string): void
@@ -54,15 +54,16 @@ declare namespace naver.maps {
     getMap(): Map | null
     setTitle(title: string): void
     getTitle(): string
-    setIcon(icon: string | MarkerImage | MarkerIconOptions): void // 아이콘 설정 추가
-    setAnimation(animation: Animation | null): void // 마커 애니메이션
+    setIcon(icon: string | MarkerImage | MarkerIconOptions | MarkerHtmlIcon): void
+    setAnimation(animation: Animation | null): void
+    addListener(eventName: string, listener: (event: any) => void): void
   }
 
   interface MarkerOptions {
     position: LatLng
     map?: Map
     title?: string
-    icon?: string | MarkerImage | MarkerIconOptions
+    icon?: string | MarkerImage | MarkerIconOptions | MarkerHtmlIcon
     draggable?: boolean
     clickable?: boolean
     zIndex?: number
@@ -74,6 +75,12 @@ declare namespace naver.maps {
     scaledSize?: Size // 스케일 조정된 아이콘 크기
     origin?: Point
     anchor?: Point
+  }
+
+  interface MarkerHtmlIcon {
+    content: string | HTMLElement
+    anchor?: Point | { x: number; y: number }
+    size?: Size
   }
 
   const Animation: {
@@ -151,6 +158,72 @@ declare namespace naver.maps {
     constructor(x: number, y: number)
     x: number
     y: number
+  }
+
+  type StrokeStyle =
+    | 'solid'
+    | 'shortdash'
+    | 'shortdot'
+    | 'shortdashdot'
+    | 'shortdashdotdot'
+    | 'dot'
+    | 'dash'
+    | 'longdash'
+    | 'dashdot'
+    | 'longdashdot'
+    | 'longdashdotdot'
+
+  type StrokeLineCap = 'butt' | 'flat' | 'round' | 'square'
+
+  type StrokeLineJoin = 'miter' | 'round' | 'bevel'
+
+  type PointingIcon = 'OPEN_ARROW' | 'BLOCK_ARROW' | 'CIRCLE' | 'DIAMOND'
+
+  type ArrayOfCoords = LatLng[]
+  type ArrayOfCoordsLiteral = Array<{ lat: number; lng: number }>
+  type KVOArrayOfCoords = ArrayOfCoords
+
+  interface PolylineOptions {
+    map?: Map
+    path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral
+    strokeWeight?: number
+    strokeOpacity?: number
+    strokeColor?: string
+    strokeStyle?: StrokeStyle
+    strokeLineCap?: StrokeLineCap
+    strokeLineJoin?: StrokeLineJoin
+    clickable?: boolean
+    visible?: boolean
+    zIndex?: number
+    startIcon?: PointingIcon
+    startIconSize?: number
+    endIcon?: PointingIcon
+    endIconSize?: number
+  }
+
+  class Polyline {
+    constructor(options?: PolylineOptions)
+    getBounds(): Bounds
+    getClickable(): boolean
+    getDistance(): number
+    getDrawingRect(): Bounds
+    getMap(): Map | null
+    getOptions(): PolylineOptions
+    getOptions(key: string): any
+    getPath(): ArrayOfCoords | KVOArrayOfCoords
+    getStyles(): PolylineOptions
+    getStyles(key: string): any
+    getVisible(): boolean
+    getZIndex(): number
+    setClickable(clickable: boolean): void
+    setMap(map: Map | null): void
+    setOptions(options: Partial<PolylineOptions>): void
+    setOptions(key: string, value: any): void
+    setPath(path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral): void
+    setStyles(options: Partial<PolylineOptions>): void
+    setStyles(key: string, value: any): void
+    setVisible(visible: boolean): void
+    setZIndex(zIndex: number): void
   }
 
   namespace TransCoord {

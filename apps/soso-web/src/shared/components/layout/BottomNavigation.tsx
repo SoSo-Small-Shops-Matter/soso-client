@@ -6,6 +6,7 @@ import Flex from '@/shared/components/layout/Flex'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
+import CourseNaviIcon from './BottomNavigation/components/CourseNaviIcon'
 
 export default function BottomNavigation() {
   const pathname = usePathname()
@@ -21,10 +22,15 @@ export default function BottomNavigation() {
       icon: <SearchNaviIcon isActive={pathname.includes('/search')} />,
       href: '/search',
     },
+    // {
+    //   label: '등록',
+    //   icon: <ReportNaviIcon isActive={pathname.includes('/report')} />,
+    //   href: '/report',
+    // },
     {
-      label: '등록',
-      icon: <ReportNaviIcon isActive={pathname.includes('/report')} />,
-      href: '/report',
+      label: '코스',
+      icon: <CourseNaviIcon isActive={pathname.includes('/course')} />,
+      href: '/course',
     },
     {
       label: '마이페이지',

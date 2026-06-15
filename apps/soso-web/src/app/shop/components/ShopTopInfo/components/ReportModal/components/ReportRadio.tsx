@@ -13,7 +13,7 @@ export default function ReportRadio({ text, id, name, isChecked, ...props }: Rep
     <div className="w-full">
       <input type="radio" name={name} id={id} checked={isChecked} {...props} className="hidden" />
       <label htmlFor={id} className="flex w-full cursor-pointer items-center justify-between py-18">
-        <p className="text-gray-500 font-body1_m">{text}</p>
+        <p className="text-gray-500 font-body_m">{text}</p>
         {isChecked && <CheckIcon />}
       </label>
     </div>

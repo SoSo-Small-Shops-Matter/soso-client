@@ -3,8 +3,8 @@
 import { useGetMyShopQuery } from '@/shared/api/my/queries'
 import Flex from '@/shared/components/layout/Flex'
 import Header from '@/shared/components/layout/Header'
-import Loading from '@/shared/components/loading/Loading'
 import ShopInfo from '@/shared/components/ui/ShopInfo'
+import MyShopSkeleton from './components/MyShopSkeleton'
 import { useInView } from 'react-intersection-observer'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -90,12 +90,12 @@ export default function MyShopPage() {
         {!isLoading && <div ref={ref} className="h-40" />}
 
         {/* 로딩 상태 표시 */}
-        {isLoading && <Loading />}
+        {isLoading && <MyShopSkeleton />}
 
         {/* 데이터가 없을 때 표시할 내용 */}
         {myShopData && allShops.length === 0 && (
           <Flex direction="col" justify="center" align="center" className="mt-90 w-full" gap={16}>
-            <p className="text-center text-gray-400 font-body1_m">
+            <p className="text-center text-gray-400 font-body_m">
               아직 내가 알린 소품샵이 없어요. <br />
               새로운 소품샵을 소소에 알려주세요!
             </p>

@@ -8,13 +8,14 @@ import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 
 interface HeaderProps {
-  type?: 'close' | 'back' | 'customBack' | 'customBtn'
+  type?: 'close' | 'back'
   title?: string
-  customBtn?: ReactNode
+  leftIcon?: ReactNode
+  rightIcon?: ReactNode
   top?: string
 }
 
-export default function Header({ type, title, customBtn, top }: HeaderProps) {
+export default function Header({ type, title, leftIcon, rightIcon, top }: HeaderProps) {
   const { handleBack } = useBack()
   const pathname = usePathname()
 
@@ -25,30 +26,25 @@ export default function Header({ type, title, customBtn, top }: HeaderProps) {
       }}
       className={`fixed left-0 top-0 z-sticky h-56 w-full px-20 layout-center ${pathname === '/' ? 'bg-transparent' : 'bg-white'}`}
     >
-      {!type && (
-        <Flex align="center" className="h-full w-full">
-          <h1 className="font-title3_bold">{title}</h1>
-        </Flex>
-      )}
-
-      {type && type !== 'customBtn' && (
-        <Flex justify="between" align="center" className="relative h-full w-full">
-          <div>
-            <button type="button">{type === 'close' && <XIcon />}</button>
-            <button type="button" onClick={handleBack}>
-              {type === 'back' && <BackIcon />}
-            </button>
-          </div>
-          <h2 className="min-w-[200px] text-center font-title4_semi position-center">{title}</h2>
-          <div>{customBtn}</div>
-        </Flex>
-      )}
-      {type === 'customBtn' && (
-        <Flex justify="between" align="center" className="h-full w-full">
-          <h1 className="font-title3_bold">{title}</h1>
-          <div>{customBtn}</div>
-        </Flex>
-      )}
+      <Flex justify="between" align="center" className="relative h-full w-full">
+        <div>{leftIcon ?? <DefaultLeftIcon type={type} handleBack={handleBack} />}</div>
+        <h2 className="min-w-[200px] text-center font-subtitle_l position-center">{title}</h2>
+        <div>{rightIcon ?? <div className="w-24" />}</div>
+      </Flex>
     </div>
+  )
+}
+
+const DefaultLeftIcon = ({ type, handleBack }: { type?: string; handleBack: () => void }) => {
+  if (type === 'close')
+    return (
+      <button type="button" onClick={handleBack}>
+        <XIcon />
+      </button>
+    )
+  return (
+    <button type="button" onClick={handleBack}>
+      <BackIcon />
+    </button>
   )
 }

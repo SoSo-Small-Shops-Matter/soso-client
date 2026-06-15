@@ -89,9 +89,9 @@ export default function ListView({
         <Link href="/search" onClick={() => setSearchValue('')}>
           <div className="relative h-46 w-full">
             <div className="absolute left-10 top-[52%] -translate-y-1/2">
-              <SearchIcon fill="#9EA4AA" />
+              <SearchIcon fill="var(--gray-400)" />
             </div>
-            <div className="flex h-full w-full items-center rounded-12 bg-gray-50 pl-46 text-gray-400 font-body1_m focus:outline-main">
+            <div className="flex h-full w-full items-center rounded-12 bg-gray-50 pl-46 text-gray-400 font-body_m focus:outline-main">
               찾고있는 소품샵이 있나요?
             </div>
           </div>

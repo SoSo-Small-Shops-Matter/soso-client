@@ -26,7 +26,7 @@ export default function WishProduct({ data }: WishProductProps) {
           onError={handleImageError}
         />
       </div>
-      <p className="max-w-full truncate text-gray-600 font-body1_m">{data.shop.name}</p>
+      <p className="max-w-full truncate text-gray-600 font-body_m">{data.shop.name}</p>
     </Link>
   )
 }

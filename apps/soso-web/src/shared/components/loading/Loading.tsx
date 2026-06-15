@@ -14,7 +14,7 @@ export default function Loading({ text }: LoadingProps) {
         className="fixed left-1/2 top-[40%] m-auto w-[140px] -translate-x-1/2 -translate-y-1/2"
       >
         <img src="/images/loading/loading.gif" />
-        <p className="text-gray-500 font-body1_m">{text || ''}</p>
+        <p className="text-gray-500 font-body_m">{text || ''}</p>
       </Flex>
     </div>
   )

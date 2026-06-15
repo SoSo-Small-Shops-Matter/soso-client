@@ -14,7 +14,7 @@ export default function PolicyContentPage() {
     <div>
       <Header title={title} type="back" />
       <div className="px-16 py-20">
-        <pre className="font-['Pretendard'] text-gray-500 font-body2_m">{content}</pre>
+        <pre className="font-['Pretendard'] text-gray-500 font-body_s">{content}</pre>
       </div>
     </div>
   )

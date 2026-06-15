@@ -30,7 +30,7 @@ export default function LinkButton({ link, title, icon, onClick, className, ...p
       className={clsx('flex w-full items-center justify-between p-16', className)}
       {...props}
     >
-      <span className="text-gray-800 font-body1_m">{title}</span>
+      <span className="text-gray-800 font-body_m">{title}</span>
       {icon && icon}
     </button>
   )
