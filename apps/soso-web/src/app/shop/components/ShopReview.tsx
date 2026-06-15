@@ -1,6 +1,5 @@
 'use client'
 
-import IconButton from '@/shared/components/button/IconButton'
 import LinkIcon from '@/shared/components/icons/LinkIcon'
 import ContentBox from '@/shared/components/layout/ContentBox'
 import Flex from '@/shared/components/layout/Flex'
@@ -33,7 +32,10 @@ export default function ShopReview({ shopData, id }: ShopReviewProps) {
           </span>
         </Flex>
         {shopData && shopData?.otherReviews.length + shopData?.userReviews.length > 1 && (
-          <IconButton onClick={handleGoReviewPage} label="전체보기" icon={<LinkIcon width="16" height="16" />} />
+          <button aria-label="후기 전체보기" className="flex" onClick={handleGoReviewPage}>
+            <span className='font-caption text-gray-400 mr-2'>전체보기</span>
+            <LinkIcon width="16" height="16" />
+          </button>
         )}
       </Flex>
       <Flex direction="col" gap={20} className="w-full">

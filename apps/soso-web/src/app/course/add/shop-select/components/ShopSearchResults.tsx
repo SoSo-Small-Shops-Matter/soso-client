@@ -38,7 +38,7 @@ export default function ShopSearchResults({
           <br />
           소품샵을 등록해보세요!
         </p>
-        <Link href="/shop/register">
+        <Link href="/report">
           <Button title={'소품샵 등록하기'} variant="secondary" width="auto" />
         </Link>
       </div>

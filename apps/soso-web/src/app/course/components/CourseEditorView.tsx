@@ -69,7 +69,7 @@ export default function CourseEditorView({
     <div className="flex h-full flex-col bg-white">
       {header}
 
-      <div className="flex-1 overflow-y-auto pb-80 pt-56">
+      <div className="flex-1 overflow-y-auto pb-80 pt-12">
         <div className="px-20">
           <CourseNameEditor value={courseName} onChange={onChangeCourseName} />
           <div className="flex justify-end pb-8 pt-4">

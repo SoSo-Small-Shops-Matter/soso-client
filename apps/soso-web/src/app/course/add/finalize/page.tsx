@@ -47,7 +47,7 @@ export default function CourseFinalizePage() {
           title="코스 추가하기"
           rightIcon={
             <button type="button" onClick={() => router.push('/course/add/map')}>
-              <MapIcon width="24" height="24" />
+              <MapIcon width="24" height="24" color={'var(--gray-900)'} />
             </button>
           }
         />

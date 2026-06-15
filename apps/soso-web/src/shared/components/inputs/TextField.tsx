@@ -15,7 +15,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         {label && (
           <p className="px-20 text-gray-900 font-body_s">{label}</p>
         )}
-        <div className="relative px-16">
+        <div className="relative">
           <input
             ref={ref}
             disabled={disabled}
@@ -27,7 +27,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-28 top-1/2 -translate-y-1/2">
+            <div className="absolute inset-y-0 right-18 flex items-center">
               {rightIcon}
             </div>
           )}

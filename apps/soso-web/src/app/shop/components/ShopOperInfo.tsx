@@ -2,7 +2,6 @@
 
 import { usePostShopOperatingMutation } from '@/shared/api/shops/queries'
 import Button from '@/shared/components/button/Button'
-import IconButton from '@/shared/components/button/IconButton'
 import ModalCloseButton from '@/shared/components/button/MocalCloseButton'
 import TimePickerButton from '@/shared/components/button/TimePickerButton'
 import Divider from '@/shared/components/divider/Divider'
@@ -164,7 +163,10 @@ export default function ShopOperInfo({ operData }: ShopOperInfoProps) {
     <ContentBox>
       <Flex justify="between" align="center" className="w-full">
         <ContentTitle title="운영 정보" />
-        <IconButton onClick={handleToggleBottomModal} label="제안하기" icon={<ProposalIcon />} />
+        <button aria-label="운영정보 제안하기" className="flex" onClick={handleToggleBottomModal}>
+          <span className='font-caption text-gray-400 mr-2'>제안하기</span>
+          <ProposalIcon />
+        </button>
       </Flex>
       <Flex direction="col" gap={24} className="w-full">
         <Flex direction="col" gap={8} className="w-full">
