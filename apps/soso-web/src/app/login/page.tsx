@@ -61,9 +61,11 @@ export default function LoginPage() {
     }
 
     window.addEventListener('message', handleMessage)
+    document.addEventListener('message', handleMessage as any)
 
     return () => {
       window.removeEventListener('message', handleMessage)
+      document.removeEventListener('message', handleMessage as any)
     }
   }, [isNativeApp, redirectUri])
 
