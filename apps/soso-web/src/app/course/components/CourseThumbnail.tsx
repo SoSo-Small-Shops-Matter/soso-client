@@ -1,3 +1,4 @@
+import { handleImageError } from '@/shared/utils/handleImageError'
 import Image from 'next/image'
 
 interface CourseThumbnailProps {
@@ -28,7 +29,7 @@ export default function CourseThumbnail({ thumbnails, alt }: CourseThumbnailProp
           key={i}
           className={`absolute ${pos} h-36 w-36 overflow-hidden rounded-10 border-2 border-white bg-gray-100`}
         >
-          <Image src={thumbnails[i]} alt={alt} width={36} height={36} className="h-full w-full object-cover" />
+          <Image src={thumbnails[i] || '/images/default_item.svg'} onError={handleImageError} alt={alt} width={36} height={36} className="h-full w-full object-cover" />
           <div className="absolute inset-0 rounded-10 border border-[#191919]/10" />
         </div>
       ))}

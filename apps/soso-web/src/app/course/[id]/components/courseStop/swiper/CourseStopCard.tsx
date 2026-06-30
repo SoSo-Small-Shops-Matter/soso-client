@@ -9,6 +9,8 @@ import FavoriteIcon from '@/shared/components/icons/FavoriteIcon'
 import FavoriteFillIcon from '@/shared/components/icons/FavoriteFillIcon'
 import CheckBoxIcon from '@/shared/components/icons/CheckBoxIcon'
 import { getStopShopId } from '../../../../utils/stopUtils'
+import Image from 'next/image'
+import { handleImageError } from '@/shared/utils/handleImageError'
 
 interface Props {
   stop: CourseStopDto | SharedStopDto
@@ -72,9 +74,7 @@ export function CourseStopCard({
           {stop.orderIndex}
         </div>
         <div className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
-          {stop.shop.mainImage && (
-            <img src={stop.shop.mainImage} alt={stop.shop.name} className="h-full w-full object-cover" />
-          )}
+          <Image src={stop.shop.mainImage || '/images/default_item.svg'} fill alt={stop.shop.name} className="object-cover" onError={handleImageError} />
           <button type="button" onClick={handleLike} className="absolute left-[6px] top-[6px]">
             {isLiked ? <FavoriteFillIcon fill="var(--etc-red)" /> : <FavoriteIcon />}
           </button>
